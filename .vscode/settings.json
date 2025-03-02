@@ -1,0 +1,15 @@
+{
+  "conventionalCommits.scopes": [
+    "app",
+    "components",
+    "core",
+    "deps",
+    "lib",
+    "structrue",
+    "page",
+    "action",
+    "config"
+  ],
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore"
+}

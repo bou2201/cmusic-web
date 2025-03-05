@@ -1,0 +1,13 @@
+{
+  "Manifest": {
+    "name": "Cmusic",
+    "short_name": "Cmusic",
+    "description": "Cmusic là nền tảng phát nhạc trực tuyến giúp bạn khám phá, nghe và chia sẻ những bài hát yêu thích. Thưởng thức âm nhạc chất lượng cao mọi lúc, mọi nơi."
+  },
+  "HomePage": {
+    "metadata": {
+      "title": "Cmusic - Khám phá & nghe nhạc yêu thích của bạn",
+      "description": "Cmusic là nền tảng phát nhạc trực tuyến giúp bạn khám phá, nghe và chia sẻ những bài hát yêu thích. Thưởng thức âm nhạc chất lượng cao mọi lúc, mọi nơi."
+    }
+  }
+}

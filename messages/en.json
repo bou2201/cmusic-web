@@ -1,0 +1,13 @@
+{
+  "Manifest": {
+    "name": "Cmusic",
+    "short_name": "Cmusic",
+    "description": "Cmusic is the ultimate music streaming platform where you can explore, listen, and share your favorite songs. Enjoy high-quality music anytime, anywhere."
+  },
+  "HomePage": {
+    "metadata": {
+      "title": "Cmusic - Discover & Stream Your Favorite Music",
+      "description": "Cmusic is the ultimate music streaming platform where you can explore, listen, and share your favorite songs. Enjoy high-quality music anytime, anywhere."
+    }
+  }
+}

@@ -1,12 +1,26 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { routing } from '@/i18n/routing';
+import { Locale, routing } from '@/i18n/routing';
 import { geistMono, geistSans, quickSand } from '../font';
 import { ProgressProvider, ThemeProvider, UiProvider } from '@/providers';
-import { Viewport } from 'next';
+import { SidebarProvider } from '@/components/ui';
+import Favicon from '~public/favicon.ico';
+import { cookies } from 'next/headers';
+import type { Metadata, Viewport } from 'next';
 
 import '@/styles/globals.css';
+import { MainLayout } from '@/components/layout';
+
+export const metadata: Metadata = {
+  icons: {
+    icon: {
+      url: Favicon.src,
+      type: 'image/png',
+    },
+    shortcut: { url: Favicon.src, type: 'image/png' },
+  },
+};
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -23,11 +37,15 @@ export default async function LocaleLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: Locale }>;
 }) {
+  // Persisted state 'sidebar_state'
+  const cookieStore = await cookies();
+  const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
+
   // Ensure that the incoming `locale` is valid
   const { locale } = await params;
-  if (!routing.locales.includes(locale as any)) {
+  if (!routing.locales.includes(locale)) {
     notFound();
   }
 
@@ -48,7 +66,11 @@ export default async function LocaleLayout({
             disableTransitionOnChange
           >
             <UiProvider>
-              <ProgressProvider>{children}</ProgressProvider>
+              <SidebarProvider defaultOpen={defaultOpen}>
+                <ProgressProvider>
+                  <MainLayout>{children}</MainLayout>
+                </ProgressProvider>
+              </SidebarProvider>
             </UiProvider>
           </ThemeProvider>
         </NextIntlClientProvider>

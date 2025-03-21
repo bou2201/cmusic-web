@@ -4,10 +4,58 @@
     "short_name": "Cmusic",
     "description": "Cmusic is the ultimate music streaming platform where you can explore, listen, and share your favorite songs. Enjoy high-quality music anytime, anywhere."
   },
+  "Navigation": {
+    "language": {
+      "key": "en",
+      "keyChange": "vi",
+      "label": "English"
+    },
+    "library": {
+      "title": "Library",
+      "items": {
+        "discover": "Discover",
+        "songs": "Songs",
+        "albums": "Albums",
+        "artists": "Artists"
+      }
+    },
+    "playlist": {
+      "title": "Playlist",
+      "items": {
+        "recently-played": "Recently Played",
+        "favorite": "Favorites"
+      }
+    }
+  },
   "HomePage": {
     "metadata": {
       "title": "Cmusic - Discover & Stream Your Favorite Music",
       "description": "Cmusic is the ultimate music streaming platform where you can explore, listen, and share your favorite songs. Enjoy high-quality music anytime, anywhere."
+    }
+  },
+  "AlbumsPage": {
+    "metadata": {
+      "title": "Albums"
+    }
+  },
+  "ArtistPage": {
+    "metadata": {
+      "title": "Artists"
+    }
+  },
+  "FavoriteSongsPage": {
+    "metadata": {
+      "title": "Favorites Songs"
+    }
+  },
+  "RecentlyPlayedPage": {
+    "metadata": {
+      "title": "Recently Played"
+    }
+  },
+  "SongsPage": {
+    "metadata": {
+      "title": "Songs"
     }
   }
 }

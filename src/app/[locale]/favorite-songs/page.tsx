@@ -4,17 +4,16 @@ import { getTranslations } from 'next-intl/server';
 
 export async function generateMetadata({ params }: NextIntl.LocaleParams): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations<NextIntl.Namespace<'HomePage.metadata'>>({
+  const t = await getTranslations<NextIntl.Namespace<'FavoriteSongsPage.metadata'>>({
     locale,
-    namespace: 'HomePage.metadata',
+    namespace: 'FavoriteSongsPage.metadata',
   });
 
   return {
     title: t('title'),
-    description: t('description'),
   };
 }
 
-export default function HomePage() {
-  return <>Home Page</>;
+export default function Page() {
+  return <div>Favorite songs</div>;
 }

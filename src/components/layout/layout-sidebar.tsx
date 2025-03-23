@@ -20,7 +20,7 @@ import { Navigation } from './layout-constants';
 import { Routes } from '@/constants/routes';
 import { GlobeIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { NextIntl } from '@/types/next-intl';
+import { NextIntl } from '~types/next-intl';
 
 function LayoutSidebarHeader() {
   const { state } = useSidebar();

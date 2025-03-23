@@ -11,7 +11,7 @@ import {
   ListMusicIcon,
   UserIcon,
 } from 'lucide-react';
-import { NextIntl } from '@/types/next-intl';
+import { NextIntl } from '~types/next-intl';
 
 type NavigationType = {
   groupTitle: string;

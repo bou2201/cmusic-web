@@ -1,4 +1,4 @@
-import { NextIntl } from '@/types/next-intl';
+import { NextIntl } from '~types/next-intl';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 

@@ -1,5 +1,5 @@
 import { routing } from '@/i18n/routing';
-import { NextIntl } from '@/types/next-intl';
+import { NextIntl } from '~types/next-intl';
 import type { MetadataRoute } from 'next';
 import { getTranslations } from 'next-intl/server';
 

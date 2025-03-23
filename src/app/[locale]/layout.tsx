@@ -5,22 +5,22 @@ import { Locale, routing } from '@/i18n/routing';
 import { geistMono, geistSans, quickSand } from '../font';
 import { ProgressProvider, ThemeProvider, UiProvider } from '@/providers';
 import { SidebarProvider } from '@/components/ui';
-import Favicon from '~public/favicon.ico';
+// import Favicon from '~public/favicon.ico';
 import { cookies } from 'next/headers';
-import type { Metadata, Viewport } from 'next';
+import type { Viewport } from 'next';
 
 import '@/styles/globals.css';
 import { MainLayout } from '@/components/layout';
 
-export const metadata: Metadata = {
-  icons: {
-    icon: {
-      url: Favicon.src,
-      type: 'image/png',
-    },
-    shortcut: { url: Favicon.src, type: 'image/png' },
-  },
-};
+// export const metadata: Metadata = {
+//   icons: {
+//     icon: {
+//       url: Favicon.src,
+//       type: 'image/png',
+//     },
+//     shortcut: { url: Favicon.src, type: 'image/png' },
+//   },
+// };
 
 export const viewport: Viewport = {
   width: 'device-width',

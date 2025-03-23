@@ -1,8 +1,10 @@
 // this file is conditionally added/removed to next-env.d.ts
 // if the static image import handling is enabled
 
+import type { StaticImageData } from 'next/image';
+
 declare module '*.png' {
-  const content: string;
+  const content: StaticImageData;
 
   export default content;
 }
@@ -19,43 +21,43 @@ declare module '*.svg' {
 }
 
 declare module '*.jpg' {
-  const content: string;
+  const content: StaticImageData;
 
   export default content;
 }
 
 declare module '*.jpeg' {
-  const content: string;
+  const content: StaticImageData;
 
   export default content;
 }
 
 declare module '*.gif' {
-  const content: string;
+  const content: StaticImageData;
 
   export default content;
 }
 
 declare module '*.webp' {
-  const content: string;
+  const content: StaticImageData;
 
   export default content;
 }
 
 declare module '*.avif' {
-  const content: string;
+  const content: StaticImageData;
 
   export default content;
 }
 
 declare module '*.ico' {
-  const content: string;
+  const content: StaticImageData;
 
   export default content;
 }
 
 declare module '*.bmp' {
-  const content: string;
+  const content: StaticImageData;
 
   export default content;
 }

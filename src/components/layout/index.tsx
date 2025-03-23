@@ -2,12 +2,16 @@
 
 import { ReactNode } from 'react';
 import { LayoutSidebar } from './layout-sidebar';
+import { LayoutHeader } from './layout-header';
 
 export function MainLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <>
       <LayoutSidebar />
-      <main>{children}</main>
+      <div className='w-full'>
+        <LayoutHeader />
+        <main>{children}</main>
+      </div>
     </>
   );
 }

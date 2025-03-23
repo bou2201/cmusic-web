@@ -109,7 +109,6 @@ export function LayoutSidebar() {
         <LayoutSidebarContent />
         <LayoutSidebarFooter />
       </Sidebar>
-      <SidebarTrigger className="cursor-pointer" />
     </>
   );
 }

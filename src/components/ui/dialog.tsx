@@ -26,6 +26,21 @@ function DialogOverlay({
   className,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
+  React.useEffect(() => {
+    // Store original body styles
+    const originalPaddingRight = document.body.style.paddingRight;
+    const originalOverflow = document.body.style.overflow;
+    
+    // Don't modify body styles that would affect padding
+    document.body.style.overflow = 'hidden';
+    
+    return () => {
+      // Restore original body styles when dialog closes
+      document.body.style.paddingRight = originalPaddingRight;
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+  
   return (
     <DialogPrimitive.Overlay
       data-slot="dialog-overlay"

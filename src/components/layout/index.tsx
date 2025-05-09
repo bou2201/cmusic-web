@@ -8,9 +8,9 @@ export function MainLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <>
       <LayoutSidebar />
-      <div className='w-full'>
+      <div className="w-full">
         <LayoutHeader />
-        <main>{children}</main>
+        <main className="pt-3">{children}</main>
       </div>
     </>
   );

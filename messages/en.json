@@ -4,6 +4,13 @@
     "short_name": "Cmusic",
     "description": "Cmusic is the ultimate music streaming platform where you can explore, listen, and share your favorite songs. Enjoy high-quality music anytime, anywhere."
   },
+  "Header": {
+    "search": {
+      "placeholder": "Search for songs ...",
+      "history": "Search history",
+      "empty": "No search history."
+    }
+  },
   "Navigation": {
     "language": {
       "key": "en",
@@ -56,6 +63,11 @@
   "SongsPage": {
     "metadata": {
       "title": "Songs"
+    }
+  },
+  "SearchPage": {
+    "metadata": {
+      "title": "Search"
     }
   }
 }

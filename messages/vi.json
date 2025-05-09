@@ -4,6 +4,13 @@
     "short_name": "Cmusic",
     "description": "Cmusic là nền tảng phát nhạc trực tuyến giúp bạn khám phá, nghe và chia sẻ những bài hát yêu thích. Thưởng thức âm nhạc chất lượng cao mọi lúc, mọi nơi."
   },
+  "Header": {
+    "search": {
+      "placeholder": "Tìm kiếm bài hát...",
+      "history": "Lịch sử tìm kiếm",
+      "empty": "Chưa có lịch sử tìm kiếm."
+    }
+  },
   "Navigation": {
     "language": {
       "key": "vi",
@@ -56,6 +63,11 @@
   "SongsPage": {
     "metadata": {
       "title": "Bài hát"
+    }
+  },
+  "SearchPage": {
+    "metadata": {
+      "title": "Tìm kiếm"
     }
   }
 }

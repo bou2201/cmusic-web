@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
+import { Search } from 'lucide-react';
 
 function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
   return (
@@ -18,4 +19,30 @@ function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
   );
 }
 
-export { Input };
+type InputSearchProps = {
+  divClassName?: string;
+} & React.ComponentProps<'input'>;
+
+function InputSearch({ className, divClassName, type, ...props }: InputSearchProps) {
+  return (
+    <div
+      className={cn(
+        'flex h-9 items-center rounded-md border border-input pl-3 text-sm ring-offset-background focus-within:ring-1 focus-within:ring-ring',
+        divClassName,
+      )}
+    >
+      <Search className="!w-5 !h-5 opacity-80" />
+      <input
+        type="search"
+        data-slot="input"
+        className={cn(
+          'w-full p-2 placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+          className,
+        )}
+        {...props}
+      />
+    </div>
+  );
+}
+
+export { Input, InputSearch };

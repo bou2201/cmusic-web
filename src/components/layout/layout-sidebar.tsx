@@ -26,7 +26,7 @@ function LayoutSidebarHeader() {
   const { state } = useSidebar();
 
   return (
-    <SidebarHeader className="mt-1">
+    <SidebarHeader className="my-2">
       <SidebarMenu className={`${state === 'expanded' ? 'px-2' : ''}`}>
         <SidebarMenuItem className="max-w-10 max-h-10">
           <Link href={Routes.Discover}>
@@ -34,8 +34,8 @@ function LayoutSidebarHeader() {
               className="w-full h-full object-cover"
               alt="logo"
               src="/logo.png"
-              width={10}
-              height={100}
+              width={200}
+              height={200}
             />
           </Link>
         </SidebarMenuItem>

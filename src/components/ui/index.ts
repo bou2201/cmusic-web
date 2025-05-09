@@ -9,6 +9,7 @@ export * from './button';
 export * from './carousel';
 export * from './checkbox';
 export * from './collapsible';
+export * from './command';
 
 export * from './dialog';
 export * from './drawer';

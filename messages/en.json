@@ -25,6 +25,12 @@
         "recently-played": "Recently Played",
         "favorite": "Favorites"
       }
+    },
+    "action": {
+      "search": "Searching",
+      "login": "Login",
+      "signup": "Sign up",
+      "logout": "Logout"
     }
   },
   "HomePage": {

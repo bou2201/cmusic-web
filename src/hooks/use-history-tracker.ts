@@ -1,5 +1,6 @@
 'use client';
 
+import { Routes } from '@/constants/routes';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -46,7 +47,7 @@ export function useHistoryTracker(): UseHistoryTrackerReturn {
       setCurrentIndex((prev) => prev - 1);
     } else {
       // Fallback behavior when no history exists
-      router.push('/'); // Redirect to home or another route
+      router.push(Routes.Discover); // Redirect to home or another route
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canGoBack]);

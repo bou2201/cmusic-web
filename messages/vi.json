@@ -25,6 +25,12 @@
         "recently-played": "Gần đây",
         "favorite": "Yêu thích"
       }
+    },
+    "action": {
+      "search": "Tìm kiếm",
+      "login": "Đăng nhập",
+      "signup": "Đăng ký",
+      "logout": "Đăng xuất"
     }
   },
   "HomePage": {

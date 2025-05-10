@@ -3,7 +3,7 @@ export enum Routes {
   Songs = '/songs',
   Albums = '/albums',
   Artists = '/artists',
-
   RecentlyPlayed = '/recently-played',
   FavoriteSongs = '/favorite-songs',
+  Search = '/search',
 }

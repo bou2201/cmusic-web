@@ -151,6 +151,6 @@
   }
 
   body {
-    @apply bg-background text-foreground p-2;
+    @apply bg-background text-foreground !p-2;
   }
 }

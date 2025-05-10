@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { useTranslations, type NamespaceKeys } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { Routes } from '@/constants/routes';
 import {
   AlbumIcon,

@@ -69,5 +69,18 @@
     "metadata": {
       "title": "Search"
     }
+  },
+  "Validation": {
+    "common": {
+      "required": "This field is required.",
+      "invalid": "This field is invalid.",
+      "minLength": "This field must be at least {0} characters long.",
+      "maxLength": "This field must be at most {0} characters long.",
+      "min": "This field must be at least {0}.",
+      "max": "This field must be at most {0}.",
+      "email": "This field must be a valid email address.",
+      "password": "This field must be at least 6 characters long.",
+      "confirmPassword": "This field must match the password field."
+    }
   }
 }

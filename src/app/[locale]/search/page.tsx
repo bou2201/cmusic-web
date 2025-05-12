@@ -14,6 +14,6 @@ export async function generateMetadata({ params }: NextIntl.LocaleParams): Promi
   };
 }
 
-export default function Page({ params }: { params: { q?: string } }) {
-  return <div>Songs {params?.q}</div>;
+export default function Page() {
+  return <div>Songs</div>;
 }

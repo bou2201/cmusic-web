@@ -8,7 +8,7 @@
     "search": {
       "placeholder": "Tìm kiếm bài hát...",
       "history": "Lịch sử tìm kiếm",
-      "empty": "Chưa có lịch sử tìm kiếm."
+      "empty": "Không tìm thấy kết quả."
     }
   },
   "Navigation": {
@@ -68,6 +68,19 @@
   "SearchPage": {
     "metadata": {
       "title": "Tìm kiếm"
+    }
+  },
+  "Validation": {
+    "common": {
+      "required": "Trường này là bắt buộc.",
+      "invalid": "Trường này không hợp lệ.",
+      "minLength": "Trường này phải có ít nhất {0} ký tự.",
+      "maxLength": "Trường này không được vượt quá {0} ký tự.",
+      "min": "Trường này phải có giá trị tối thiểu là {0}.",
+      "max": "Trường này phải có giá trị tối đa là {0}.",
+      "email": "Trường này phải là địa chỉ email hợp lệ.",
+      "password": "Mật khẩu phải có ít nhất 6 ký tự.",
+      "confirmPassword": "Mật khẩu xác nhận phải khớp với mật khẩu."
     }
   }
 }

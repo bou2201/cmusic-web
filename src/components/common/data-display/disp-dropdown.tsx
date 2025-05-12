@@ -22,7 +22,7 @@ export type DispDropdownMenuProps = {
 export type DispDropdownProps = {
   children: ReactNode;
   menu: DispDropdownMenuProps[];
-  modal: boolean;
+  modal?: boolean;
   label?: ReactNode;
 } & ComponentProps<typeof DropdownMenuContent>;
 
@@ -39,7 +39,12 @@ export function DispDropdown({ children, menu, modal, label, ...props }: DispDro
         ) : null}
 
         {menu.map((item) => (
-          <DropdownMenuItem key={item.key} disabled={item.disabled} onClick={item.onClick}>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            key={item.key}
+            disabled={item.disabled}
+            onClick={item.onClick}
+          >
             {item.label}
             {item.shortcut ? <DropdownMenuShortcut>{item.shortcut}</DropdownMenuShortcut> : null}
           </DropdownMenuItem>

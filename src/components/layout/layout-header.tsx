@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, X } from 'lucide-react';
 import {
   Button,
   CommandDialog,
@@ -14,16 +14,18 @@ import {
   SidebarTrigger,
 } from '../ui';
 import { useHistoryTracker } from '@/hooks/use-history-tracker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useSearchHistory } from '@/hooks/use-search-history';
 import { Routes } from '@/constants/routes';
 import { NextIntl } from '~types/next-intl';
 import { DialogState } from '~types/common';
 import { useRouter } from '@/i18n/navigation';
+import { useDebounce } from 'use-debounce';
 
 function SearchDialog({ open, setOpen }: DialogState) {
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQueryDebounced] = useDebounce(searchQuery, 1000, { leading: true });
 
   const router = useRouter();
   const t = useTranslations<NextIntl.Namespace<'Header'>>('Header');
@@ -37,12 +39,19 @@ function SearchDialog({ open, setOpen }: DialogState) {
     setOpen(false);
   };
 
-  // const debouncedSetSearchQuery = useDebouncedCallback(
-  //   (value: string) => {
-  //     setSearchQuery(value);
-  //   },
-  //   300
-  // );
+  useEffect(() => {
+    const handleUnmount = () => {
+      setTimeout(() => {
+        setSearchQuery('');
+      }, 100);
+    };
+    if (!open) {
+      handleUnmount();
+    }
+    return () => {
+      handleUnmount();
+    };
+  }, [open]);
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
@@ -56,18 +65,31 @@ function SearchDialog({ open, setOpen }: DialogState) {
           }
         }}
       />
+
       <CommandList>
         <CommandEmpty>{t('search.empty')}</CommandEmpty>
         {searchHistory.length > 0 ? (
           <CommandGroup heading={t('search.history')}>
             {searchHistory.map((item, index) => (
               <CommandItem
-                key={index}
+                key={item}
+                className="!flex justify-between items-center !p-2 text-sm rounded-md cursor-pointer line-clamp-2"
                 onSelect={() => {
                   handleSubmit(item);
                 }}
               >
-                {item}
+                <p>{item}</p>
+                <Button
+                  variant="ghost"
+                  className="w-6 h-6"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    deleteFromHistory(item);
+                  }}
+                >
+                  <X />
+                </Button>
               </CommandItem>
             ))}
           </CommandGroup>

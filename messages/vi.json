@@ -6,9 +6,40 @@
   },
   "Header": {
     "search": {
-      "placeholder": "Tìm kiếm bài hát...",
+      "placeholder": "Tìm kiếm bài hát, lời bài hát...",
       "history": "Lịch sử tìm kiếm",
+      "result": "Kết quả tìm kiếm",
       "empty": "Không tìm thấy kết quả."
+    },
+    "user": {
+      "myAccount": "Tài khoản",
+      "login": "Đăng nhập",
+      "register": "Đăng ký",
+      "logout": "Đăng xuất",
+      "profile": "Thông tin cá nhân",
+      "changePassword": "Đổi mật khẩu"
+    }
+  },
+  "Auth": {
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "forgotPassword": "Quên mật khẩu?",
+    "submitLogin": "Đăng nhập",
+    "submitRegister": "Đăng ký",
+    "cancel": "Huỷ",
+    "alert": {
+      "loginSuccess": "Đăng nhập thành công.",
+      "loginFailed": "Đăng nhập thất bại.",
+      "loginUnauthorized": "Email hoặc mật khẩu không đúng.",
+      "registerSuccess": "Đăng ký thành công.",
+      "registerFailed": "Đăng ký thất bại.",
+      "registerFailedEmailExists": "Email đã tồn tại.",
+      "changePasswordSuccess": "Đổi mật khẩu thành công.",
+      "changePasswordFailed": "Đổi mật khẩu thất bại.",
+      "changePasswordIncorrect": "Mật khẩu hiện tại không đúng.",
+      "forgotPasswordSuccess": "Vui lòng kiểm tra email của bạn để lấy lại mật khẩu.",
+      "systemError": "Đã xảy ra lỗi hệ thống. Vui lòng thử lại sau."
     }
   },
   "Navigation": {

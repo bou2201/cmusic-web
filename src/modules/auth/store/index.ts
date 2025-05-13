@@ -43,11 +43,12 @@ export const useAuthStore = create<AuthState & AuthAction>((set) => ({
   loadFromCookies: () => {
     const accessToken = getCookie('accessToken');
     const refreshToken = getCookie('refreshToken');
-    const user = getCookie('user');
+    const userCookie = getCookie('user');
 
-    if (accessToken && refreshToken && user) {
+    if (accessToken && refreshToken && userCookie) {
       try {
-        const userParsed: User = JSON.parse(user);
+        const decodedUser = decodeURIComponent(userCookie);
+        const userParsed: User = JSON.parse(decodedUser);
         set({ user: userParsed, accessToken, refreshToken, isAuthenticated: true });
       } catch (e) {
         console.error('Failed to parse user data from cookie', e);

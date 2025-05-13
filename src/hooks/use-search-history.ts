@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 const STORAGE_KEY = 'searchHistoryCmusic';
-const MAX_HISTORY_ITEMS = 10;
+const MAX_HISTORY_ITEMS = 8;
 
 export function useSearchHistory() {
   const [searchHistory, setSearchHistory] = useState<string[]>([]);

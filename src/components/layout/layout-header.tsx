@@ -1,101 +1,108 @@
 'use client';
 
-import { ChevronLeftIcon, ChevronRightIcon, X } from 'lucide-react';
 import {
-  Button,
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  InputSearch,
-  Separator,
-  SidebarTrigger,
-} from '../ui';
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  KeyRound,
+  LogIn,
+  LogOut,
+  RotateCcw,
+  User,
+  UserRoundPen,
+} from 'lucide-react';
+import { Button, InputSearch, Separator, SidebarTrigger } from '../ui';
 import { useHistoryTracker } from '@/hooks/use-history-tracker';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useSearchHistory } from '@/hooks/use-search-history';
-import { Routes } from '@/constants/routes';
 import { NextIntl } from '~types/next-intl';
-import { DialogState } from '~types/common';
-import { useRouter } from '@/i18n/navigation';
-import { useDebounce } from 'use-debounce';
+import { DispDropdown, DispDropdownMenuProps } from '../common';
+import { AuthLogin, useAuthStore } from '@/modules/auth';
+import { DialogSearchSong } from '@/modules/song';
+import { useMutation } from '@tanstack/react-query';
+import { authService } from '@/modules/auth/service';
+import { toast } from 'sonner';
 
-function SearchDialog({ open, setOpen }: DialogState) {
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [searchQueryDebounced] = useDebounce(searchQuery, 1000, { leading: true });
+function UserButton() {
+  const [openLogin, setOpenLogin] = useState<boolean>(false);
 
-  const router = useRouter();
+  const { user, isAuthenticated, clearAuth } = useAuthStore((state) => state);
   const t = useTranslations<NextIntl.Namespace<'Header'>>('Header');
-  const { searchHistory, addToHistory, clearHistory, deleteFromHistory } = useSearchHistory();
+  const tAuth = useTranslations<NextIntl.Namespace<'Auth'>>('Auth');
 
-  const handleSubmit = (value: string) => {
-    if (!value.trim()) return;
-    addToHistory(value);
-    router.push(`${Routes.Search}?q=${value}`);
+  const { mutate: exucuteLogout } = useMutation({
+    mutationFn: () => authService.logout(),
+    onSuccess: () => {
+      clearAuth();
+      toast(tAuth('alert.loginSuccess'));
+    },
+    onError: () => {
+      toast.error(tAuth('alert.loginFailed'));
+    },
+  });
 
-    setOpen(false);
+  const getMenuDropdown = (): DispDropdownMenuProps[] => {
+    if (isAuthenticated && user) {
+      return [
+        {
+          label: t('user.profile'),
+          key: 'profile',
+          shortcut: <UserRoundPen />,
+        },
+        {
+          label: t('user.changePassword'),
+          key: 'changePassword',
+          shortcut: <RotateCcw />,
+        },
+        {
+          label: t('user.logout'),
+          key: 'logout',
+          shortcut: <LogOut />,
+          onClick: () => {
+            exucuteLogout();
+          },
+        },
+      ];
+    }
+
+    return [
+      {
+        label: t('user.login'),
+        key: 'login',
+        shortcut: <LogIn />,
+        onClick: () => {
+          setOpenLogin(true);
+        },
+      },
+      {
+        label: t('user.register'),
+        key: 'register',
+        shortcut: <KeyRound />,
+      },
+    ];
   };
 
-  useEffect(() => {
-    const handleUnmount = () => {
-      setTimeout(() => {
-        setSearchQuery('');
-      }, 100);
-    };
-    if (!open) {
-      handleUnmount();
-    }
-    return () => {
-      handleUnmount();
-    };
-  }, [open]);
-
   return (
-    <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput
-        value={searchQuery}
-        placeholder={t('search.placeholder')}
-        onValueChange={setSearchQuery}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            handleSubmit(searchQuery);
-          }
-        }}
-      />
+    <>
+      <DispDropdown
+        menu={getMenuDropdown()}
+        label={t('user.myAccount')}
+        className="w-48"
+        modal={false}
+      >
+        {user ? (
+          <Button variant="default">
+            <User className="!w-5 !h-5" />
+            <span>{user.name}</span>
+          </Button>
+        ) : (
+          <Button size="icon" variant="default">
+            <User className="!w-5 !h-5" />
+          </Button>
+        )}
+      </DispDropdown>
 
-      <CommandList>
-        <CommandEmpty>{t('search.empty')}</CommandEmpty>
-        {searchHistory.length > 0 ? (
-          <CommandGroup heading={t('search.history')}>
-            {searchHistory.map((item, index) => (
-              <CommandItem
-                key={item}
-                className="!flex justify-between items-center !p-2 text-sm rounded-md cursor-pointer line-clamp-2"
-                onSelect={() => {
-                  handleSubmit(item);
-                }}
-              >
-                <p>{item}</p>
-                <Button
-                  variant="ghost"
-                  className="w-6 h-6"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    deleteFromHistory(item);
-                  }}
-                >
-                  <X />
-                </Button>
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        ) : null}
-      </CommandList>
-    </CommandDialog>
+      <AuthLogin open={openLogin} setOpen={setOpenLogin} />
+    </>
   );
 }
 
@@ -107,7 +114,7 @@ export function LayoutHeader() {
 
   return (
     <>
-      <section className="flex items-center justify-between gap-5">
+      <section className="flex items-center justify-between gap-5 sticky top-2 pb-4">
         <div className="flex items-center gap-2">
           <SidebarTrigger
             className="cursor-pointer opacity-80 w-9 h-9"
@@ -141,9 +148,10 @@ export function LayoutHeader() {
           }}
           divClassName="bg-sidebar border-none rounded-full lg:w-96"
         />
+        <UserButton />
       </section>
 
-      <SearchDialog open={openDialog} setOpen={setOpenDialog} />
+      <DialogSearchSong open={openDialog} setOpen={setOpenDialog} />
     </>
   );
 }

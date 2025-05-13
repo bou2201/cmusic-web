@@ -16,5 +16,5 @@ export async function generateMetadata({ params }: NextIntl.LocaleParams): Promi
 }
 
 export default function HomePage() {
-  return <>Home Page</>;
+  return <h1 className="text-[120px]">Songs</h1>;
 }

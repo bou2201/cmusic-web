@@ -6,9 +6,40 @@
   },
   "Header": {
     "search": {
-      "placeholder": "Search for songs ...",
+      "placeholder": "Search for songs, lyrics ...",
       "history": "Search history",
+      "result": "Search result",
       "empty": "No result."
+    },
+    "user": {
+      "myAccount": "Account",
+      "login": "Login",
+      "register": "Register",
+      "logout": "Logout",
+      "profile": "Profile",
+      "changePassword": "Change Password"
+    }
+  },
+  "Auth": {
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "submitLogin": "Login",
+    "submitRegister": "Register",
+    "cancel": "Cancel",
+    "alert": {
+      "loginSuccess": "Login successful.",
+      "loginFailed": "Login failed.",
+      "loginUnauthorized": "Email or password is incorrect.",
+      "registerSuccess": "Registration successful.",
+      "registerFailed": "Registration failed.",
+      "registerFailedEmailExists": "Email already exists.",
+      "changePasswordSuccess": "Password changed successfully.",
+      "changePasswordFailed": "Password change failed.",
+      "changePasswordIncorrect": "Current password is incorrect.",
+      "forgotPasswordSuccess": "Please check your email to reset your password.",
+      "systemError": "A system error occurred. Please try again later."
     }
   },
   "Navigation": {

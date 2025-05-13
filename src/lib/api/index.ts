@@ -1,4 +1,6 @@
-import { getCookie } from '../cookie';
+import { authService } from './../../modules/auth/service/index';
+import { getCookie, setCookie } from '../cookie';
+import { ApiReturn } from '~types/common';
 
 type RequestInterceptor = (config: RequestInit) => RequestInit | Promise<RequestInit>;
 type ResponseInterceptor<T = any> = (response: Response) => T | Promise<T>;
@@ -21,6 +23,16 @@ class CustomFetch {
     return this; // for chaining
   }
 
+  // Helper method to rebuild the original request
+  private buildOriginalRequest(url: string, response: Response): Request {
+    return new Request(url, {
+      ...response,
+      method: response.type,
+      headers: response.headers,
+      body: response.body,
+    });
+  }
+
   // Process request interceptors
   private async processRequestInterceptors(config: RequestInit): Promise<RequestInit> {
     let currentConfig = config;
@@ -32,6 +44,36 @@ class CustomFetch {
 
   // Process response interceptors
   private async processResponseInterceptors(response: Response): Promise<any> {
+    // Handle unauthorized errors before regular interceptors
+    if (response.status === 401) {
+      const refreshTokenValue = getCookie('refreshToken');
+
+      const isLogoutEndpoint = response.url.includes('/auth/logout');
+
+      if (refreshTokenValue && !isLogoutEndpoint) {
+        try {
+          // Get new tokens
+          const authData = await authService.refreshToken(refreshTokenValue);
+
+          // Update cookies with new tokens
+          setCookie('accessToken', authData.accessToken);
+          setCookie('refreshToken', authData.refreshToken);
+
+          // Retry the original request with new token
+          const originalRequest = this.buildOriginalRequest(response.url, response.clone());
+          originalRequest.headers.set('Authorization', `Bearer ${authData.accessToken}`);
+
+          // Make a new request with the updated token
+          return await fetch(originalRequest).then((newResponse) =>
+            this.processResponseInterceptors(newResponse),
+          );
+        } catch (error) {
+          // If refresh fails, proceed with error
+          console.error('Token refresh failed:', error);
+        }
+      }
+    }
+
     let currentResponse = response;
     for (const interceptor of this.responseInterceptors) {
       currentResponse = await interceptor(currentResponse);
@@ -53,7 +95,12 @@ class CustomFetch {
       const data = await this.processResponseInterceptors(response);
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData: ApiReturn<any> = {
+          status: response.status,
+          message: data?.message || response.statusText || `HTTP error! status: ${response.status}`,
+          data: data,
+        };
+        throw errorData;
       }
 
       return data;
@@ -92,6 +139,18 @@ class CustomFetch {
     });
   }
 
+  patch<T>(url: string, body: any, config?: RequestInit): Promise<T> {
+    return this.fetch<T>(url, {
+      ...config,
+      method: 'PATCH',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+        ...config?.headers,
+      },
+    });
+  }
+
   delete<T>(url: string, config?: RequestInit): Promise<T> {
     return this.fetch<T>(url, { ...config, method: 'DELETE' });
   }
@@ -102,13 +161,13 @@ const api = new CustomFetch(process.env.NEXT_PUBLIC_API_URL);
 // Add common interceptors
 api
   .addRequestInterceptor((config) => {
-    const token = getCookie('token');
-    if (token) {
+    const accessToken = getCookie('accessToken');
+    if (accessToken) {
       return {
         ...config,
         headers: {
           ...config.headers,
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       };
     }

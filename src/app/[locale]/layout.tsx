@@ -3,24 +3,13 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Locale, routing } from '@/i18n/routing';
 import { geistMono, geistSans, quickSand } from '../font';
-import { ProgressProvider, ThemeProvider, UiProvider } from '@/providers';
+import { ProgressProvider, QueryProvider, ThemeProvider, UiProvider } from '@/providers';
 import { SidebarProvider } from '@/components/ui';
-// import Favicon from '~public/favicon.ico';
+import { MainLayout } from '@/components/layout';
 import { cookies } from 'next/headers';
 import type { Viewport } from 'next';
 
 import '@/styles/globals.css';
-import { MainLayout } from '@/components/layout';
-
-// export const metadata: Metadata = {
-//   icons: {
-//     icon: {
-//       url: Favicon.src,
-//       type: 'image/png',
-//     },
-//     shortcut: { url: Favicon.src, type: 'image/png' },
-//   },
-// };
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -58,24 +47,26 @@ export default async function LocaleLayout({
       <body
         className={`${quickSand.className} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NextIntlClientProvider messages={messages}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            forcedTheme="dark"
-            enableSystem={false}
-            themes={['dark']}
-            disableTransitionOnChange
-          >
-            <UiProvider>
-              <SidebarProvider defaultOpen={defaultOpen}>
-                <ProgressProvider>
-                  <MainLayout>{children}</MainLayout>
-                </ProgressProvider>
-              </SidebarProvider>
-            </UiProvider>
-          </ThemeProvider>
-        </NextIntlClientProvider>
+        <QueryProvider>
+          <NextIntlClientProvider messages={messages}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              forcedTheme="dark"
+              enableSystem={false}
+              themes={['dark']}
+              disableTransitionOnChange
+            >
+              <UiProvider>
+                <SidebarProvider defaultOpen={defaultOpen}>
+                  <ProgressProvider>
+                    <MainLayout>{children}</MainLayout>
+                  </ProgressProvider>
+                </SidebarProvider>
+              </UiProvider>
+            </ThemeProvider>
+          </NextIntlClientProvider>
+        </QueryProvider>
       </body>
     </html>
   );

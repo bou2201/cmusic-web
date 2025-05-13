@@ -8,9 +8,9 @@ export function MainLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <>
       <LayoutSidebar />
-      <div className="w-full">
+      <div className="w-full flex flex-col">
         <LayoutHeader />
-        <main className="pt-3">{children}</main>
+        <main className="overflow-y-auto h-[calc(100vh-60px)]">{children}</main>
       </div>
     </>
   );

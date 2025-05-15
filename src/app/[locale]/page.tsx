@@ -1,6 +1,7 @@
 import { NextIntl } from '~types/next-intl';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import { PageDiscover } from '@/modules/song';
 
 export async function generateMetadata({ params }: NextIntl.LocaleParams): Promise<Metadata> {
   const { locale } = await params;
@@ -16,5 +17,5 @@ export async function generateMetadata({ params }: NextIntl.LocaleParams): Promi
 }
 
 export default function HomePage() {
-  return <h1 className="text-[120px]">Songs</h1>;
+  return <PageDiscover />;
 }

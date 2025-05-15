@@ -21,6 +21,7 @@
     }
   },
   "Auth": {
+    "name": "Full name",
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm Password",
@@ -39,6 +40,8 @@
       "changePasswordFailed": "Password change failed.",
       "changePasswordIncorrect": "Current password is incorrect.",
       "forgotPasswordSuccess": "Please check your email to reset your password.",
+      "logoutSuccess": "Logout successful.",
+      "logoutFailed": "Logout failed.",
       "systemError": "A system error occurred. Please try again later."
     }
   },
@@ -112,6 +115,16 @@
       "email": "This field must be a valid email address.",
       "password": "This field must be at least 6 characters long.",
       "confirmPassword": "This field must match the password field."
+    }
+  },
+  "Section": {
+    "song": {
+      "featuredSong": "Featured Song",
+      "featuredArtist": "Popular Artist",
+      "featuredAlbum": "Album"
+    },
+    "artist": {
+      "role": "Artist"
     }
   }
 }

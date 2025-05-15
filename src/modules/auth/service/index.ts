@@ -12,7 +12,11 @@ export const authService = {
   login: (payload: AuthReqLoginType) => api.post<AuthResponse>(`${API_TAG_BASE}/login`, payload),
 
   register: (payload: AuthReqRegisterType) =>
-    api.post<AuthResponse>(`${API_TAG_BASE}/register`, payload),
+    api.post<AuthResponse>(`${API_TAG_BASE}/register`, {
+      name: payload.name,
+      email: payload.email,
+      password: payload.password,
+    }),
 
   logout: () => api.post(`${API_TAG_BASE}/logout`, {}),
 

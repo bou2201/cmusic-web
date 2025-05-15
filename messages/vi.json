@@ -6,7 +6,7 @@
   },
   "Header": {
     "search": {
-      "placeholder": "Tìm kiếm bài hát, lời bài hát...",
+      "placeholder": "Tìm kiếm bài hát, lyrics...",
       "history": "Lịch sử tìm kiếm",
       "result": "Kết quả tìm kiếm",
       "empty": "Không tìm thấy kết quả."
@@ -21,6 +21,7 @@
     }
   },
   "Auth": {
+    "name": "Họ tên",
     "email": "Email",
     "password": "Mật khẩu",
     "confirmPassword": "Xác nhận mật khẩu",
@@ -39,6 +40,8 @@
       "changePasswordFailed": "Đổi mật khẩu thất bại.",
       "changePasswordIncorrect": "Mật khẩu hiện tại không đúng.",
       "forgotPasswordSuccess": "Vui lòng kiểm tra email của bạn để lấy lại mật khẩu.",
+      "logoutSuccess": "Bạn đã đăng xuất.",
+      "logoutFailed": "Đăng xuất thất bại.",
       "systemError": "Đã xảy ra lỗi hệ thống. Vui lòng thử lại sau."
     }
   },
@@ -112,6 +115,16 @@
       "email": "Trường này phải là địa chỉ email hợp lệ.",
       "password": "Mật khẩu phải có ít nhất 6 ký tự.",
       "confirmPassword": "Mật khẩu xác nhận phải khớp với mật khẩu."
+    }
+  },
+  "Section": {
+    "song": {
+      "featuredSong": "Bài hát nổi bật",
+      "featuredArtist": "Ca sĩ nổi bật",
+      "featuredAlbum": "Album"
+    },
+    "artist": {
+      "role": "Nghệ sĩ"
     }
   }
 }

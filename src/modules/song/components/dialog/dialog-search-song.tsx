@@ -141,7 +141,7 @@ export function DialogSearchSong({ open, setOpen }: DialogState) {
                 />
               ))
             ) : (
-              <CommandEmpty>{t('search.empty')}</CommandEmpty>
+              <div className="py-6 text-center text-sm">{t('search.empty')}</div>
             )}
           </div>
         ) : null}

@@ -1,6 +1,7 @@
 import { authService } from './../../modules/auth/service/index';
 import { getCookie, setCookie } from '../cookie';
 import { ApiReturn } from '~types/common';
+import { HttpStatusCode } from '@/constants/http-status-code';
 
 type RequestInterceptor = (config: RequestInit) => RequestInit | Promise<RequestInit>;
 type ResponseInterceptor<T = any> = (response: Response) => T | Promise<T>;
@@ -45,7 +46,7 @@ class CustomFetch {
   // Process response interceptors
   private async processResponseInterceptors(response: Response): Promise<any> {
     // Handle unauthorized errors before regular interceptors
-    if (response.status === 401) {
+    if (response.status === HttpStatusCode.Unauthorized) {
       const refreshTokenValue = getCookie('refreshToken');
 
       const isLogoutEndpoint = response.url.includes('/auth/logout');

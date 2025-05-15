@@ -13,6 +13,7 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useAuthStore } from '../store';
 import { HttpStatusCode } from '@/constants/http-status-code';
+import { useEffect } from 'react';
 
 export function AuthLogin({ open, setOpen }: DialogState) {
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -48,6 +49,13 @@ export function AuthLogin({ open, setOpen }: DialogState) {
       });
     },
   });
+
+  useEffect(() => {
+    return () => {
+      form.reset();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <DisDialog open={open} setOpen={setOpen} title={t('submitLogin')}>

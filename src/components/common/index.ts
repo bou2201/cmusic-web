@@ -4,3 +4,7 @@ export * from './data-display/disp-tabs';
 export * from './data-display/disp-tooltip';
 
 export * from './form-handler/input-text';
+
+export * from './section/section-artist';
+export * from './section/section-banner';
+export * from './section/section-song';

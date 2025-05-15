@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { DispDropdown, DispDropdownMenuProps } from '../common';
-import { AuthLogin, useAuthStore } from '@/modules/auth';
+import { AuthLogin, AuthRegister, useAuthStore } from '@/modules/auth';
 import { DialogSearchSong } from '@/modules/song';
 import { useMutation } from '@tanstack/react-query';
 import { authService } from '@/modules/auth/service';
@@ -24,6 +24,7 @@ import { toast } from 'sonner';
 
 function UserButton() {
   const [openLogin, setOpenLogin] = useState<boolean>(false);
+  const [openRegister, setOpenRegister] = useState<boolean>(false);
 
   const { user, isAuthenticated, clearAuth } = useAuthStore((state) => state);
   const t = useTranslations<NextIntl.Namespace<'Header'>>('Header');
@@ -33,10 +34,10 @@ function UserButton() {
     mutationFn: () => authService.logout(),
     onSuccess: () => {
       clearAuth();
-      toast(tAuth('alert.loginSuccess'));
+      toast(tAuth('alert.logoutSuccess'));
     },
     onError: () => {
-      toast.error(tAuth('alert.loginFailed'));
+      toast.error(tAuth('alert.logoutFailed'));
     },
   });
 
@@ -77,6 +78,9 @@ function UserButton() {
         label: t('user.register'),
         key: 'register',
         shortcut: <KeyRound />,
+        onClick: () => {
+          setOpenRegister(true);
+        },
       },
     ];
   };
@@ -101,7 +105,8 @@ function UserButton() {
         )}
       </DispDropdown>
 
-      <AuthLogin open={openLogin} setOpen={setOpenLogin} />
+      {openLogin ? <AuthLogin open={openLogin} setOpen={setOpenLogin} /> : null}
+      {openRegister ? <AuthRegister open={openRegister} setOpen={setOpenRegister} /> : null}
     </>
   );
 }

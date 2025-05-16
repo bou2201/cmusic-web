@@ -1,1 +1,1 @@
-export * from './dialog/dialog-search-song';
+export * from './song-audio-player';

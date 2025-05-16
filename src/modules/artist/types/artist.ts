@@ -8,4 +8,12 @@ export type Artist = {
   userId: string | null;
   isPopular: boolean;
   createdAt: string;
+  _count: ArtistCount;
+};
+
+export type ArtistCount = {
+  albums: number;
+  featuredSongs: number;
+  followers: number;
+  songs: number;
 };

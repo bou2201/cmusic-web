@@ -6,9 +6,10 @@
   },
   "Header": {
     "search": {
-      "placeholder": "Search for songs, lyrics ...",
+      "placeholder": "Search for songs, lyrics, artists ...",
       "history": "Search history",
-      "result": "Search result",
+      "resultArtist": "Search song result",
+      "resultSong": "Search artist result",
       "empty": "No result."
     },
     "user": {
@@ -118,6 +119,9 @@
     }
   },
   "Section": {
+    "banner": {
+      "viewAll": "View all"
+    },
     "song": {
       "featuredSong": "Featured Song",
       "featuredArtist": "Popular Artist",

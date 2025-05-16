@@ -17,10 +17,10 @@ import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { DispDropdown, DispDropdownMenuProps } from '../common';
 import { AuthLogin, AuthRegister, useAuthStore } from '@/modules/auth';
-import { DialogSearchSong } from '@/modules/song';
 import { useMutation } from '@tanstack/react-query';
 import { authService } from '@/modules/auth/service';
 import { toast } from 'sonner';
+import { LayoutSearchDialog } from './layout-dialog';
 
 function UserButton() {
   const [openLogin, setOpenLogin] = useState<boolean>(false);
@@ -156,7 +156,7 @@ export function LayoutHeader() {
         <UserButton />
       </section>
 
-      <DialogSearchSong open={openDialog} setOpen={setOpenDialog} />
+      <LayoutSearchDialog open={openDialog} setOpen={setOpenDialog} />
     </>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { Skeleton } from '@/components/ui';
 import { Artist } from '@/modules/artist';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -9,7 +10,7 @@ export function SectionArtist({ artist }: { artist: Artist }) {
   const t = useTranslations<NextIntl.Namespace<'Section'>>('Section');
 
   return (
-    <div className="group flex flex-col items-center gap-4 p-4 bg-neutral-800/40 rounded-md hover:bg-neutral-800 transition cursor-pointer w-[200px]">
+    <div className="group flex flex-col items-center gap-4 p-4 rounded-md hover:bg-neutral-800 transition cursor-pointer">
       <div className="relative aspect-square w-[150px] rounded-full overflow-hidden">
         <Image src={artist.avatar.url} alt={artist.name} fill className="object-cover" />
       </div>
@@ -19,4 +20,14 @@ export function SectionArtist({ artist }: { artist: Artist }) {
       </div>
     </div>
   );
+}
+
+export function SectionArtistSkeleton({ quantity }: { quantity: number }) {
+  return Array.from({ length: quantity }).map((_, i) => (
+    <div className="group flex flex-col items-center gap-4 p-4" key={i}>
+      <Skeleton className="md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full" />
+      <Skeleton className="md:w-16 lg:w-20 h-6" />
+      <Skeleton className="md:w-22 lg:w-28 h-5" />
+    </div>
+  ));
 }

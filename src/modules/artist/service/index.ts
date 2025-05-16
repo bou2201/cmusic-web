@@ -1,11 +1,17 @@
 import api from '@/lib/api';
-import { ApiReturnList, PaginationReq } from '~types/common';
+import { ApiReturnList } from '~types/common';
 import { objectToQueryString } from '@/utiils/function';
+import { Artist, ArtistFilter } from '../types';
 
 const API_TAG_BASE = '/artist';
 
 export const artistService = {
-  getListArtist: (params: any) => {
-    
-  }
+  getListArtist: (params: ArtistFilter) => {
+    const queryParams = objectToQueryString(params);
+    return api.get<ApiReturnList<Artist>>(`${API_TAG_BASE}?${queryParams}`);
+  },
+
+  getSongById: (id: string) => api.get<Artist>(`${API_TAG_BASE}/${id}`),
+
+  createArtist: (payload: any) => api.post<Artist>(`${API_TAG_BASE}`, payload),
 };

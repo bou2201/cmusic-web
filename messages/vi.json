@@ -6,9 +6,10 @@
   },
   "Header": {
     "search": {
-      "placeholder": "Tìm kiếm bài hát, lyrics...",
+      "placeholder": "Tìm kiếm bài hát, lyrics, ca sĩ...",
       "history": "Lịch sử tìm kiếm",
-      "result": "Kết quả tìm kiếm",
+      "resultArtist": "Kết quả tìm kiếm - Nghệ sĩ",
+      "resultSong": "Kết quả tìm kiếm - Bài hát",
       "empty": "Không tìm thấy kết quả."
     },
     "user": {
@@ -118,6 +119,9 @@
     }
   },
   "Section": {
+    "banner": {
+      "viewAll": "Xem tất cả"
+    },
     "song": {
       "featuredSong": "Bài hát nổi bật",
       "featuredArtist": "Ca sĩ nổi bật",

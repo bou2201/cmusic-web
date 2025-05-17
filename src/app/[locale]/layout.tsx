@@ -46,6 +46,7 @@ export default async function LocaleLayout({
     <html lang={locale} suppressHydrationWarning>
       <body
         className={`${quickSand.className} ${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
         <QueryProvider>
           <NextIntlClientProvider messages={messages}>

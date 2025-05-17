@@ -1,12 +1,14 @@
 'use client';
 
 import { Button, Skeleton } from '@/components/ui';
-import { Song } from '@/modules/song';
+import { Song, useSongStore } from '@/modules/song';
 import { getArtistName } from '@/utiils/function';
 import { PlayIcon } from 'lucide-react';
 import Image from 'next/image';
 
 export function SectionSong({ song }: { song: Song }) {
+  const setTrack = useSongStore((state) => state.setTrack);
+
   return (
     <div className="group flex flex-col gap-2 p-4 rounded-md hover:bg-neutral-800 transition cursor-pointer w-auto">
       <div className="relative aspect-square w-full rounded-md overflow-hidden">
@@ -21,6 +23,7 @@ export function SectionSong({ song }: { song: Song }) {
             className="rounded-full bg-primary-pink hover:bg-primary-pink p-3 drop-shadow-md hover:scale-110 transition w-12 h-12"
             onClick={(e) => {
               e.stopPropagation();
+              setTrack(song);
             }}
             size="icon"
           >

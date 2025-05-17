@@ -21,7 +21,7 @@ import { Routes } from '@/constants/routes';
 import { GlobeIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
-import { AudioPlayer } from '@/modules/song';
+import { AudioPlayer, useSongStore } from '@/modules/song';
 
 function LayoutSidebarHeader() {
   const { state } = useSidebar();
@@ -100,11 +100,13 @@ function LayoutSidebarFooter() {
 }
 
 export function LayoutSidebar() {
+  const track = useSongStore((state) => state.track);
+
   return (
     <div className="relative">
       <Sidebar
         collapsible="icon"
-        className="top-2 bottom-20 left-2 h-auto [&>div]:rounded-2xl !border-r-0"
+        className={`top-2 left-2 h-auto [&>div]:rounded-2xl !border-r-0 ${track ? 'bottom-20' : 'bottom-2'}`}
       >
         <LayoutSidebarHeader />
         <LayoutSidebarContent />
@@ -112,14 +114,7 @@ export function LayoutSidebar() {
       </Sidebar>
 
       <div className="fixed z-50 bottom-2 left-2 right-2">
-        <AudioPlayer
-          track={{
-            artist: 'Bodoi',
-            title: 'Lemon',
-            cover: '/images/song-default-white.png',
-            src: 'https://res.cloudinary.com/dvzkbmq0j/video/upload/sp_cmusic_hls_cmusic_audio_file_csilfj/v1/cmusic/audio/file_csilfj.m3u8?_a=BAMAJaRj0',
-          }}
-        />
+        <AudioPlayer />
       </div>
     </div>
   );

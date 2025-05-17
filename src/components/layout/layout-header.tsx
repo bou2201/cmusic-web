@@ -119,7 +119,7 @@ export function LayoutHeader() {
 
   return (
     <>
-      <section className="flex items-center justify-between gap-5 sticky top-2 pb-4">
+      <section className="flex items-center justify-between gap-5 sticky top-0 pb-4">
         <div className="flex items-center gap-2">
           <SidebarTrigger
             className="cursor-pointer opacity-80 w-9 h-9"

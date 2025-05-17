@@ -98,6 +98,19 @@
   "SongsPage": {
     "metadata": {
       "title": "Songs"
+    },
+    "audioPlayer": {
+      "play": "Play",
+      "pause": "Pause",
+      "next": "Next",
+      "previous": "Previous",
+      "turnOnRandom": "Turn on random",
+      "turnOnShuffle": "Turn on shuffle",
+      "turnOffShuffle": "Turn off shuffle",
+      "turnOnRepeat": "Repeat all",
+      "turnOnRepeatOne": "Repeat one",
+      "turnOffRepeat": "Turn off repeat",
+      "turnOnLyrics": "Show lyrics"
     }
   },
   "SearchPage": {

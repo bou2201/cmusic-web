@@ -37,7 +37,7 @@ export function PageDiscover() {
           <SectionSongSkeleton quantity={6} />
         ) : (
           songResults?.data?.map((song) => (
-            <CarouselItem className="md:basis-1/4 lg:basis-72" key={song.id}>
+            <CarouselItem className="basis-52 md:basis-60 lg:basis-72" key={song.id}>
               <SectionSong song={song} />
             </CarouselItem>
           ))
@@ -49,7 +49,7 @@ export function PageDiscover() {
           <SectionArtistSkeleton quantity={10} />
         ) : (
           artistResults?.data?.map((artist) => (
-            <CarouselItem className="md:basis-1/4 lg:basis-52" key={artist.id}>
+            <CarouselItem className="basis-44 md:basis-48 lg:basis-52" key={artist.id}>
               <SectionArtist artist={artist} />
             </CarouselItem>
           ))

@@ -98,6 +98,19 @@
   "SongsPage": {
     "metadata": {
       "title": "Bài hát"
+    },
+    "audioPlayer": {
+      "play": "Phát",
+      "pause": "Tạm dừng",
+      "next": "Bài tiếp theo",
+      "previous": "Bài trước đó",
+      "turnOnRandom": "Bật phát ngẫu nhiên",
+      "turnOnShuffle": "Bật phát ngẫu nhiên",
+      "turnOffShuffle": "Tắt phát ngẫu nhiên",
+      "turnOnRepeat": "Bật phát lại tất cả",
+      "turnOnRepeatOne": "Bật phát lại một bài",
+      "turnOffRepeat": "Tắt phát lại tất cả",
+      "turnOnLyrics": "Bật lyrics"
     }
   },
   "SearchPage": {

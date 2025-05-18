@@ -93,6 +93,9 @@
   "RecentlyPlayedPage": {
     "metadata": {
       "title": "Gần đây"
+    },
+    "section": {
+      "title": "Bài hát gần đây"
     }
   },
   "SongsPage": {
@@ -136,6 +139,7 @@
       "viewAll": "Xem tất cả"
     },
     "song": {
+      "listenAgain": "Nghe gần đây",
       "featuredSong": "Bài hát nổi bật",
       "featuredArtist": "Ca sĩ nổi bật",
       "featuredAlbum": "Album"

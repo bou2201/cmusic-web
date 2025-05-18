@@ -46,9 +46,9 @@ function ResultSongSearched({ song, onClose }: { song: Song; onClose: () => void
           className="object-cover w-full h-full"
         />
       </div>
-      <div className="flex items-center justify-between w-full">
+      <div className="flex items-center justify-between gap-4 w-full">
         <div className="flex-1">
-          <p className="font-semibold text-base">{song.title}</p>
+          <p className="font-semibold text-base line-clamp-2">{song.title}</p>
           <span className="opacity-70 text-[13px] truncate">
             {getArtistName(song.artist, song.artists)}
           </span>

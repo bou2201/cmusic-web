@@ -6,8 +6,47 @@ import { getArtistName } from '@/utiils/function';
 import { PlayIcon } from 'lucide-react';
 import Image from 'next/image';
 
-export function SectionSong({ song }: { song: Song }) {
+export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large' }) {
   const setTrack = useSongStore((state) => state.setTrack);
+
+  if (size === 'small') {
+    return (
+      <div className="flex gap-3 p-3 rounded-md hover:bg-neutral-800 transition cursor-pointer">
+        <div className="w-12 h-12 rounded-md shrink-0">
+          <Image
+            src={song.cover?.url ?? '/images/song-default-white.png'}
+            alt={song.title}
+            height={100}
+            width={100}
+            className="object-cover w-full h-full rounded-md"
+          />
+        </div>
+        <div className="flex justify-between gap-5 items-center w-full overflow-hidden">
+          <div className="flex flex-col truncate">
+            <h3 className="font-semibold truncate" title={song.title}>
+              {song.title}
+            </h3>
+            <p
+              className="text-neutral-400 text-sm truncate"
+              title={getArtistName(song.artist, song.artists)}
+            >
+              {getArtistName(song.artist, song.artists)}
+            </p>
+          </div>
+          <Button
+            className="rounded-full bg-primary-pink hover:bg-primary-pink/80 p-3 drop-shadow-md transition w-8 h-8 shrink-0"
+            onClick={(e) => {
+              e.stopPropagation();
+              setTrack(song);
+            }}
+            size="icon"
+          >
+            <PlayIcon className="stroke-white fill-white" />
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="group flex flex-col gap-2 p-4 rounded-md hover:bg-neutral-800 transition cursor-pointer w-auto">

@@ -122,6 +122,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-marquee: marquee 25s linear infinite;
   --color-primary-pink: var(--primary-color-pink);
 
   @keyframes accordion-down {
@@ -143,6 +144,16 @@
       height: 0;
     }
   }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+
+    100% {
+      transform: translateX(-100%);
+    }
+  }
 }
 
 @layer base {
@@ -156,14 +167,18 @@
 }
 
 @layer utilities {
+
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
   /* Hide scrollbar for IE, Edge and Firefox */
   .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
 
   /* Hide browsers password toggles */
@@ -175,34 +190,33 @@
   }
 }
 
-/* Alternative: Apply to all scrollbars in the application */
-/* For Webkit browsers (Chrome, Safari, newer versions of Opera) */
-::-webkit-scrollbar {
+/* Scrollbar mặc định */
+* {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #6b6b6b transparent;
+}
+
+*::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Chrome, Edge */
+*::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--secondary);
-  border-radius: 5px;
+*::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--muted-foreground);
-  border-radius: 5px;
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(107, 107, 107, 0.4); /* Màu xám nhạt */
+  border-radius: 9999px; /* tròn như Spotify */
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--muted-foreground);
-}
-
-/* For Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--muted-foreground) var(--secondary);
-}
-
-/* For Edge and IE */
-* {
-  -ms-overflow-style: none;
+*:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(107, 107, 107, 0.8); /* Đậm hơn khi hover */
 }

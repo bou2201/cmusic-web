@@ -3,6 +3,7 @@
 import { ReactNode } from 'react';
 import { LayoutSidebar } from './layout-sidebar';
 import { LayoutHeader } from './layout-header';
+import { LayoutFooter } from './layout-footer';
 import { useSongStore } from '@/modules/song';
 
 export function MainLayout({ children }: Readonly<{ children: ReactNode }>) {
@@ -17,6 +18,8 @@ export function MainLayout({ children }: Readonly<{ children: ReactNode }>) {
           className={`overflow-y-auto ${track ? 'h-[calc(100vh-142px)]' : 'h-[calc(100vh-60px)]'}`}
         >
           {children}
+
+          {/* <LayoutFooter /> */}
         </main>
       </div>
     </>

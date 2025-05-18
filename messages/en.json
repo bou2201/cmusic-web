@@ -93,6 +93,9 @@
   "RecentlyPlayedPage": {
     "metadata": {
       "title": "Recently Played"
+    },
+    "section": {
+      "title": "Recently Played"
     }
   },
   "SongsPage": {
@@ -136,6 +139,7 @@
       "viewAll": "View all"
     },
     "song": {
+      "listenAgain": "Listen Again",
       "featuredSong": "Featured Song",
       "featuredArtist": "Popular Artist",
       "featuredAlbum": "Album"

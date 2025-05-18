@@ -94,12 +94,12 @@ function UserButton() {
         modal={false}
       >
         {user ? (
-          <Button variant="default">
+          <Button variant="ghost" className='!h-10'>
             <User className="!w-5 !h-5" />
             <span>{user.name}</span>
           </Button>
         ) : (
-          <Button size="icon" variant="default">
+          <Button size="icon" variant="ghost" className='!h-10 !w-10'>
             <User className="!w-5 !h-5" />
           </Button>
         )}
@@ -119,31 +119,31 @@ export function LayoutHeader() {
 
   return (
     <>
-      <section className="flex items-center justify-between gap-5 sticky top-0 pb-4">
+      <section className="flex items-center justify-between gap-5 sticky top-2 pb-4">
         <div className="flex items-center gap-2">
           <SidebarTrigger
-            className="cursor-pointer opacity-80 w-9 h-9"
+            className="cursor-pointer opacity-80 w-10 h-10"
             variant="secondary"
             size="icon"
           />
-          <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
+          <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-6" />
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
-            className="cursor-pointer"
+            className="cursor-pointer w-10 h-10"
             disabled={!canGoBack}
             onClick={handleGoBack}
           >
-            <ChevronLeftIcon className="!w-5 !h-5" />
+            <ChevronLeftIcon className="!w-6 !h-6" />
           </Button>
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
-            className="cursor-pointer"
+            className="cursor-pointer w-10 h-10"
             disabled={!canGoForward}
             onClick={handleGoForward}
           >
-            <ChevronRightIcon className="!w-5 !h-5" />
+            <ChevronRightIcon className="!w-6 !h-6" />
           </Button>
         </div>
         <InputSearch
@@ -151,7 +151,7 @@ export function LayoutHeader() {
           onClick={() => {
             setOpenDialog(true);
           }}
-          divClassName="bg-sidebar border-none rounded-full lg:w-96"
+          divClassName="bg-sidebar border-none rounded-full lg:w-96 h-10"
         />
         <UserButton />
       </section>

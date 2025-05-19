@@ -35,7 +35,7 @@ export function BtnPlayOrPause({
       <Button
         onClick={togglePlay}
         size="icon"
-        className="rounded-full w-10 h-10 border-primary/80 hover:border-primary-pink group"
+        className="rounded-full !bg-transparent w-10 h-10 border-primary/80 hover:border-primary-pink group"
         variant="outline"
       >
         {isPlaying ? (

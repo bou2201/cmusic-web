@@ -113,7 +113,8 @@
       "turnOnRepeat": "Repeat all",
       "turnOnRepeatOne": "Repeat one",
       "turnOffRepeat": "Turn off repeat",
-      "turnOnLyrics": "Show lyrics"
+      "turnOnLyrics": "Show lyrics",
+      "noLyrics": "No lyrics available."
     }
   },
   "SearchPage": {

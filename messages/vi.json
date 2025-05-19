@@ -113,7 +113,8 @@
       "turnOnRepeat": "Bật phát lại tất cả",
       "turnOnRepeatOne": "Bật phát lại một bài",
       "turnOffRepeat": "Tắt phát lại tất cả",
-      "turnOnLyrics": "Bật lyrics"
+      "turnOnLyrics": "Bật lyrics",
+      "noLyrics": "Chưa có lyrics"
     }
   },
   "SearchPage": {

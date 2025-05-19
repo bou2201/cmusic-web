@@ -1,6 +1,8 @@
 'use client';
 
 import { Button, Skeleton } from '@/components/ui';
+import { Routes } from '@/constants/routes';
+import { Link, useRouter } from '@/i18n/navigation';
 import { Song, useSongStore } from '@/modules/song';
 import { getArtistName } from '@/utiils/function';
 import { PlayIcon } from 'lucide-react';
@@ -8,6 +10,8 @@ import Image from 'next/image';
 
 export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large' }) {
   const setTrack = useSongStore((state) => state.setTrack);
+
+  const router = useRouter();
 
   if (size === 'small') {
     return (
@@ -21,11 +25,20 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
             className="object-cover w-full h-full rounded-md"
           />
         </div>
-        <div className="flex justify-between gap-5 items-center w-full overflow-hidden">
+        <div
+          className="flex justify-between gap-5 items-center w-full overflow-hidden"
+          onClick={() => {
+            return router.push(`${Routes.Songs}/${song.id}`);
+          }}
+        >
           <div className="flex flex-col truncate">
-            <h3 className="font-semibold truncate" title={song.title}>
+            <Link
+              href={`${Routes.Songs}/${song.id}`}
+              className="font-semibold truncate hover:underline"
+              title={song.title}
+            >
               {song.title}
-            </h3>
+            </Link>
             <p
               className="text-neutral-400 text-sm truncate"
               title={getArtistName(song.artist, song.artists)}
@@ -50,7 +63,12 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
 
   return (
     <div className="group flex flex-col gap-2 p-4 rounded-md hover:bg-neutral-800 transition cursor-pointer w-auto">
-      <div className="relative aspect-square w-full rounded-md overflow-hidden">
+      <div
+        className="relative aspect-square w-full rounded-md overflow-hidden"
+        onClick={() => {
+          router.push(`${Routes.Songs}/${song.id}`);
+        }}
+      >
         <Image
           src={song.cover?.url ?? '/images/song-default-white.png'}
           alt={song.title}
@@ -71,9 +89,13 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
         </div>
       </div>
       <div className="flex flex-col gap-1 truncate">
-        <h3 className="font-semibold truncate" title={song.title}>
+        <Link
+          href={`${Routes.Songs}/${song.id}`}
+          className="font-semibold truncate hover:underline"
+          title={song.title}
+        >
           {song.title}
-        </h3>
+        </Link>
         <p
           className="text-neutral-400 text-sm truncate"
           title={getArtistName(song.artist, song.artists)}

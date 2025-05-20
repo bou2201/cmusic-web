@@ -115,6 +115,12 @@
       "turnOffRepeat": "Tắt phát lại tất cả",
       "turnOnLyrics": "Bật lyrics",
       "noLyrics": "Chưa có lyrics"
+    },
+    "songDetails": {
+      "title": "Bài hát",
+      "lyrics": "Lời bài hát",
+      "showLess": "Hiển thị ít hơn",
+      "showMore": "Xem thêm"
     }
   },
   "SearchPage": {

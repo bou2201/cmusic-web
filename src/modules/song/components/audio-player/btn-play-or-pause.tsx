@@ -35,13 +35,13 @@ export function BtnPlayOrPause({
       <Button
         onClick={togglePlay}
         size="icon"
-        className="rounded-full !bg-transparent w-10 h-10 border-primary/80 hover:border-primary-pink group"
+        className="rounded-full bg-primary hover:bg-primary-pink group"
         variant="outline"
       >
         {isPlaying ? (
-          <Pause className="!w-5 !h-5 fill-primary group-hover:fill-primary-pink group-hover:stroke-primary-pink" />
+          <Pause className="fill-background stroke-background group-hover:fill-primary group-hover:stroke-primary" />
         ) : (
-          <Play className="!w-5 !h-5 fill-primary group-hover:fill-primary-pink group-hover:stroke-primary-pink" />
+          <Play className="fill-background stroke-background group-hover:fill-primary group-hover:stroke-primary" />
         )}
       </Button>
     </DispTooltip>

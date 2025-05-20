@@ -115,6 +115,12 @@
       "turnOffRepeat": "Turn off repeat",
       "turnOnLyrics": "Show lyrics",
       "noLyrics": "No lyrics available."
+    },
+    "songDetails": {
+      "title": "Track",
+      "lyrics": "Lyric",
+      "showLess": "Show less",
+      "showMore": "View more"
     }
   },
   "SearchPage": {

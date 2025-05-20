@@ -59,3 +59,60 @@ export const addTrackToRecent = (recentTracks: Song[], newTrack: Song): Song[] =
 
   return updatedTracks;
 };
+
+export const getShortName = (fullname: string) => {
+  if (!fullname || fullname.trim() === '') {
+    return '';
+  }
+  const words = fullname.split(' ');
+  let shortName = '';
+
+  for (const word of words) {
+    if (word) {
+      shortName += word[0];
+    }
+  }
+
+  return shortName.toUpperCase();
+};
+
+export function formatNumber(value: number | string): string {
+  const number = typeof value === 'string' ? parseFloat(value) : value;
+
+  if (isNaN(number)) return '0';
+
+  return number.toLocaleString('vi-VN');
+}
+
+/**
+ * Processes lyrics to support "View More" functionality
+ * @param lyrics The raw lyrics text
+ * @param maxLines Maximum number of lines to show initially
+ * @param showAll Whether to show all lines or just the limited number
+ * @returns Processed lyrics with HTML formatting and information about whether there are more lines
+ */
+export function processLyricsWithViewMore(
+  lyrics?: string,
+  maxLines: number = 12,
+  showAll: boolean = false,
+): {
+  html: string;
+  hasMoreLines: boolean;
+} {
+  if (!lyrics) return { html: '', hasMoreLines: false };
+
+  const lines = lyrics.split('\n');
+  const hasMoreLines = lines.length > maxLines;
+
+  let displayedLyrics;
+  if (hasMoreLines && !showAll) {
+    displayedLyrics = lines.slice(0, maxLines).join('\n');
+  } else {
+    displayedLyrics = lyrics;
+  }
+
+  return {
+    html: displayedLyrics.replace(/\n/g, '<br />'),
+    hasMoreLines,
+  };
+}

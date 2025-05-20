@@ -14,8 +14,16 @@ export function AudioPlayer() {
   const [duration, setDuration] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
 
-  const { track, setTrack, setIsPlaying, volume, isShuffle, repeatMode, addToRecentTracks } =
-    useSongStore((state) => state);
+  const {
+    track,
+    setTrack,
+    setIsLoading,
+    setIsPlaying,
+    volume,
+    isShuffle,
+    repeatMode,
+    addToRecentTracks,
+  } = useSongStore((state) => state);
   const isMobile = useIsMobile();
 
   // Save player state to localStorage
@@ -53,16 +61,42 @@ export function AudioPlayer() {
 
     addToRecentTracks(track);
 
+    setIsLoading(true);
+
     if (Hls.isSupported()) {
       const hls = new Hls();
       hls.loadSource(track.audioUrl);
       hls.attachMedia(audio);
       hlsRef.current = hls;
+
+      // Add event listeners for HLS loading states
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        setIsLoading(false);
+      });
+
+      hls.on(Hls.Events.ERROR, (event, data) => {
+        console.error('HLS error:', data);
+        if (data.fatal) {
+          setIsLoading(false);
+        }
+      });
     } else if (audio.canPlayType('application/vnd.apple.mpegurl')) {
       audio.src = track.audioUrl;
     } else {
       console.error('HLS not supported in this browser');
+      setIsLoading(false);
     }
+
+    // if (Hls.isSupported()) {
+    //   const hls = new Hls();
+    //   hls.loadSource(track.audioUrl);
+    //   hls.attachMedia(audio);
+    //   hlsRef.current = hls;
+    // } else if (audio.canPlayType('application/vnd.apple.mpegurl')) {
+    //   audio.src = track.audioUrl;
+    // } else {
+    //   console.error('HLS not supported in this browser');
+    // }
 
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
@@ -94,8 +128,9 @@ export function AudioPlayer() {
       setCurrentTime(0);
       setDuration(0);
       setIsPlaying(false);
+      setIsLoading(false);
     };
-  }, [addToRecentTracks, setIsPlaying, setTrack, track]);
+  }, [addToRecentTracks, setIsLoading, setIsPlaying, setTrack, track]);
 
   // Side effect to handle audio playback end
   useEffect(() => {

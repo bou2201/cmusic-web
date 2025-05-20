@@ -58,7 +58,8 @@
         "discover": "Khám phá",
         "songs": "Bài hát",
         "albums": "Albums",
-        "artists": "Ca sĩ"
+        "artists": "Ca sĩ",
+        "genres": "Thể loại"
       }
     },
     "playlist": {
@@ -83,6 +84,11 @@
   "ArtistPage": {
     "metadata": {
       "title": "Ca sĩ"
+    }
+  },
+  "GenrePage": {
+    "metadata": {
+      "title": "Thể loại"
     }
   },
   "FavoriteSongsPage": {

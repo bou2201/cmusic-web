@@ -9,6 +9,7 @@ import {
   ComponentIcon,
   HeartIcon,
   ListMusicIcon,
+  PanelLeftDashed,
   UserIcon,
 } from 'lucide-react';
 import { NextIntl } from '~types/next-intl';
@@ -44,6 +45,11 @@ export function Navigation(): NavigationType[] {
           title: t('library.items.artists'),
           url: Routes.Artists,
           icon: <UserIcon />,
+        },
+        {
+          title: t('library.items.genres'),
+          url: Routes.Genres,
+          icon: <PanelLeftDashed />,
         },
       ],
     },

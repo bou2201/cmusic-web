@@ -58,7 +58,8 @@
         "discover": "Discover",
         "songs": "Songs",
         "albums": "Albums",
-        "artists": "Artists"
+        "artists": "Artists",
+        "genres": "Genres"
       }
     },
     "playlist": {
@@ -83,6 +84,11 @@
   "ArtistPage": {
     "metadata": {
       "title": "Artists"
+    }
+  },
+  "GenrePage": {
+    "metadata": {
+      "title": "Genres"
     }
   },
   "FavoriteSongsPage": {

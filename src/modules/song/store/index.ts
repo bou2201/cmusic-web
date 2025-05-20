@@ -10,6 +10,7 @@ import {
 
 type SongState = {
   track: Song | null;
+  isLoading: boolean;
   recentTracks: Song[];
   isPlaying: boolean;
   volume: number;
@@ -22,6 +23,7 @@ type SongAction = {
   clearTrack: () => void;
   addToRecentTracks: (track: Song) => void;
   clearRecentTracks: () => void;
+  setIsLoading: (isLoading: boolean) => void;
   setIsPlaying: (isPlaying: boolean) => void;
   setVolume: (volume: number) => void;
   setIsShuffle: (isShuffle: boolean) => void;
@@ -30,6 +32,7 @@ type SongAction = {
 
 const initialValues: SongState = {
   track: null,
+  isLoading: false,
   recentTracks: getInitialRecentTracks(),
   isPlaying: false,
   volume: getInitialVolume(),
@@ -51,6 +54,7 @@ export const useSongStore = create<SongState & SongAction>((set) => ({
     localStorage.removeItem('recentTracks');
     set({ recentTracks: [] });
   },
+  setIsLoading: (isLoading: boolean) => set({ isLoading }),
   setIsPlaying: (isPlaying: boolean) => set({ isPlaying }),
   setVolume: (volume: number) => set({ volume }),
   setIsShuffle: (isShuffle: boolean) => set({ isShuffle }),

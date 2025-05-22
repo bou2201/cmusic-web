@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { Button } from '@/components/ui';
-import { DispAvatar } from '@/components/common';
+import { DispAvatar, SectionDetails } from '@/components/common';
 import { formatNumber, getShortName, processLyricsWithViewMore } from '../utils/function';
 import { Link, useRouter } from '@/i18n/navigation';
 import { Routes } from '@/constants/routes';
@@ -36,143 +36,110 @@ export function PageDetails({ id }: { id: string }) {
     showFullLyrics,
   );
 
-  return (
-    <section className="h-full rounded-xl bg-sidebar overflow-x-hidden overflow-y-auto">
-      <div className="w-full h-64 relative">
-        <div
-          className="absolute inset-0 -bottom-10 z-0"
-          style={{
-            backgroundImage: `url(${song?.cover?.url ?? '/images/song-default-white.png'})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            filter: 'blur(40px)',
-            opacity: 0.8,
-          }}
-        />
-        <div
-          className="absolute inset-0 top-[100%] -bottom-60 z-0"
-          style={{
-            background: 'linear-gradient(to bottom, oklch(0.141 0.005 285.823), oklch(0.1822 0 0))',
-            opacity: 0.1,
-          }}
-        />
-
-        <div className="relative py-5 px-7 z-10 flex max-sm:flex-col items-end max-sm:gap-3 max-sm:items-start gap-8">
-          <div className="max-sm:block hidden w-20 h-20">
-            <Image
-              width={1000}
-              height={1000}
-              alt={song?.title ?? ''}
-              src={song?.cover?.url ?? '/images/song-default-white.png'}
-              className="w-full h-full object-cover rounded-xl"
-              unoptimized
-            />
-          </div>
-          <div className="w-[216px] h-[216px] aspect-square shadow-2xl max-sm:hidden">
-            <Image
-              width={1000}
-              height={1000}
-              alt={song?.title ?? ''}
-              src={song?.cover?.url ?? '/images/song-default-white.png'}
-              className="w-full h-full object-cover rounded-xl"
-              unoptimized
-            />
-          </div>
-          <div className="flex flex-col gap-2 py-2">
-            <h5 className="font-bold">{t('title')}</h5>
-            <h1 className="md:text-2xl lg:text-3xl xl:text-[42px] font-bold leading-[normal] line-clamp-2">
-              {song?.title}
-            </h1>
-            <div className="flex items-center gap-2 mt-4 text-sm">
-              <DispAvatar
-                src={song?.artist.avatar.url ?? ''}
-                alt={song?.artist.name ?? ''}
-                fallback={getShortName(song?.artist.name ?? '')}
-                className="object-cover"
-              />
-              <Link
-                href={`${Routes.Artists}/${song?.artist.id}`}
-                className="font-bold opacity-80 hover:underline"
-              >
-                {song?.artist.name}
-              </Link>
-              •<span className="font-semibold opacity-80">{formatDuration(song?.duration ?? 0)}</span>
-              •<span className="font-semibold opacity-80">{formatNumber(song?.playCount ?? 0)}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="p-7 relative z-10">
-        <div className="flex items-center gap-5">
-          <Button
-            onClick={() => {
-              setTrack(song as Song);
-            }}
-            size="icon"
-            className="rounded-full w-14 h-14 bg-primary-pink hover:bg-primary-pink/80 group"
+  const renderHeaderContent = () => {
+    return (
+      <div className="flex flex-col gap-2 py-2">
+        <h5 className="font-bold">{t('title')}</h5>
+        <h1 className="md:text-2xl lg:text-3xl xl:text-[42px] font-bold leading-[normal] line-clamp-2">
+          {song?.title}
+        </h1>
+        <div className="flex items-center gap-2 mt-4 text-sm">
+          <DispAvatar
+            src={song?.artist.avatar.url ?? ''}
+            alt={song?.artist.name ?? ''}
+            fallback={getShortName(song?.artist.name ?? '')}
+            className="object-cover"
+          />
+          <Link
+            href={`${Routes.Artists}/${song?.artist.id}`}
+            className="font-bold opacity-80 hover:underline"
           >
-            <Play className="fill-primary stroke-primary !h-6 !w-6" />
-          </Button>
-
-          <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full">
-            <Heart className="!w-6 !h-6 opacity-80" />
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-2 gap-5">
-          <div className="col-span-2 xl:col-span-1">
-            <h3 className="font-bold my-6 text-2xl">{t('lyrics')}</h3>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: lyricsHtml,
-              }}
-              className="text-[#a5a5a5] font-semibold"
-            />
-            {hasMoreLines && (
-              <Button
-                variant="link"
-                className="flex items-center gap-2 !px-0 hover:opacity-80"
-                onClick={() => {
-                  setShowFullLyrics(!showFullLyrics);
-                }}
-              >
-                <span className="font-bold opacity-90">
-                  {!showFullLyrics ? `...${t('showMore')}` : t('showLess')}
-                </span>
-              </Button>
-            )}
-          </div>
-
-          <div className="flex flex-col gap-3 col-span-2 xl:col-span-1">
-            {[song?.artist, ...((song?.artists as Artist[]) ?? [])].map((art) => (
-              <div
-                className="flex items-center gap-5 p-3 rounded-md hover:bg-neutral-800 transition cursor-pointer"
-                key={art?.id}
-                onClick={() => {
-                  router.push(`${Routes.Artists}/${art?.id}`);
-                }}
-              >
-                <div className="w-16 h-16">
-                  <Image
-                    alt={art?.name ?? ''}
-                    src={art?.avatar?.url ?? ''}
-                    width={200}
-                    height={200}
-                    className="w-full h-full object-cover rounded-full"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-semibold text-[#a5a5a5] text-sm">{tSection('role')}</span>
-                  <Link href={`${Routes.Artists}/${art?.id}`} className="font-bold hover:underline">
-                    {art?.name}
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+            {song?.artist.name}
+          </Link>
+          •<span className="font-semibold opacity-80">{formatDuration(song?.duration ?? 0)}</span>•
+          <span className="font-semibold opacity-80">{formatNumber(song?.playCount ?? 0)}</span>
         </div>
       </div>
-    </section>
+    );
+  };
+
+  return (
+    <SectionDetails
+      headerImage={{
+        alt: song?.title ?? '',
+        url: song?.cover?.url ?? '',
+      }}
+      type="song"
+      headerContent={renderHeaderContent()}
+    >
+      <div className="flex items-center gap-5">
+        <Button
+          onClick={() => {
+            setTrack(song as Song);
+          }}
+          size="icon"
+          className="rounded-full w-14 h-14 bg-primary-pink hover:bg-primary-pink/80 group"
+        >
+          <Play className="fill-primary stroke-primary !h-6 !w-6" />
+        </Button>
+
+        <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full">
+          <Heart className="!w-6 !h-6 opacity-80" />
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-2 gap-5">
+        <div className="col-span-2 xl:col-span-1">
+          <h3 className="font-bold my-6 text-2xl">{t('lyrics')}</h3>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: lyricsHtml,
+            }}
+            className="text-[#a5a5a5] font-semibold"
+          />
+          {hasMoreLines && (
+            <Button
+              variant="link"
+              className="flex items-center gap-2 !px-0 hover:opacity-80"
+              onClick={() => {
+                setShowFullLyrics(!showFullLyrics);
+              }}
+            >
+              <span className="font-bold opacity-90">
+                {!showFullLyrics ? `...${t('showMore')}` : t('showLess')}
+              </span>
+            </Button>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-3 col-span-2 xl:col-span-1">
+          {[song?.artist, ...((song?.artists as Artist[]) ?? [])].map((art) => (
+            <div
+              className="flex items-center gap-5 p-3 rounded-md hover:bg-neutral-800 transition cursor-pointer"
+              key={art?.id}
+              onClick={() => {
+                router.push(`${Routes.Artists}/${art?.id}`);
+              }}
+            >
+              <div className="w-16 h-16">
+                <Image
+                  alt={art?.name ?? ''}
+                  src={art?.avatar?.url ?? ''}
+                  width={200}
+                  height={200}
+                  className="w-full h-full object-cover rounded-full"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-semibold text-[#a5a5a5] text-sm">{tSection('role')}</span>
+                <Link href={`${Routes.Artists}/${art?.id}`} className="font-bold hover:underline">
+                  {art?.name}
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </SectionDetails>
   );
 }

@@ -65,7 +65,7 @@ function LayoutSidebarContent() {
                   >
                     <Link href={grItems.url}>
                       {grItems.icon}
-                      <span>{grItems.title}</span>
+                      <span className='font-semibold'>{grItems.title}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

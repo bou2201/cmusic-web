@@ -168,54 +168,41 @@ export function LayoutSearchDialog({ open, setOpen }: DialogState) {
       />
 
       <CommandList>
-        {!successSong && !loadingSong ? <CommandEmpty>{t('search.empty')}</CommandEmpty> : null}
-
-        {loadingSong
-          ? Array.from({ length: 3 }).map((_, index) => <ResultSkeleton key={index} />)
-          : null}
-
-        {songResults ? (
-          <div className="flex flex-col px-2 py-1">
-            <div className="text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-xs outline-hidden select-none pointer-events-none opacity-50">
-              {t('search.resultSong')}
-            </div>
-            {songResults.meta.total > 0 ? (
-              songResults?.data?.map((song) => (
-                <ResultSongSearched
-                  song={song}
-                  key={song.id}
-                  onClose={() => {
-                    setOpen(false);
-                  }}
-                />
-              ))
-            ) : (
-              <div className="py-6 text-center text-sm">{t('search.empty')}</div>
-            )}
-          </div>
+        {(!successArtist && !loadingArtist) || (!successSong && !loadingSong) ? (
+          <CommandEmpty>{t('search.empty')}</CommandEmpty>
         ) : null}
 
-        {!successArtist && !loadingArtist ? <CommandEmpty>{t('search.empty')}</CommandEmpty> : null}
-
-        {loadingArtist
+        {loadingSong || loadingArtist
           ? Array.from({ length: 3 }).map((_, index) => <ResultSkeleton key={index} />)
           : null}
 
-        {artistResults ? (
+        {songResults && artistResults ? (
           <div className="flex flex-col px-2 py-1">
             <div className="text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-xs outline-hidden select-none pointer-events-none opacity-50">
-              {t('search.resultArtist')}
+              {t('search.result')}
             </div>
-            {artistResults.meta.total > 0 ? (
-              artistResults?.data?.map((artist) => (
-                <ResultArtistSearched
-                  artist={artist}
-                  key={artist.id}
-                  onClose={() => {
-                    setOpen(false);
-                  }}
-                />
-              ))
+            {(songResults && songResults?.meta.total > 0) ||
+            (artistResults && artistResults?.meta.total > 0) ? (
+              <>
+                {songResults?.data?.map((song) => (
+                  <ResultSongSearched
+                    song={song}
+                    key={song.id}
+                    onClose={() => {
+                      setOpen(false);
+                    }}
+                  />
+                ))}
+                {artistResults?.data?.map((artist) => (
+                  <ResultArtistSearched
+                    artist={artist}
+                    key={artist.id}
+                    onClose={() => {
+                      setOpen(false);
+                    }}
+                  />
+                ))}
+              </>
             ) : (
               <div className="py-6 text-center text-sm">{t('search.empty')}</div>
             )}

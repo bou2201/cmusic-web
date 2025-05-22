@@ -11,7 +11,7 @@ export const artistService = {
     return api.get<ApiReturnList<Artist>>(`${API_TAG_BASE}?${queryParams}`);
   },
 
-  getSongById: (id: string) => api.get<Artist>(`${API_TAG_BASE}/${id}`),
+  getArtistById: (id: string) => api.get<Artist>(`${API_TAG_BASE}/${id}`),
 
   createArtist: (payload: any) => api.post<Artist>(`${API_TAG_BASE}`, payload),
 };

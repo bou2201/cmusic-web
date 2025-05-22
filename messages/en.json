@@ -10,6 +10,7 @@
       "history": "Search history",
       "resultArtist": "Search song result",
       "resultSong": "Search artist result",
+      "result": "Search result",
       "empty": "No result."
     },
     "user": {

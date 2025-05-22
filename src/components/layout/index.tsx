@@ -15,7 +15,7 @@ export function MainLayout({ children }: Readonly<{ children: ReactNode }>) {
       <div className="w-full flex flex-col overflow-x-hidden">
         <LayoutHeader />
         <main
-          className={`overflow-y-auto ${track ? 'h-[calc(100vh-144px)]' : 'h-[calc(100vh-60px)]'}`}
+          className={`overflow-y-auto ${track ? 'h-[calc(100vh-137px)]' : 'h-[calc(100vh-60px)]'}`}
         >
           {children}
 

@@ -15,7 +15,7 @@ export default async function manifest(): Promise<MetadataRoute.Manifest> {
     description: t('description'),
     start_url: '/',
     display: 'standalone',
-    background_color: '#0b0809',
-    theme_color: '#ff6cd7',
+    background_color: 'oklch(0.141 0.005 285.823)',
+    theme_color: 'oklch(0.74 0.17 20.56)',
   };
 }

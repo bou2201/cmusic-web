@@ -7,6 +7,7 @@ import { ProgressProvider, QueryProvider, ThemeProvider, UiProvider } from '@/pr
 import { SidebarProvider } from '@/components/ui';
 import { MainLayout } from '@/components/layout';
 import { cookies } from 'next/headers';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Viewport } from 'next';
 
 import '@/styles/globals.css';
@@ -48,6 +49,7 @@ export default async function LocaleLayout({
         className={`${quickSand.className} ${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
+        <SpeedInsights />
         <QueryProvider>
           <NextIntlClientProvider messages={messages}>
             <ThemeProvider

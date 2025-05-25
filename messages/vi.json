@@ -159,7 +159,18 @@
       "featuredAlbum": "Album"
     },
     "artist": {
-      "role": "Nghệ sĩ"
+      "role": "Nghệ sĩ",
+      "followers": "Người theo dõi",
+      "follow": "Theo dõi"
+    }
+  },
+  "Component": {
+    "table": {
+      "record": "Bản ghi",
+      "total": "Tổng",
+      "page": "Trang",
+      "previous": "Trước",
+      "next": "Tiếp"
     }
   }
 }

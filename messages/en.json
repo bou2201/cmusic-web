@@ -159,7 +159,18 @@
       "featuredAlbum": "Album"
     },
     "artist": {
-      "role": "Artist"
+      "role": "Artist",
+      "followers": "Followers",
+      "follow": "Follow"
+    }
+  },
+  "Component": {
+    "table": {
+      "record": "Records",
+      "total": "Total",
+      "page": "Page",
+      "previous": "Previous",
+      "next": "Next"
     }
   }
 }

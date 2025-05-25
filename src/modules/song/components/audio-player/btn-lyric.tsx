@@ -32,7 +32,7 @@ export function BtnLyric() {
         </Button>
       </DispTooltip>
 
-      <DispDrawer open={openLyric} setOpen={setOpenLyric} modal={false}>
+      <DispDrawer open={openLyric} setOpen={setOpenLyric} modal={false} className='px-10'>
         <div className="relative w-full h-screen">
           <div
             className="absolute inset-0 z-0"

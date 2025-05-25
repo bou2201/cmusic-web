@@ -63,6 +63,8 @@ export function PageDetails({ id }: { id: string }) {
     );
   };
 
+  if(!song) return null;
+
   return (
     <SectionDetails
       headerImage={{

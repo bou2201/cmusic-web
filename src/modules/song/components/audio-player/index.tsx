@@ -6,10 +6,12 @@ import { useEffect, useRef, useState } from 'react';
 import { useSongStore } from '../../store';
 import { AudioPlayerMobile } from './audio-player-mobile';
 import { AudioPlayerDesktop } from './audio-player-desktop';
+import { songService } from '../../service';
 
 export function AudioPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const hlsRef = useRef<Hls | null>(null);
+  const playCountedRef = useRef<boolean>(false);
 
   const [duration, setDuration] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
@@ -25,6 +27,15 @@ export function AudioPlayer() {
     addToRecentTracks,
   } = useSongStore((state) => state);
   const isMobile = useIsMobile();
+
+  const increasePlayCount = () => {
+    if (track && track.id && !playCountedRef.current) {
+      songService
+        .increasePlaySong(track.id)
+        .catch((err) => console.error('Failed to increase play count:', err));
+      playCountedRef.current = true;
+    }
+  };
 
   // Save player state to localStorage
   useEffect(() => {
@@ -58,6 +69,10 @@ export function AudioPlayer() {
 
     const audio = audioRef.current;
     if (!audio || !track) return;
+
+    audio.volume = volume;
+    audio.loop = repeatMode === 'one';
+    playCountedRef.current = false;
 
     addToRecentTracks(track);
 
@@ -98,7 +113,10 @@ export function AudioPlayer() {
     //   console.error('HLS not supported in this browser');
     // }
 
-    const handlePlay = () => setIsPlaying(true);
+    const handlePlay = () => {
+      setIsPlaying(true);
+      increasePlayCount();
+    };
     const handlePause = () => setIsPlaying(false);
     const updateTime = () => setCurrentTime(audio.currentTime);
     const updateDuration = () => setDuration(audio.duration);
@@ -130,6 +148,7 @@ export function AudioPlayer() {
       setIsPlaying(false);
       setIsLoading(false);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addToRecentTracks, setIsLoading, setIsPlaying, setTrack, track]);
 
   // Side effect to handle audio playback end
@@ -139,29 +158,37 @@ export function AudioPlayer() {
 
     const handleEnded = () => {
       if (repeatMode === 'one') {
-        // For repeat one, manually restart the track
         audio.currentTime = 0;
+        playCountedRef.current = false;
         audio
           .play()
-          .then(() => setIsPlaying(true))
+          .then(() => {
+            setIsPlaying(true);
+            increasePlayCount();
+          })
           .catch((err) => console.error('Repeat one failed:', err));
         return;
-      } else if (repeatMode === 'all') {
-        // For repeat all, restart the current track
-        audio.currentTime = 0;
-        audio
-          .play()
-          .then(() => setIsPlaying(true))
-          .catch((err) => console.error('Auto-play failed:', err));
-      } else {
-        // Default behavior - stop playing
-        setIsPlaying(false);
-        setCurrentTime(0);
       }
 
-      // Here you would add logic to play the next track if shuffle is on
+      // Repeat all (current implementation just restarts same track)
+      if (repeatMode === 'all') {
+        audio.currentTime = 0;
+        playCountedRef.current = false;
+        audio
+          .play()
+          .then(() => {
+            setIsPlaying(true);
+            increasePlayCount();
+          })
+          .catch((err) => console.error('Repeat all failed:', err));
+        return;
+      }
+
+      // No repeat
+      setIsPlaying(false);
+      setCurrentTime(0);
+
       if (isShuffle) {
-        // Implement shuffle logic here
         console.log('Shuffle is on, would play random track next');
       }
     };
@@ -171,6 +198,7 @@ export function AudioPlayer() {
     return () => {
       audio.removeEventListener('ended', handleEnded);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [repeatMode, isShuffle, setIsPlaying]);
 
   // Side effect to update the volume when the volume state changes

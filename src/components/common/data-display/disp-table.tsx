@@ -39,6 +39,8 @@ export type DispTableProps<TData, TValue> = {
   cnSkeleton?: string;
   titleNoResult?: string;
   showHeader?: boolean;
+  onRowMouseEnter?: (rowIndex: number) => void;
+  onRowMouseLeave?: () => void;
 };
 
 export type DispTableLoadingProps<TData> = {
@@ -65,6 +67,8 @@ export function DispTable<TData, TValue>({
   cnSkeleton,
   titleNoResult,
   showHeader = true,
+  onRowMouseEnter,
+  onRowMouseLeave,
 }: DispTableProps<TData, TValue>) {
   const table = useReactTable<TData>({
     data,
@@ -118,6 +122,8 @@ export function DispTable<TData, TValue>({
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
                     className={cnTableRow}
+                    onMouseEnter={() => onRowMouseEnter?.(row.index)}
+                    onMouseLeave={onRowMouseLeave}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell

@@ -1,3 +1,4 @@
+import { useSongStore } from '../store';
 import { Song } from '../types';
 
 // Get initial values player audio from localStorage if available
@@ -115,4 +116,20 @@ export function processLyricsWithViewMore(
     html: displayedLyrics.replace(/\n/g, '<br />'),
     hasMoreLines,
   };
+}
+
+export function isCurrentlyPlaying(
+  song: Song,
+  options: {
+    track: Song | null;
+    playlist: Song[];
+    currentTrackIndex: number;
+    isPlaying: boolean;
+  },
+): boolean {
+  const { track, playlist, currentTrackIndex, isPlaying } = options;
+
+  return (
+    isPlaying && ((track && track.id === song.id) || playlist[currentTrackIndex]?.id === song.id)
+  );
 }

@@ -3,20 +3,23 @@
 import { Button, Skeleton } from '@/components/ui';
 import { Routes } from '@/constants/routes';
 import { Link, useRouter } from '@/i18n/navigation';
-import { Song, useSongStore } from '@/modules/song';
+import { isCurrentlyPlaying, Song, useSongStore } from '@/modules/song';
 import { getArtistName } from '@/utiils/function';
 import { PlayIcon } from 'lucide-react';
 import Image from 'next/image';
+import { DispAnimationWave } from '../data-display/disp-animation';
 
 export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large' }) {
-  const setTrack = useSongStore((state) => state.setTrack);
+  const { track, setTrack, playlist, isPlaying, currentTrackIndex } = useSongStore(
+    (state) => state,
+  );
 
   const router = useRouter();
 
   if (size === 'small') {
     return (
       <div className="flex gap-3 p-3 rounded-md hover:bg-neutral-800 transition cursor-pointer">
-        <div className="w-12 h-12 rounded-md shrink-0">
+        <div className="w-12 h-12 rounded-md shrink-0 relative">
           <Image
             src={song.cover?.url ?? '/images/song-default-white.png'}
             alt={song.title}
@@ -24,6 +27,14 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
             width={100}
             className="object-cover w-full h-full rounded-md"
           />
+          {isCurrentlyPlaying(song, { currentTrackIndex, isPlaying, playlist, track }) ? (
+            <>
+              <div className="absolute inset-0 bg-black/50"></div>
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <DispAnimationWave />
+              </div>
+            </>
+          ) : null}
         </div>
         <div
           className="flex justify-between gap-5 items-center w-full overflow-hidden"

@@ -2,7 +2,7 @@
 
 import { useIsMobile } from '@/hooks/use-mobile';
 import Hls from 'hls.js';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSongStore } from '../../store';
 import { AudioPlayerMobile } from './audio-player-mobile';
 import { AudioPlayerDesktop } from './audio-player-desktop';
@@ -19,6 +19,9 @@ export function AudioPlayer() {
   const {
     track,
     setTrack,
+    playlist,
+    currentTrackIndex,
+    nextTrack,
     setIsLoading,
     setIsPlaying,
     volume,
@@ -28,14 +31,14 @@ export function AudioPlayer() {
   } = useSongStore((state) => state);
   const isMobile = useIsMobile();
 
-  const increasePlayCount = () => {
+  const increasePlayCount = useCallback(() => {
     if (track && track.id && !playCountedRef.current) {
       songService
         .increasePlaySong(track.id)
         .catch((err) => console.error('Failed to increase play count:', err));
       playCountedRef.current = true;
     }
-  };
+  }, [track]);
 
   // Save player state to localStorage
   useEffect(() => {
@@ -170,27 +173,28 @@ export function AudioPlayer() {
         return;
       }
 
-      // Repeat all (current implementation just restarts same track)
-      if (repeatMode === 'all') {
-        audio.currentTime = 0;
-        playCountedRef.current = false;
-        audio
-          .play()
-          .then(() => {
-            setIsPlaying(true);
-            increasePlayCount();
-          })
-          .catch((err) => console.error('Repeat all failed:', err));
-        return;
+      if (playlist && playlist.length > 0) {
+        if (isShuffle) {
+          // Play a random track from the playlist
+          const randomIndex = Math.floor(Math.random() * playlist.length);
+          // Avoid playing the same track again
+          const nextIndex =
+            randomIndex === currentTrackIndex ? (randomIndex + 1) % playlist.length : randomIndex;
+
+          nextTrack(nextIndex);
+          return;
+        }
+
+        // Check if we're not at the end of the playlist or repeat all is on
+        if (currentTrackIndex < playlist.length - 1 || repeatMode === 'all') {
+          nextTrack();
+          return;
+        }
       }
 
       // No repeat
       setIsPlaying(false);
       setCurrentTime(0);
-
-      if (isShuffle) {
-        console.log('Shuffle is on, would play random track next');
-      }
     };
 
     audio.addEventListener('ended', handleEnded);
@@ -198,8 +202,15 @@ export function AudioPlayer() {
     return () => {
       audio.removeEventListener('ended', handleEnded);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [repeatMode, isShuffle, setIsPlaying]);
+  }, [
+    repeatMode,
+    isShuffle,
+    setIsPlaying,
+    playlist,
+    increasePlayCount,
+    currentTrackIndex,
+    nextTrack,
+  ]);
 
   // Side effect to update the volume when the volume state changes
   useEffect(() => {

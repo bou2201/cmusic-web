@@ -121,7 +121,8 @@
       "turnOnRepeatOne": "Repeat one",
       "turnOffRepeat": "Turn off repeat",
       "turnOnLyrics": "Show lyrics",
-      "noLyrics": "No lyrics available."
+      "noLyrics": "No lyrics available.",
+      "playlist": "Playlist"
     },
     "songDetails": {
       "title": "Track",

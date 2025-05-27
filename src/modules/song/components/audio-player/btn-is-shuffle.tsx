@@ -23,7 +23,7 @@ export function BtnIsShuffle() {
         className={`rounded-full ${isShuffle ? 'text-primary-pink hover:text-primary-pink/70' : 'hover:text-primary/70'}`}
         variant="ghost"
       >
-        <Shuffle className="!h-[18px] !w-[18px]" />
+        <Shuffle />
       </Button>
     </DispTooltip>
   );

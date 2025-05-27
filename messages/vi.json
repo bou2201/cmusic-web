@@ -121,7 +121,8 @@
       "turnOnRepeatOne": "Bật phát lại một bài",
       "turnOffRepeat": "Tắt phát lại tất cả",
       "turnOnLyrics": "Bật lyrics",
-      "noLyrics": "Chưa có lyrics"
+      "noLyrics": "Chưa có lyrics",
+      "playlist": "Danh sách phát"
     },
     "songDetails": {
       "title": "Bài hát",

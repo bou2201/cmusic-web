@@ -1,24 +1,26 @@
 'use client';
-import { DispTable } from '@/components/common';
+import { DispAnimationWave, DispTable } from '@/components/common';
 import { Button } from '@/components/ui';
 import { Routes } from '@/constants/routes';
 import { Link } from '@/i18n/navigation';
-import { formatNumber, Song, songService, useSongStore } from '@/modules/song';
+import { formatNumber, isCurrentlyPlaying, Song, useSongStore } from '@/modules/song';
 import { formatDuration } from '@/utiils/function';
-import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { Ellipsis, Play } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
+import { ApiReturnList } from '~types/common';
 
-export function TablePopularTrack({ artistId }: { artistId: string }) {
+type TablePopularTrackProps = {
+  songResults?: ApiReturnList<Song>;
+  songLoading?: boolean;
+};
+
+export function TablePopularTrack({ songLoading, songResults }: TablePopularTrackProps) {
   const [hoveredRowIndex, setHoveredRowIndex] = useState<number | null>(null);
-  const setTrack = useSongStore((state) => state.setTrack);
-
-  const { data: songResults, isLoading: songLoading } = useQuery({
-    queryKey: ['song', 'artist-details', artistId],
-    queryFn: () => songService.getListSong({ page: 1, limit: 10, artistId }),
-  });
+  const { setPlaylist, track, playlist, currentTrackIndex, isPlaying } = useSongStore(
+    (state) => state,
+  );
 
   const columns: ColumnDef<Song>[] = [
     {
@@ -30,7 +32,7 @@ export function TablePopularTrack({ artistId }: { artistId: string }) {
               size="icon"
               variant="ghost"
               onClick={() => {
-                setTrack(row.original);
+                setPlaylist(songResults?.data as Song[], row.index);
               }}
             >
               <Play className="fill-primary" />
@@ -46,7 +48,7 @@ export function TablePopularTrack({ artistId }: { artistId: string }) {
       id: 'title',
       cell: ({ row }) => (
         <div className="flex items-center gap-5">
-          <div className="w-12 h-12 shrink-0">
+          <div className="w-12 h-12 shrink-0 relative">
             <Image
               src={row.original.cover?.url ?? '/images/song-default-white.png'}
               alt={row.original.title}
@@ -54,6 +56,14 @@ export function TablePopularTrack({ artistId }: { artistId: string }) {
               height={200}
               className="w-ful h-full object-cover rounded-md"
             />
+            {isCurrentlyPlaying(row.original, { currentTrackIndex, isPlaying, playlist, track }) ? (
+              <>
+                <div className="absolute inset-0 bg-black/50"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <DispAnimationWave />
+                </div>
+              </>
+            ) : null}
           </div>
           <Link
             href={`${Routes.Songs}/${row.original.id}`}

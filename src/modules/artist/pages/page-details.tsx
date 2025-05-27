@@ -8,14 +8,22 @@ import { NextIntl } from '~types/next-intl';
 import { Button } from '@/components/ui';
 import { Play, Plus } from 'lucide-react';
 import { TablePopularTrack } from '../components';
+import { Song, songService, useSongStore } from '@/modules/song';
 
 export function PageDetails({ id }: { id: string }) {
   const tSectionArt = useTranslations<NextIntl.Namespace<'Section.artist'>>('Section.artist');
   const tSectionSong = useTranslations<NextIntl.Namespace<'Section.song'>>('Section.song');
 
-  const { data: artist, isLoading } = useQuery({
+  const setPlayList = useSongStore((state) => state.setPlaylist);
+
+  const { data: artist } = useQuery({
     queryKey: ['artist-details', id],
     queryFn: () => artistService.getArtistById(id),
+  });
+
+  const { data: songResults, isLoading: songLoading } = useQuery({
+    queryKey: ['song', 'artist-details', id],
+    queryFn: () => songService.getListSong({ page: 1, limit: 10, artistId: id }),
   });
 
   const renderHeaderContent = () => {
@@ -49,9 +57,12 @@ export function PageDetails({ id }: { id: string }) {
       <div className="flex items-center gap-5">
         <Button
           variant="primary"
-          onClick={() => {}}
+          onClick={() => {
+            setPlayList(songResults?.data as Song[]);
+          }}
           size="icon"
           className="rounded-full w-14 h-14 group"
+          disabled={!songResults}
         >
           <Play className="fill-primary stroke-primary !h-6 !w-6" />
         </Button>
@@ -59,7 +70,7 @@ export function PageDetails({ id }: { id: string }) {
 
       <div>
         <h3 className="font-bold my-6 text-2xl">{tSectionSong('featuredSong')}</h3>
-        <TablePopularTrack artistId={artist.id} />
+        <TablePopularTrack songLoading={songLoading} songResults={songResults} />
       </div>
     </SectionDetails>
   );

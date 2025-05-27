@@ -50,11 +50,7 @@ export function BtnRepeat({ audioRef }: { audioRef: React.RefObject<HTMLAudioEle
         className={`rounded-full ${repeatMode !== 'off' ? 'text-primary-pink hover:text-primary-pink/70' : 'hover:text-primary/70'}`}
         variant="ghost"
       >
-        {repeatMode === 'one' ? (
-          <Repeat1 className="!h-[18px] !w-[18px]" />
-        ) : (
-          <Repeat className="!h-[18px] !w-[18px]" />
-        )}
+        {repeatMode === 'one' ? <Repeat1 /> : <Repeat />}
       </Button>
     </DispTooltip>
   );

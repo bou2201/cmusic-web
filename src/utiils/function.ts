@@ -1,3 +1,4 @@
+import { Routes } from '@/constants/routes';
 import { Artist } from '@/modules/artist';
 
 export function objectToQueryString(params: Record<string, any>): string {
@@ -35,4 +36,24 @@ export function getArtistName(artist: Artist, featArtist: Artist[]): string {
   }
 
   return artist.name;
+}
+
+export function getArtistInfo(
+  artist: Artist,
+  featArtist: Artist[] = [],
+): Array<{ name: string; href: string }> {
+  if (featArtist && featArtist.length > 0) {
+    const allArtists = [artist, ...featArtist];
+    return allArtists.map((art) => ({
+      name: art.name,
+      href: `${Routes.Artists}/${art.id}`,
+    }));
+  }
+
+  return [
+    {
+      name: artist.name,
+      href: `${Routes.Artists}/${artist.id}`,
+    },
+  ];
 }

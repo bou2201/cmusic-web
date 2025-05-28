@@ -122,7 +122,9 @@
       "turnOffRepeat": "Turn off repeat",
       "turnOnLyrics": "Show lyrics",
       "noLyrics": "No lyrics available.",
-      "playlist": "Playlist"
+      "playlist": "Playlist",
+      "noPlaylist": "No playlist available",
+      "playing": "Playing"
     },
     "songDetails": {
       "title": "Track",

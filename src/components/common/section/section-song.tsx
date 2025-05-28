@@ -4,10 +4,92 @@ import { Button, Skeleton } from '@/components/ui';
 import { Routes } from '@/constants/routes';
 import { Link, useRouter } from '@/i18n/navigation';
 import { isCurrentlyPlaying, Song, useSongStore } from '@/modules/song';
-import { getArtistName } from '@/utiils/function';
 import { PlayIcon } from 'lucide-react';
 import Image from 'next/image';
 import { DispAnimationWave } from '../data-display/disp-animation';
+import { ViewRedirectArtist } from '@/modules/artist';
+
+export function SectionSongInPlayListPlaying({ song }: { song: Song }) {
+  const { track, playlist, isPlaying, currentTrackIndex } = useSongStore((state) => state);
+  return (
+    <div className="flex gap-3 p-2 rounded-md hover:bg-neutral-800 transition cursor-pointer">
+      <div className="w-11 h-11 rounded-md shrink-0 relative">
+        <Image
+          src={song.cover?.url ?? '/images/song-default-white.png'}
+          alt={song.title}
+          height={100}
+          width={100}
+          className="object-cover w-full h-full rounded-md"
+        />
+        {isCurrentlyPlaying(song, { currentTrackIndex, isPlaying, playlist, track }) ? (
+          <>
+            <div className="absolute inset-0 bg-black/50"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <DispAnimationWave />
+            </div>
+          </>
+        ) : null}
+      </div>
+      <div className="flex justify-between gap-3 items-center w-full overflow-hidden">
+        <div className="flex flex-col truncate">
+          <Link
+            href={`${Routes.Songs}/${song.id}`}
+            className="font-semibold text-sm truncate hover:underline"
+            title={song.title}
+          >
+            {song.title}
+          </Link>
+          <div>
+            <ViewRedirectArtist artist={song.artist} artists={song.artists} className="text-xs" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function SectionSongInPlaylist({ song, indexSong }: { song: Song; indexSong: number }) {
+  const { setPlaylist, playlist } = useSongStore((state) => state);
+
+  return (
+    <div className="flex gap-3 p-2 rounded-md hover:bg-neutral-800 transition cursor-pointer">
+      <div className="w-11 h-11 rounded-md shrink-0 relative">
+        <Image
+          src={song.cover?.url ?? '/images/song-default-white.png'}
+          alt={song.title}
+          height={100}
+          width={100}
+          className="object-cover w-full h-full rounded-md"
+        />
+      </div>
+      <div className="flex justify-between gap-3 items-center w-full overflow-hidden">
+        <div className="flex flex-col truncate">
+          <Link
+            href={`${Routes.Songs}/${song.id}`}
+            className="font-semibold text-sm truncate hover:underline"
+            title={song.title}
+          >
+            {song.title}
+          </Link>
+          <div>
+            <ViewRedirectArtist artist={song.artist} artists={song.artists} className="text-xs" />
+          </div>
+        </div>
+        <Button
+          className="rounded-full w-8 h-8 shrink-0"
+          onClick={(e) => {
+            e.stopPropagation();
+            setPlaylist(playlist, indexSong);
+          }}
+          size="icon"
+          variant="ghost"
+        >
+          <PlayIcon />
+        </Button>
+      </div>
+    </div>
+  );
+}
 
 export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large' }) {
   const { track, setTrack, playlist, isPlaying, currentTrackIndex } = useSongStore(
@@ -50,12 +132,9 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
             >
               {song.title}
             </Link>
-            <p
-              className="text-neutral-400 text-sm truncate"
-              title={getArtistName(song.artist, song.artists)}
-            >
-              {getArtistName(song.artist, song.artists)}
-            </p>
+            <div>
+              <ViewRedirectArtist artist={song.artist} artists={song.artists} />
+            </div>
           </div>
           <Button
             className="rounded-full bg-primary-pink hover:bg-primary-pink/80 p-3 drop-shadow-md transition w-8 h-8 shrink-0"
@@ -107,12 +186,9 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
         >
           {song.title}
         </Link>
-        <p
-          className="text-neutral-400 text-sm truncate"
-          title={getArtistName(song.artist, song.artists)}
-        >
-          {getArtistName(song.artist, song.artists)}
-        </p>
+        <div>
+          <ViewRedirectArtist artist={song.artist} artists={song.artists} />
+        </div>
       </div>
     </div>
   );

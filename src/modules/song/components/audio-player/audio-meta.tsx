@@ -4,8 +4,7 @@ import { Routes } from '@/constants/routes';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import { useSongStore } from '../../store';
-import { getArtistName } from '@/utiils/function';
-import { Artist } from '@/modules/artist';
+import { Artist, ViewRedirectArtist } from '@/modules/artist';
 import { Button } from '@/components/ui';
 import { Heart } from 'lucide-react';
 
@@ -31,9 +30,9 @@ export function AudioMeta() {
         >
           {track?.title}
         </Link>
-        <p className="text-sm text-zinc-400 truncate">
-          {getArtistName(track?.artist as Artist, track?.artists ?? [])}
-        </p>
+        <div>
+          <ViewRedirectArtist artist={track?.artist as Artist} artists={track?.artists ?? []} />
+        </div>
       </div>
       <Button variant="ghost" size="icon" className="shrink-0">
         <Heart />

@@ -5,9 +5,11 @@ import { LayoutSidebar } from './layout-sidebar';
 import { LayoutHeader } from './layout-header';
 import { LayoutFooter } from './layout-footer';
 import { useSongStore } from '@/modules/song';
+import { LayoutPlaylist } from './layout-playllist';
 
 export function MainLayout({ children }: Readonly<{ children: ReactNode }>) {
   const track = useSongStore((state) => state.track);
+  const openPlayList = useSongStore((state) => state.openPlayList);
 
   return (
     <>
@@ -22,6 +24,11 @@ export function MainLayout({ children }: Readonly<{ children: ReactNode }>) {
           {/* <LayoutFooter /> */}
         </main>
       </div>
+      {openPlayList ? (
+        <div className="relative">
+          <LayoutPlaylist />
+        </div>
+      ) : null}
     </>
   );
 }

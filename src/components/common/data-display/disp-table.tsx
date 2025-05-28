@@ -70,6 +70,8 @@ export function DispTable<TData, TValue>({
   onRowMouseEnter,
   onRowMouseLeave,
 }: DispTableProps<TData, TValue>) {
+  'use no memo';
+
   const table = useReactTable<TData>({
     data,
     columns,

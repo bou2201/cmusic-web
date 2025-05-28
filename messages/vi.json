@@ -122,7 +122,9 @@
       "turnOffRepeat": "Tắt phát lại tất cả",
       "turnOnLyrics": "Bật lyrics",
       "noLyrics": "Chưa có lyrics",
-      "playlist": "Danh sách phát"
+      "playlist": "Danh sách phát",
+      "noPlaylist": "Chưa có danh sách phát",
+      "playing": "Đang phát"
     },
     "songDetails": {
       "title": "Bài hát",

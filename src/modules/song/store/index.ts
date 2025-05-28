@@ -18,6 +18,7 @@ type SongState = {
   volume: number;
   isShuffle: boolean;
   repeatMode: 'off' | 'all' | 'one';
+  openPlayList: boolean;
 };
 
 type SongAction = {
@@ -33,6 +34,7 @@ type SongAction = {
   setVolume: (volume: number) => void;
   setIsShuffle: (isShuffle: boolean) => void;
   setRepeatMode: (repeatMode: 'off' | 'all' | 'one') => void;
+  setOpenPlayList: (openPlayList: boolean) => void;
 };
 
 const initialValues: SongState = {
@@ -45,6 +47,7 @@ const initialValues: SongState = {
   volume: getInitialVolume(),
   isShuffle: getInitialShuffle(),
   repeatMode: getInitialRepeatMode(),
+  openPlayList: false,
 };
 
 export const useSongStore = create<SongState & SongAction>((set, get) => ({
@@ -118,4 +121,5 @@ export const useSongStore = create<SongState & SongAction>((set, get) => ({
   setVolume: (volume: number) => set({ volume }),
   setIsShuffle: (isShuffle: boolean) => set({ isShuffle }),
   setRepeatMode: (repeatMode: 'off' | 'all' | 'one') => set({ repeatMode }),
+  setOpenPlayList: (openPlayList: boolean) => set({ openPlayList }),
 }));

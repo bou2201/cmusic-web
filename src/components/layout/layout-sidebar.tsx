@@ -105,7 +105,7 @@ export function LayoutSidebar() {
     <div className="relative">
       <Sidebar
         collapsible="icon"
-        className={`top-2 left-2 h-auto [&>div]:rounded-2xl !border-r-0 ${track ? 'bottom-20' : 'bottom-2'}`}
+        className={`top-2 left-2 h-auto [&>div]:rounded-xl !border-r-0 ${track ? 'bottom-20' : 'bottom-2'}`}
       >
         <LayoutSidebarHeader />
         <LayoutSidebarContent />

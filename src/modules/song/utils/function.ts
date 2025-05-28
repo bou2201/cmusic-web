@@ -1,4 +1,3 @@
-import { useSongStore } from '../store';
 import { Song } from '../types';
 
 // Get initial values player audio from localStorage if available

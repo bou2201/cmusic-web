@@ -35,6 +35,7 @@ function UserButton() {
     onSuccess: () => {
       clearAuth();
       toast(tAuth('alert.logoutSuccess'));
+      window.location.reload();
     },
     onError: () => {
       toast.error(tAuth('alert.logoutFailed'));
@@ -94,12 +95,12 @@ function UserButton() {
         modal={false}
       >
         {user ? (
-          <Button variant="ghost" className='!h-10'>
+          <Button variant="ghost" className="!h-10">
             <User className="!w-5 !h-5" />
             <span>{user.name}</span>
           </Button>
         ) : (
-          <Button size="icon" variant="ghost" className='!h-10 !w-10'>
+          <Button size="icon" variant="ghost" className="!h-10 !w-10">
             <User className="!w-5 !h-5" />
           </Button>
         )}

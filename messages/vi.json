@@ -95,6 +95,11 @@
   "FavoriteSongsPage": {
     "metadata": {
       "title": "Yêu thích"
+    },
+    "section": {
+      "song": "Bài hát yêu thích",
+      "artist": "Ca sĩ yêu thích",
+      "album": "Album yêu thích"
     }
   },
   "RecentlyPlayedPage": {

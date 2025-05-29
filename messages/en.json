@@ -95,6 +95,11 @@
   "FavoriteSongsPage": {
     "metadata": {
       "title": "Favorites Songs"
+    },
+    "section": {
+      "song": "Favorite Songs",
+      "artist": "Favorite Artists",
+      "album": "Favorite Albums"
     }
   },
   "RecentlyPlayedPage": {

@@ -36,6 +36,8 @@ export function AuthLogin({ open, setOpen }: DialogState) {
       }
       toast(t('alert.loginSuccess'), { position: 'top-right' });
       setOpen(false);
+
+      window.location.reload();
     },
     onError: (error: ApiReturn<any>) => {
       if (error.status === HttpStatusCode.Unauthorized) {

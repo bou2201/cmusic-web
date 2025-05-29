@@ -5,7 +5,7 @@ import { LayoutSidebar } from './layout-sidebar';
 import { LayoutHeader } from './layout-header';
 import { LayoutFooter } from './layout-footer';
 import { useSongStore } from '@/modules/song';
-import { LayoutPlaylist } from './layout-playllist';
+import { LayoutPlaylist } from './layout-playlist';
 
 export function MainLayout({ children }: Readonly<{ children: ReactNode }>) {
   const track = useSongStore((state) => state.track);

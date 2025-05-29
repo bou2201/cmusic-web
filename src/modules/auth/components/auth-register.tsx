@@ -38,6 +38,8 @@ export function AuthRegister({ open, setOpen }: DialogState) {
       }
       toast(t('alert.registerSuccess'), { position: 'top-right' });
       setOpen(false);
+
+      window.location.reload();
     },
     onError: (error: ApiReturn<any>) => {
       if (error.status === HttpStatusCode.Conflict) {

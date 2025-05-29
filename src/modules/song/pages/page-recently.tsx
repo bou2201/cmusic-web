@@ -11,7 +11,6 @@ export function PageRecently() {
   const t = useTranslations<NextIntl.Namespace<'RecentlyPlayedPage.section'>>(
     'RecentlyPlayedPage.section',
   );
-  const tEmpty = useTranslations<NextIntl.Namespace<'Header.search'>>('Header.search');
 
   return (
     <SectionBanner isViewAll={false} isCarousel={false} title={t('title')}>

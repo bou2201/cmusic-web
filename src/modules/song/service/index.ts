@@ -23,7 +23,7 @@ export const songService = {
 
   toggleTrending: (id: string) => api.patch<Song>(`${API_TAG_BASE}/${id}/trending`, {}),
 
-  toggleLike: (id: string) => api.patch<Song>(`${API_TAG_BASE}/${id}/like`, {}),
+  toggleLike: (id: string) => api.post<Song>(`${API_TAG_BASE}/${id}/like`, {}),
 
   getSongsLiked: (params: PaginationReq) =>
     api.get<ApiReturnList<Song>>(

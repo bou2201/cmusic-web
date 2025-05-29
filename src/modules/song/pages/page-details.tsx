@@ -16,6 +16,7 @@ import { Song } from '../types';
 import { Heart, Play } from 'lucide-react';
 import { useState } from 'react';
 import { Artist } from '@/modules/artist';
+import { BtnLikeSong } from '../components/audio-player/btn-like-song';
 
 export function PageDetails({ id }: { id: string }) {
   const [showFullLyrics, setShowFullLyrics] = useState<boolean>(false);
@@ -63,7 +64,7 @@ export function PageDetails({ id }: { id: string }) {
     );
   };
 
-  if(!song) return null;
+  if (!song) return null;
 
   return (
     <SectionDetails
@@ -85,9 +86,7 @@ export function PageDetails({ id }: { id: string }) {
           <Play className="fill-primary stroke-primary !h-6 !w-6" />
         </Button>
 
-        <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full">
-          <Heart className="!w-6 !h-6 opacity-80" />
-        </Button>
+        <BtnLikeSong size="large" songId={song.id} />
       </div>
 
       <div className="grid grid-cols-2 gap-5">

@@ -5,8 +5,7 @@ import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import { useSongStore } from '../../store';
 import { Artist, ViewRedirectArtist } from '@/modules/artist';
-import { Button } from '@/components/ui';
-import { Heart } from 'lucide-react';
+import { BtnLikeSong } from './btn-like-song';
 
 export function AudioMeta() {
   const track = useSongStore((state) => state.track);
@@ -34,9 +33,8 @@ export function AudioMeta() {
           <ViewRedirectArtist artist={track?.artist as Artist} artists={track?.artists ?? []} />
         </div>
       </div>
-      <Button variant="ghost" size="icon" className="shrink-0">
-        <Heart />
-      </Button>
+
+      <BtnLikeSong songId={track?.id ?? ''} />
     </div>
   );
 }

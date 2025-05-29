@@ -17,6 +17,7 @@ export type Song = {
   updatedAt: string;
   isPublic: boolean;
   lyrics: string;
+  isLiked: boolean;
   isExplicit: boolean;
   artist: Artist;
   artists: Artist[];

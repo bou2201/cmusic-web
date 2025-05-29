@@ -1,7 +1,8 @@
-import { authService } from './../../modules/auth/service/index';
+import { authService, useAuthStore } from './../../modules/auth';
 import { getCookie, setCookie } from '../cookie';
 import { ApiReturn } from '~types/common';
 import { HttpStatusCode } from '@/constants/http-status-code';
+import { Routes } from '@/constants/routes';
 
 type RequestInterceptor = (config: RequestInit) => RequestInit | Promise<RequestInit>;
 type ResponseInterceptor<T = any> = (response: Response) => T | Promise<T>;
@@ -49,9 +50,9 @@ class CustomFetch {
     if (response.status === HttpStatusCode.Unauthorized) {
       const refreshTokenValue = getCookie('refreshToken');
 
-      const isLogoutEndpoint = response.url.includes('/auth/logout');
+      // const isLogoutEndpoint = response.url.includes('/auth/logout');
 
-      if (refreshTokenValue && !isLogoutEndpoint) {
+      if (refreshTokenValue) {
         try {
           // Get new tokens
           const authData = await authService.refreshToken(refreshTokenValue);
@@ -65,12 +66,26 @@ class CustomFetch {
           originalRequest.headers.set('Authorization', `Bearer ${authData.accessToken}`);
 
           // Make a new request with the updated token
-          return await fetch(originalRequest).then((newResponse) =>
-            this.processResponseInterceptors(newResponse),
-          );
+          // return await fetch(originalRequest).then((newResponse) =>
+          //   this.processResponseInterceptors(newResponse),
+          // );
+
+          const newResponse = await fetch(originalRequest);
+
+          if (newResponse.status === HttpStatusCode.Unauthorized) {
+            useAuthStore.getState().clearAuth();
+            window.location.href = Routes.Discover;
+            throw new Error('Unauthorized after token refresh. Forcing logout or redirect.');
+          }
+
+          return this.processResponseInterceptors(newResponse);
         } catch (error) {
           // If refresh fails, proceed with error
+          useAuthStore.getState().clearAuth();
+          window.location.href = Routes.Discover;
+
           console.error('Token refresh failed:', error);
+          throw new Error('Refresh token expired or invalid. Please login again.');
         }
       }
     }

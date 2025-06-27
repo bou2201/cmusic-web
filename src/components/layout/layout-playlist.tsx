@@ -6,12 +6,12 @@ import { NextIntl } from '~types/next-intl';
 import { DispEmpty, SectionSongInPlaylist, SectionSongInPlayListPlaying } from '../common';
 
 export function LayoutPlaylist() {
-  const { track, playlist, setPlaylist } = useSongStore((state) => state);
+  const { track, playlist } = useSongStore((state) => state);
 
   const t = useTranslations<NextIntl.Namespace<'SongsPage.audioPlayer'>>('SongsPage.audioPlayer');
 
   return (
-    <div className="top-2 left-2 bg-sidebar rounded-xl w-80 bottom-20 h-[calc(100vh-88px)]">
+    <div className="top-2 left-2 bg-sidebar rounded-xl w-80 bottom-20 h-[calc(100vh-88px)] overflow-y-auto">
       <div className="py-4 px-2">
         {track ? (
           <>

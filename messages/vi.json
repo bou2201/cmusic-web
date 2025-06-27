@@ -69,6 +69,12 @@
         "recently-played": "Gần đây",
         "favorite": "Yêu thích"
       }
+    },
+    "admin": {
+      "title": "Admin",
+      "items": {
+        "adminPage": "Trang quản trị"
+      }
     }
   },
   "HomePage": {

@@ -1,12 +1,14 @@
 'use client';
+
 import { DispAnimationWave, DispTable } from '@/components/common';
 import { Button } from '@/components/ui';
 import { Routes } from '@/constants/routes';
 import { Link } from '@/i18n/navigation';
+import { cn } from '@/lib/utils';
 import { formatNumber, isCurrentlyPlaying, Song, useSongStore } from '@/modules/song';
 import { formatDuration } from '@/utiils/function';
 import { ColumnDef } from '@tanstack/react-table';
-import { Ellipsis, Play } from 'lucide-react';
+import { AudioLines, Ellipsis, Play } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 import { ApiReturnList } from '~types/common';
@@ -25,54 +27,70 @@ export function TablePopularTrack({ songLoading, songResults }: TablePopularTrac
   const columns: ColumnDef<Song>[] = [
     {
       id: 'index',
-      cell: ({ row }) => (
-        <div className="text-center">
-          {hoveredRowIndex === row.index ? (
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => {
-                setPlaylist(songResults?.data as Song[], row.index);
-              }}
-            >
-              <Play className="fill-primary" />
-            </Button>
-          ) : (
-            <div className="font-bold opacity-80">{row.index + 1}</div>
-          )}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const hovered = hoveredRowIndex === row.index;
+        const isRowPlaying = isCurrentlyPlaying(row.original, {
+          currentTrackIndex,
+          isPlaying,
+          playlist,
+          track,
+        });
+
+        return (
+          <div className="text-center flex justify-center">
+            {hovered ? (
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={() => {
+                  setPlaylist(songResults?.data as Song[], row.index);
+                }}
+              >
+                <Play className="fill-primary" />
+              </Button>
+            ) : isRowPlaying ? (
+              <AudioLines className="fill-primary-pink stroke-primary-pink w-5" />
+            ) : (
+              <div className="font-bold opacity-80">{row.index + 1}</div>
+            )}
+          </div>
+        );
+      },
       size: 5,
     },
     {
       id: 'title',
-      cell: ({ row }) => (
-        <div className="flex items-center gap-5">
-          <div className="w-12 h-12 shrink-0 relative">
-            <Image
-              src={row.original.cover?.url ?? '/images/song-default-white.png'}
-              alt={row.original.title}
-              width={200}
-              height={200}
-              className="w-ful h-full object-cover rounded-md"
-            />
-            {isCurrentlyPlaying(row.original, { currentTrackIndex, isPlaying, playlist, track }) ? (
-              <>
-                <div className="absolute inset-0 bg-black/50"></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <DispAnimationWave />
-                </div>
-              </>
-            ) : null}
+      cell: ({ row }) => {
+        const isRowPlaying = isCurrentlyPlaying(row.original, {
+          currentTrackIndex,
+          isPlaying,
+          playlist,
+          track,
+        });
+
+        return (
+          <div className="flex items-center gap-5">
+            <div className="w-12 h-12 shrink-0 relative">
+              <Image
+                src={row.original.cover?.url ?? '/images/song-default-white.png'}
+                alt={row.original.title}
+                width={200}
+                height={200}
+                className="w-full h-full object-cover rounded-md"
+              />
+            </div>
+            <Link
+              href={`${Routes.Songs}/${row.original.id}`}
+              className={cn(
+                'truncate font-bold hover:underline',
+                isRowPlaying && 'text-primary-pink',
+              )}
+            >
+              {row.original.title}
+            </Link>
           </div>
-          <Link
-            href={`${Routes.Songs}/${row.original.id}`}
-            className="truncate font-bold hover:underline"
-          >
-            {row.original.title}
-          </Link>
-        </div>
-      ),
+        );
+      },
     },
     {
       id: 'view',

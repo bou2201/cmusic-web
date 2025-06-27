@@ -6,10 +6,12 @@ import { LayoutHeader } from './layout-header';
 import { LayoutFooter } from './layout-footer';
 import { useSongStore } from '@/modules/song';
 import { LayoutPlaylist } from './layout-playlist';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export function MainLayout({ children }: Readonly<{ children: ReactNode }>) {
   const track = useSongStore((state) => state.track);
   const openPlayList = useSongStore((state) => state.openPlayList);
+  const isMobile = useIsMobile();
 
   return (
     <>
@@ -24,11 +26,16 @@ export function MainLayout({ children }: Readonly<{ children: ReactNode }>) {
           {/* <LayoutFooter /> */}
         </main>
       </div>
-      {openPlayList ? (
+
+      {openPlayList && !isMobile ? (
         <div className="relative">
           <LayoutPlaylist />
         </div>
       ) : null}
     </>
   );
+}
+
+export function AdminLayout({ children }: Readonly<{ children: ReactNode }>) {
+  return children;
 }

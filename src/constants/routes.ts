@@ -7,4 +7,5 @@ export enum Routes {
   RecentlyPlayed = '/recently-played',
   FavoriteSongs = '/favorite-songs',
   Search = '/search',
+  Admin = '/admin',
 }

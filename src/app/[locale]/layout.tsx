@@ -5,7 +5,6 @@ import { Locale, routing } from '@/i18n/routing';
 import { geistMono, geistSans, quickSand } from '../font';
 import { ProgressProvider, QueryProvider, ThemeProvider, UiProvider } from '@/providers';
 import { SidebarProvider } from '@/components/ui';
-import { MainLayout } from '@/components/layout';
 import { cookies } from 'next/headers';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Viewport } from 'next';
@@ -62,9 +61,7 @@ export default async function LocaleLayout({
             >
               <UiProvider>
                 <SidebarProvider defaultOpen={defaultOpen}>
-                  <ProgressProvider>
-                    <MainLayout>{children}</MainLayout>
-                  </ProgressProvider>
+                  <ProgressProvider>{children}</ProgressProvider>
                 </SidebarProvider>
               </UiProvider>
             </ThemeProvider>

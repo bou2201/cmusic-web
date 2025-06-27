@@ -9,8 +9,13 @@ import { Button } from '@/components/ui';
 import { Play, Plus } from 'lucide-react';
 import { TablePopularTrack } from '../components';
 import { Song, songService, useSongStore } from '@/modules/song';
+import { useState } from 'react';
+import { AuthLogin, useAuthStore } from '@/modules/auth';
 
 export function PageDetails({ id }: { id: string }) {
+  const [openLogin, setOpenLogin] = useState<boolean>(false);
+
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const tSectionArt = useTranslations<NextIntl.Namespace<'Section.artist'>>('Section.artist');
   const tSectionSong = useTranslations<NextIntl.Namespace<'Section.song'>>('Section.song');
 
@@ -35,7 +40,13 @@ export function PageDetails({ id }: { id: string }) {
         </h1>
         <div className="mt-4 text-sm flex items-center gap-10">
           <span className="font-semibold opacity-80">{`${artist?._count.followers} ${tSectionArt('followers').toLowerCase()}`}</span>
-          <Button variant="primary" className="font-bold">
+          <Button
+            variant="primary"
+            className="font-bold"
+            onClick={() => {
+              setOpenLogin(true);
+            }}
+          >
             <Plus /> {tSectionArt('follow')}
           </Button>
         </div>
@@ -46,32 +57,36 @@ export function PageDetails({ id }: { id: string }) {
   if (!artist) return null;
 
   return (
-    <SectionDetails
-      headerImage={{
-        alt: artist?.name,
-        url: artist?.avatar.url,
-      }}
-      type="artist"
-      headerContent={renderHeaderContent()}
-    >
-      <div className="flex items-center gap-5">
-        <Button
-          variant="primary"
-          onClick={() => {
-            setPlayList(songResults?.data as Song[]);
-          }}
-          size="icon"
-          className="rounded-full w-14 h-14 group"
-          disabled={!songResults}
-        >
-          <Play className="fill-primary stroke-primary !h-6 !w-6" />
-        </Button>
-      </div>
+    <>
+      <SectionDetails
+        headerImage={{
+          alt: artist?.name,
+          url: artist?.avatar.url,
+        }}
+        type="artist"
+        headerContent={renderHeaderContent()}
+      >
+        <div className="flex items-center gap-5">
+          <Button
+            variant="primary"
+            onClick={() => {
+              setPlayList(songResults?.data as Song[]);
+            }}
+            size="icon"
+            className="rounded-full w-14 h-14 group"
+            disabled={!songResults}
+          >
+            <Play className="fill-primary stroke-primary !h-6 !w-6" />
+          </Button>
+        </div>
 
-      <div>
-        <h3 className="font-bold my-6 text-2xl">{tSectionSong('featuredSong')}</h3>
-        <TablePopularTrack songLoading={songLoading} songResults={songResults} />
-      </div>
-    </SectionDetails>
+        <div>
+          <h3 className="font-bold my-6 text-2xl">{tSectionSong('featuredSong')}</h3>
+          <TablePopularTrack songLoading={songLoading} songResults={songResults} />
+        </div>
+      </SectionDetails>
+
+      {openLogin ? <AuthLogin open={openLogin} setOpen={setOpenLogin} /> : null}
+    </>
   );
 }

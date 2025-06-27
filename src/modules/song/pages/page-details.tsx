@@ -13,7 +13,7 @@ import { Routes } from '@/constants/routes';
 import { formatDuration } from '@/utiils/function';
 import { useSongStore } from '../store';
 import { Song } from '../types';
-import { Heart, Play } from 'lucide-react';
+import { Play } from 'lucide-react';
 import { useState } from 'react';
 import { Artist } from '@/modules/artist';
 import { BtnLikeSong } from '../components/audio-player/btn-like-song';

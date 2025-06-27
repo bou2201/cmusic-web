@@ -8,12 +8,14 @@ import { PlayIcon } from 'lucide-react';
 import Image from 'next/image';
 import { DispAnimationWave } from '../data-display/disp-animation';
 import { ViewRedirectArtist } from '@/modules/artist';
+import { cn } from '@/lib/utils';
 
 export function SectionSongInPlayListPlaying({ song }: { song: Song }) {
   const { track, playlist, isPlaying, currentTrackIndex } = useSongStore((state) => state);
+  
   return (
-    <div className="flex gap-3 p-2 rounded-md hover:bg-neutral-800 transition cursor-pointer">
-      <div className="w-11 h-11 rounded-md shrink-0 relative">
+    <div className="flex flex-col gap-3 p-2 rounded-md hover:bg-neutral-800 transition cursor-pointer">
+      <div className="w-full h-auto rounded-md shrink-0 relative">
         <Image
           src={song.cover?.url ?? '/images/song-default-white.png'}
           alt={song.title}
@@ -34,13 +36,13 @@ export function SectionSongInPlayListPlaying({ song }: { song: Song }) {
         <div className="flex flex-col truncate">
           <Link
             href={`${Routes.Songs}/${song.id}`}
-            className="font-semibold text-sm truncate hover:underline"
+            className="font-semibold text-lg truncate hover:underline"
             title={song.title}
           >
             {song.title}
           </Link>
           <div>
-            <ViewRedirectArtist artist={song.artist} artists={song.artists} className="text-xs" />
+            <ViewRedirectArtist artist={song.artist} artists={song.artists} className="text-sm" />
           </div>
         </div>
       </div>
@@ -49,10 +51,15 @@ export function SectionSongInPlayListPlaying({ song }: { song: Song }) {
 }
 
 export function SectionSongInPlaylist({ song, indexSong }: { song: Song; indexSong: number }) {
-  const { setPlaylist, playlist } = useSongStore((state) => state);
+  const { setPlaylist, playlist, currentTrackIndex } = useSongStore((state) => state);
 
   return (
-    <div className="flex gap-3 p-2 rounded-md hover:bg-neutral-800 transition cursor-pointer">
+    <div
+      className={cn(
+        'flex gap-3 p-2 rounded-md hover:bg-neutral-800 transition cursor-pointer',
+        currentTrackIndex === indexSong && 'bg-neutral-800',
+      )}
+    >
       <div className="w-11 h-11 rounded-md shrink-0 relative">
         <Image
           src={song.cover?.url ?? '/images/song-default-white.png'}

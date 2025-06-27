@@ -45,51 +45,41 @@ class CustomFetch {
   }
 
   // Process response interceptors
-  private async processResponseInterceptors(response: Response): Promise<any> {
-    // Handle unauthorized errors before regular interceptors
-    if (response.status === HttpStatusCode.Unauthorized) {
+  private async processResponseInterceptors(
+    response: Response,
+    url?: string,
+    config?: RequestInit & { _retried?: boolean },
+  ): Promise<any> {
+    if (response.status === HttpStatusCode.Unauthorized && !config?._retried) {
       const refreshTokenValue = getCookie('refreshToken');
-
-      // const isLogoutEndpoint = response.url.includes('/auth/logout');
 
       if (refreshTokenValue) {
         try {
-          // Get new tokens
           const authData = await authService.refreshToken(refreshTokenValue);
 
-          // Update cookies with new tokens
           setCookie('accessToken', authData.accessToken);
           setCookie('refreshToken', authData.refreshToken);
 
-          // Retry the original request with new token
-          const originalRequest = this.buildOriginalRequest(response.url, response.clone());
-          originalRequest.headers.set('Authorization', `Bearer ${authData.accessToken}`);
+          const newConfig: RequestInit & { _retried: boolean } = {
+            ...config,
+            headers: {
+              ...config?.headers,
+              Authorization: `Bearer ${authData.accessToken}`,
+            },
+            _retried: true, // Prevent further retries
+          };
 
-          // Make a new request with the updated token
-          // return await fetch(originalRequest).then((newResponse) =>
-          //   this.processResponseInterceptors(newResponse),
-          // );
-
-          const newResponse = await fetch(originalRequest);
-
-          if (newResponse.status === HttpStatusCode.Unauthorized) {
-            useAuthStore.getState().clearAuth();
-            window.location.href = Routes.Discover;
-            throw new Error('Unauthorized after token refresh. Forcing logout or redirect.');
-          }
-
-          return this.processResponseInterceptors(newResponse);
+          return this.fetch(url!.replace(this.baseURL, ''), newConfig);
         } catch (error) {
-          // If refresh fails, proceed with error
           useAuthStore.getState().clearAuth();
           window.location.href = Routes.Discover;
-
           console.error('Token refresh failed:', error);
           throw new Error('Refresh token expired or invalid. Please login again.');
         }
       }
     }
 
+    // Continue processing normally
     let currentResponse = response;
     for (const interceptor of this.responseInterceptors) {
       currentResponse = await interceptor(currentResponse);
@@ -98,7 +88,7 @@ class CustomFetch {
   }
 
   // Main fetch method
-  async fetch<T>(url: string, config: RequestInit = {}): Promise<T> {
+  async fetch<T>(url: string, config: RequestInit & { _retried?: boolean } = {}): Promise<T> {
     try {
       // Process request interceptors
       const modifiedConfig = await this.processRequestInterceptors(config);
@@ -108,7 +98,7 @@ class CustomFetch {
       const response = await fetch(fullUrl, modifiedConfig);
 
       // Process response interceptors
-      const data = await this.processResponseInterceptors(response);
+      const data = await this.processResponseInterceptors(response, fullUrl, modifiedConfig);
 
       if (!response.ok) {
         const errorData: ApiReturn<any> = {

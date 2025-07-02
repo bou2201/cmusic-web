@@ -8,4 +8,8 @@ export enum Routes {
   FavoriteSongs = '/favorite-songs',
   Search = '/search',
   Admin = '/admin',
+  AdminSongs = '/admin/songs',
+  AdminArtists = '/admin/artists',
+  AdminAlbums = '/admin/albums',
+  AdminGenres = '/admin/genres',
 }

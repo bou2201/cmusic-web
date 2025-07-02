@@ -15,14 +15,15 @@ import {
   useSidebar,
 } from '../ui';
 import Image from 'next/image';
-import { NavigationWeb } from './layout-constants';
+import { NavigationDashboard, NavigationType, NavigationWeb } from './layout-constants';
 import { Routes } from '@/constants/routes';
 import { GlobeIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { AudioPlayer, useSongStore } from '@/modules/song';
 import { AuthLogin, useAuthStore } from '@/modules/auth';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { Role } from '@/modules/user';
 
 function LayoutSidebarHeader() {
   const { state } = useSidebar();
@@ -50,48 +51,61 @@ function LayoutSidebarContent() {
   const [openLogin, setOpenLogin] = useState<boolean>(false);
 
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
   const pathname = usePathname();
   const navigation = NavigationWeb();
+  const navigationDashboard = NavigationDashboard();
+
+  const renderNavigation = useCallback(
+    (navi: NavigationType[]) => {
+      return navi.map((nav) => (
+        <SidebarGroup key={nav.groupTitle}>
+          <SidebarGroupLabel>{nav.groupTitle}</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {nav.groupItems.map((grItems) => (
+                <SidebarMenuItem className="flex justify-center" key={grItems.title}>
+                  <SidebarMenuButton
+                    asChild
+                    className="h-auto py-2.5"
+                    tooltip={grItems.title}
+                    isActive={pathname === grItems.url}
+                  >
+                    {grItems.key === 'favorite' && !isAuthenticated ? (
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => {
+                          setOpenLogin(true);
+                        }}
+                      >
+                        {grItems.icon}
+                        <span className="font-semibold">{grItems.title}</span>
+                      </div>
+                    ) : (
+                      <Link href={grItems.url}>
+                        {grItems.icon}
+                        <span className="font-semibold">{grItems.title}</span>
+                      </Link>
+                    )}
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      ));
+    },
+    [isAuthenticated, pathname],
+  );
 
   return (
     <>
       <SidebarContent>
-        {navigation.map((nav) => (
-          <SidebarGroup key={nav.groupTitle}>
-            <SidebarGroupLabel>{nav.groupTitle}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {nav.groupItems.map((grItems) => (
-                  <SidebarMenuItem className="flex justify-center" key={grItems.title}>
-                    <SidebarMenuButton
-                      asChild
-                      className="h-auto py-2.5"
-                      tooltip={grItems.title}
-                      isActive={pathname === grItems.url}
-                    >
-                      {grItems.key === 'favorite' && !isAuthenticated ? (
-                        <div
-                          className="cursor-pointer"
-                          onClick={() => {
-                            setOpenLogin(true);
-                          }}
-                        >
-                          {grItems.icon}
-                          <span className="font-semibold">{grItems.title}</span>
-                        </div>
-                      ) : (
-                        <Link href={grItems.url}>
-                          {grItems.icon}
-                          <span className="font-semibold">{grItems.title}</span>
-                        </Link>
-                      )}
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+        {renderNavigation(
+          user?.role === Role.Admin && pathname.includes('/admin')
+            ? navigationDashboard
+            : navigation,
+        )}
       </SidebarContent>
 
       {openLogin ? <AuthLogin open={openLogin} setOpen={setOpenLogin} /> : null}
@@ -119,10 +133,10 @@ function LayoutSidebarFooter() {
   );
 }
 
-export function LayoutSidebar() {
+export function LayoutSidebar({ type }: { type: 'web' | 'dashboard' }) {
   const track = useSongStore((state) => state.track);
 
-  return (
+  return type === 'web' ? (
     <div className="relative">
       <Sidebar
         collapsible="icon"
@@ -137,5 +151,14 @@ export function LayoutSidebar() {
         <AudioPlayer />
       </div>
     </div>
+  ) : (
+    <Sidebar
+      collapsible="icon"
+      className={`top-2 left-2 h-auto [&>div]:rounded-xl !border-r-0 bottom-2`}
+    >
+      <LayoutSidebarHeader />
+      <LayoutSidebarContent />
+      <LayoutSidebarFooter />
+    </Sidebar>
   );
 }

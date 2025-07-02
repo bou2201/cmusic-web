@@ -101,6 +101,7 @@ export function DispTable<TData, TValue>({
                           minWidth: header.column.columnDef.size,
                           maxWidth: header.column.columnDef.size,
                         }}
+                        className='font-bold'
                       >
                         {header.isPlaceholder
                           ? null

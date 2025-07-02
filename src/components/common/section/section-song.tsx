@@ -15,12 +15,12 @@ export function SectionSongInPlayListPlaying({ song }: { song: Song }) {
   
   return (
     <div className="flex flex-col gap-3 p-2 rounded-md hover:bg-neutral-800 transition cursor-pointer">
-      <div className="w-full h-auto rounded-md shrink-0 relative">
+      <div className="w-full h-auto rounded-md shrink-0 relative aspect-square">
         <Image
           src={song.cover?.url ?? '/images/song-default-white.png'}
           alt={song.title}
-          height={100}
-          width={100}
+          height={500}
+          width={500}
           className="object-cover w-full h-full rounded-md"
         />
         {isCurrentlyPlaying(song, { currentTrackIndex, isPlaying, playlist, track }) ? (
@@ -36,13 +36,13 @@ export function SectionSongInPlayListPlaying({ song }: { song: Song }) {
         <div className="flex flex-col truncate">
           <Link
             href={`${Routes.Songs}/${song.id}`}
-            className="font-semibold text-lg truncate hover:underline"
+            className="font-semibold text-sm truncate hover:underline"
             title={song.title}
           >
             {song.title}
           </Link>
           <div>
-            <ViewRedirectArtist artist={song.artist} artists={song.artists} className="text-sm" />
+            <ViewRedirectArtist artist={song.artist} artists={song.artists} className="text-[13px]" />
           </div>
         </div>
       </div>

@@ -14,4 +14,5 @@ export * from './form-handler/input-text';
 export * from './section/section-artist';
 export * from './section/section-banner';
 export * from './section/section-details';
+export * from './section/section-mnt';
 export * from './section/section-song';

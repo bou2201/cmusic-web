@@ -112,7 +112,7 @@ function UserButton() {
   );
 }
 
-export function LayoutHeader() {
+export function LayoutHeader({ type }: { type: 'web' | 'dashboard' }) {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   const t = useTranslations<NextIntl.Namespace<'Header'>>('Header');
@@ -147,13 +147,15 @@ export function LayoutHeader() {
             <ChevronRightIcon className="!w-6 !h-6" />
           </Button>
         </div>
-        <InputSearch
-          placeholder={t('search.placeholder')}
-          onClick={() => {
-            setOpenDialog(true);
-          }}
-          divClassName="bg-sidebar border-none rounded-full lg:w-96 h-10"
-        />
+        {type === 'web' ? (
+          <InputSearch
+            placeholder={t('search.placeholder')}
+            onClick={() => {
+              setOpenDialog(true);
+            }}
+            divClassName="bg-sidebar border-none rounded-full lg:w-96 h-10"
+          />
+        ) : null}
         <UserButton />
       </section>
 

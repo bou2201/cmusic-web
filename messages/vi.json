@@ -73,7 +73,11 @@
     "admin": {
       "title": "Admin",
       "items": {
-        "adminPage": "Trang quản trị"
+        "adminPage": "Trang quản trị",
+        "songPage": "Quản lý bài hát",
+        "artistPage": "Quản lý ca sĩ",
+        "albumPage": "Quản lý album",
+        "genrePage": "Quản lý thể loại"
       }
     }
   },
@@ -142,6 +146,26 @@
       "lyrics": "Lời bài hát",
       "showLess": "Hiển thị ít hơn",
       "showMore": "Xem thêm"
+    },
+    "songMnt": {
+      "title": "Quản lý bài hát",
+      "table": {
+        "cover": "Ảnh bìa",
+        "title": "Tên bài hát",
+        "artist": "Ca sĩ",
+        "duration": "Thời lượng",
+        "isPublic": "Hiển thị",
+        "lyrics": "Lyrics",
+        "playCount": "Lượt nghe",
+        "createdAt": "Ngày tạo",
+        "updatedAt": "Ngày cập nhật"
+      },
+      "action": {
+        "create": "Thêm mới",
+        "edit": "Sửa",
+        "hidden": "Ẩn bài hát",
+        "unHidden": "Hiển thị bài hát"
+      }
     }
   },
   "SearchPage": {

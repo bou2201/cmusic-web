@@ -15,9 +15,9 @@ export function MainLayout({ children }: Readonly<{ children: ReactNode }>) {
 
   return (
     <>
-      <LayoutSidebar />
+      <LayoutSidebar type="web" />
       <div className="w-full flex flex-col overflow-x-hidden">
-        <LayoutHeader />
+        <LayoutHeader type="web" />
         <main
           className={`overflow-y-auto ${track ? 'h-[calc(100vh-144px)]' : 'h-[calc(100vh-60px)]'}`}
         >
@@ -37,5 +37,13 @@ export function MainLayout({ children }: Readonly<{ children: ReactNode }>) {
 }
 
 export function AdminLayout({ children }: Readonly<{ children: ReactNode }>) {
-  return children;
+  return (
+    <>
+      <LayoutSidebar type="dashboard" />
+      <div className="w-full flex flex-col overflow-x-hidden">
+        <LayoutHeader type="dashboard" />
+        <main className="overflow-y-auto h-[calc(100vh-64px)]">{children}</main>
+      </div>
+    </>
+  );
 }

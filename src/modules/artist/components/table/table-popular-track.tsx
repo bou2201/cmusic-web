@@ -95,7 +95,7 @@ export function TablePopularTrack({ songLoading, songResults }: TablePopularTrac
     {
       id: 'view',
       cell: ({ row }) => (
-        <div className="font-semibold opacity-80  text-center">
+        <div className="font-semibold opacity-80 text-center">
           {formatNumber(row.original.playCount)}
         </div>
       ),

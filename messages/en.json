@@ -73,7 +73,11 @@
     "admin": {
       "title": "Admin",
       "items": {
-        "adminPage": "Admin Page"
+        "adminPage": "Admin Page",
+        "songPage": "Songs Management",
+        "artistPage": "Artists Management",
+        "albumPage": "Albums Management",
+        "genrePage": "Genre Management"
       }
     }
   },
@@ -142,6 +146,26 @@
       "lyrics": "Lyric",
       "showLess": "Show less",
       "showMore": "View more"
+    },
+    "songMnt": {
+      "title": "Songs Management",
+      "table": {
+        "cover": "Image",
+        "title": "Title",
+        "artist": "Artist",
+        "duration": "Duration",
+        "isPublic": "Public",
+        "lyrics": "Lyrics",
+        "playCount": "Play Count",
+        "createdAt": "Created At",
+        "updatedAt": "Updated At"
+      },
+      "action": {
+        "create": "Create",
+        "edit": "Edit",
+        "hidden": "Hidden",
+        "unHidden": "Unhidden"
+      }
     }
   },
   "SearchPage": {

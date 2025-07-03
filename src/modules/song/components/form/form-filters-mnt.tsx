@@ -10,6 +10,7 @@ import { NextIntl } from '~types/next-intl';
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { artistService } from '@/modules/artist';
+import { useFetchArtist } from '../../hooks';
 
 export function FormFiltersMnt() {
   const t = useTranslations<NextIntl.Namespace<'SongsPage.songMnt'>>('SongsPage.songMnt');
@@ -28,10 +29,7 @@ export function FormFiltersMnt() {
     return () => subscription.unsubscribe();
   }, [filtersForm, filtersForm.watch, setFilters]);
 
-  const { data: dataArtist, isLoading: isLoadingArtist } = useQuery({
-    queryKey: ['songs-mnt', 'artist'],
-    queryFn: () => artistService.getListArtist({ page: 1, limit: 1000 }),
-  });
+  const { data: dataArtist, isLoading: isLoadingArtist } = useFetchArtist();
 
   return (
     <Form {...filtersForm}>

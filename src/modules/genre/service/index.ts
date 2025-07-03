@@ -1,0 +1,26 @@
+import api from '@/lib/api';
+import { Genre, GenreFilter } from '../types';
+import { objectToQueryString } from '@/utiils/function';
+import { ApiReturnList } from '~types/common';
+
+const API_TAG_BASE = '/genre';
+
+export const genreService = {
+  getListGenre: (params: GenreFilter) => {
+    const queryParams = objectToQueryString(params);
+    return api.get<ApiReturnList<Genre>>(`${API_TAG_BASE}?${queryParams}`);
+  },
+
+  getGenreById: (id: string) => api.get<Genre>(`${API_TAG_BASE}/${id}`),
+
+  getGenreBySlug: (slug: string) => api.get<Genre>(`${API_TAG_BASE}/slug/${slug}`),
+
+  createGenre: (payload: any) => api.post<Genre>(`${API_TAG_BASE}`, payload),
+
+  updateGenre: (id: string, payload: any) => api.put<Genre>(`${API_TAG_BASE}/${id}`, payload),
+
+  deleteGenre: (id: string) => api.delete<Genre>(`${API_TAG_BASE}/${id}`),
+
+  toggleGenreFeatured: (id: string) =>
+    api.patch<Genre>(`${API_TAG_BASE}/${id}/toggle-featured`, {}),
+};

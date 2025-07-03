@@ -48,6 +48,7 @@
     }
   },
   "Navigation": {
+    "home": "Home",
     "language": {
       "key": "en",
       "keyChange": "vi",
@@ -179,6 +180,7 @@
         "update": "Update song",
         "title": "Title",
         "artist": "Artist",
+        "featArtists": "Feat with.",
         "album": "Album",
         "genre": "Genre",
         "isPublic": "Public",

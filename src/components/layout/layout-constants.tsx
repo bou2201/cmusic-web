@@ -9,6 +9,7 @@ import {
   Clock9Icon,
   ComponentIcon,
   HeartIcon,
+  HomeIcon,
   LayoutDashboardIcon,
   ListMusicIcon,
   MusicIcon,
@@ -91,7 +92,7 @@ export function NavigationWeb(): NavigationType[] {
         {
           key: 'admin',
           title: t('admin.items.adminPage'),
-          url: Routes.Admin,
+          url: Routes.AdminSongs,
           icon: <LayoutDashboardIcon />,
         },
       ],
@@ -109,6 +110,17 @@ export function NavigationDashboard(): NavigationType[] {
   const t = useTranslations<NextIntl.Namespace<'Navigation'>>('Navigation');
 
   return [
+    {
+      groupTitle: '',
+      groupItems: [
+        {
+          key: 'admin-home',
+          title: t('home'),
+          url: Routes.Discover,
+          icon: <HomeIcon />,
+        },
+      ],
+    },
     {
       groupTitle: t('admin.title'),
       groupItems: [

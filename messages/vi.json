@@ -48,6 +48,7 @@
     }
   },
   "Navigation": {
+    "home": "Trang chủ",
     "language": {
       "key": "vi",
       "keyChange": "en",
@@ -179,6 +180,7 @@
         "update": "Cập nhật bài hát",
         "title": "Tên bài hát",
         "artist": "Ca sĩ",
+        "featArtists": "Ca sĩ feat.",
         "album": "Album",
         "genre": "Thể loại",
         "isPublic": "Public",

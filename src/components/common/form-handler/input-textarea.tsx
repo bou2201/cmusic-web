@@ -16,7 +16,7 @@ type InputTextareaProps<T extends FieldValues> = {
   label?: string;
   description?: string | ReactNode;
   className?: string;
-  inputProps?: InputHTMLAttributes<HTMLTextAreaElement>;
+  textareaProps?: InputHTMLAttributes<HTMLTextAreaElement>;
   debounceDelay?: number;
   isDebounce?: boolean;
   disableMessage?: boolean;
@@ -27,7 +27,7 @@ export const InputTextarea = <T extends FieldValues>({
   label,
   description,
   className,
-  inputProps,
+  textareaProps,
   debounceDelay,
   isDebounce,
   disableMessage = false,
@@ -46,15 +46,15 @@ export const InputTextarea = <T extends FieldValues>({
               {isDebounce ? (
                 <TextareaDebounce
                   {...field}
-                  {...inputProps}
+                  {...textareaProps}
                   debounceDelay={debounceDelay}
-                  className={`${error && 'border-destructive'} ${inputProps?.className}`}
+                  className={`${error && 'border-destructive'} ${textareaProps?.className}`}
                 />
               ) : (
                 <Textarea
                   {...field}
-                  {...inputProps}
-                  className={`${error && 'border-destructive'} ${inputProps?.className}`}
+                  {...textareaProps}
+                  className={`${error && 'border-destructive'} ${textareaProps?.className}`}
                 />
               )}
             </FormControl>

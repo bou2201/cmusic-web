@@ -3,7 +3,7 @@ import { Audio, Image } from '../types';
 
 const API_TAG_BASE = '/upload';
 
-export const songService = {
+export const uploadService = {
   uploadImage: (formData: FormData) => {
     return api.post<Image>(`${API_TAG_BASE}/image`, formData);
   },

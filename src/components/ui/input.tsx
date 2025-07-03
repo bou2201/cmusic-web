@@ -15,24 +15,40 @@ function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
   );
 }
 
-function InputDebounce({
-  className,
-  type,
-  debounceDelay = 300,
-  value,
-  ...props
-}: React.ComponentProps<'input'> & { debounceDelay?: number }) {
-  const [debouncedValue] = useDebounce(value, debounceDelay);
+interface InputDebounceProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  onChange: (...event: any[]) => void;
+  value: string | number | readonly string[] | undefined;
+  debounceDelay?: number;
+}
 
-  console.log('debouncedValue', debouncedValue);
+function InputDebounce({
+  onChange,
+  className,
+  value,
+  debounceDelay = 300,
+  ...props
+}: InputDebounceProps) {
+  const [innerValue, setInnerValue] = React.useState(value);
+  const [debouncedValue] = useDebounce(innerValue, debounceDelay);
+
+  // Sync debounced value to react-hook-form
+  React.useEffect(() => {
+    if (debouncedValue !== value) {
+      onChange(debouncedValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedValue]);
+
+  React.useEffect(() => {
+    setInnerValue(value); // if external value changes
+  }, [value]);
 
   return (
     <input
-      type={type}
-      data-slot="input"
-      className={cn(inputStyles(), className)}
       {...props}
-      value={debouncedValue}
+      value={innerValue}
+      onChange={(e) => setInnerValue(e.target.value)}
+      className={cn(inputStyles(), className)}
     />
   );
 }

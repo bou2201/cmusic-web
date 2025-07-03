@@ -42,7 +42,7 @@ export function AdminLayout({ children }: Readonly<{ children: ReactNode }>) {
       <LayoutSidebar type="dashboard" />
       <div className="w-full flex flex-col overflow-x-hidden">
         <LayoutHeader type="dashboard" />
-        <main className="overflow-y-auto h-[calc(100vh-64px)]">{children}</main>
+        <main className="overflow-y-auto h-[calc(100vh-72px)]">{children}</main>
       </div>
     </>
   );

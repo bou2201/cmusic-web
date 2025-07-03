@@ -8,29 +8,35 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Song } from '../types';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
-import { formatDuration, getArtistInfo } from '@/utiils/function';
+import { formatDuration } from '@/utiils/function';
 import { ViewRedirectArtist } from '@/modules/artist';
 import Image from 'next/image';
 import { formatNumber } from '../utils/function';
 import { Button } from '@/components/ui';
 import { EllipsisIcon } from 'lucide-react';
+import { useSongStore } from '../store';
+import { FormFiltersMnt } from '../components';
+import { useRouter } from '@/i18n/navigation';
+import { Routes } from '@/constants/routes';
 
 export function PageSongsMnt() {
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
 
   const t = useTranslations<NextIntl.Namespace<'SongsPage.songMnt'>>('SongsPage.songMnt');
+  const filters = useSongStore((state) => state.filters);
+  const router = useRouter();
 
   const { data: dataSongs, isLoading } = useQuery({
-    queryKey: ['songs-mnt', page, limit],
-    queryFn: () => songService.getListSong({ page, limit }),
+    queryKey: ['songs-mnt', page, limit, filters],
+    queryFn: () => songService.getListSong({ page, limit, ...filters }),
   });
 
   const columns: ColumnDef<Song>[] = [
     {
       accessorKey: 'cover',
       header: t('table.cover'),
-      size: 30,
+      size: 60,
       cell: ({ row }) => {
         return (
           <div className="w-12 h-12 shrink-0">
@@ -60,18 +66,22 @@ export function PageSongsMnt() {
     {
       accessorKey: 'artist',
       header: t('table.artist'),
-      size: 120,
+      size: 140,
       cell: ({ row }) => {
         const artist = row.original.artist;
         const artists = row.original.artists;
 
-        return <ViewRedirectArtist artist={artist} artists={artists} />;
+        return (
+          <div className="line-clamp-1 truncate">
+            <ViewRedirectArtist artist={artist} artists={artists} />
+          </div>
+        );
       },
     },
     {
       accessorKey: 'duration',
       header: t('table.duration'),
-      size: 70,
+      size: 90,
       cell: ({ row }) => {
         return (
           <span className="font-semibold opacity-80">{formatDuration(row.original.duration)}</span>
@@ -81,7 +91,7 @@ export function PageSongsMnt() {
     {
       accessorKey: 'playCount',
       header: t('table.playCount'),
-      size: 70,
+      size: 90,
       cell: ({ row }) => {
         return (
           <span className="font-semibold opacity-80">{formatNumber(row.original.playCount)}</span>
@@ -91,7 +101,7 @@ export function PageSongsMnt() {
     {
       accessorKey: 'isPublic',
       header: t('table.isPublic'),
-      size: 40,
+      size: 60,
       cell: ({ row }) => {
         return (
           <span className="font-semibold opacity-80">{row.original.isPublic ? '✔' : '-'}</span>
@@ -100,7 +110,7 @@ export function PageSongsMnt() {
     },
     {
       id: 'action',
-      size: 40,
+      size: 60,
       cell: ({ row }) => {
         return (
           <DispDropdown
@@ -128,7 +138,14 @@ export function PageSongsMnt() {
   ];
 
   return (
-    <SectionMnt title={t('title')} addBtn>
+    <SectionMnt
+      title={t('title')}
+      addBtn
+      onClick={() => {
+        router.push(Routes.AdminSongs + '/create');
+      }}
+    >
+      <FormFiltersMnt />
       <DispTable
         columns={columns}
         data={dataSongs?.data ?? []}

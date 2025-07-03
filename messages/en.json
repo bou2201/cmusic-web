@@ -165,6 +165,27 @@
         "edit": "Edit",
         "hidden": "Hidden",
         "unHidden": "Unhidden"
+      },
+      "filters": {
+        "search": "Search by title, artist or lyrics",
+        "artist": "Artist",
+        "album": "Album",
+        "genre": "Genre",
+        "isTrending": "Trending",
+        "all": "All"
+      },
+      "createOrUpdate": {
+        "add": "Add new song",
+        "update": "Update song",
+        "title": "Title",
+        "artist": "Artist",
+        "album": "Album",
+        "genre": "Genre",
+        "isPublic": "Public",
+        "lyrics": "Lyrics",
+        "cover": "Cover",
+        "audio": "File Audio",
+        "duration": "Duration"
       }
     }
   },
@@ -209,6 +230,12 @@
       "page": "Page",
       "previous": "Previous",
       "next": "Next"
+    },
+    "formHandler": {
+      "search": "Search",
+      "reset": "Reset",
+      "submit": "Submit",
+      "noResult": "No result."
     }
   }
 }

@@ -21,7 +21,7 @@ export function SectionMnt({ title, children, addBtn, onClick }: SectionMntProps
   return (
     <section className="h-full bg-sidebar rounded-md p-4 overflow-x-hidden overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="font-semibold text-2xl">{title}</h2>
+        <h2 className="font-bold text-2xl opacity-90">{title}</h2>
         {addBtn ? (
           <Button variant="primary" className="font-bold" onClick={onClick}>
             <PlusIcon />

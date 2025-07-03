@@ -122,12 +122,16 @@ class CustomFetch {
   }
 
   post<T>(url: string, body: any, config?: RequestInit): Promise<T> {
+    const isFormData = typeof body === 'object' && body instanceof FormData;
+
     return this.fetch<T>(url, {
       ...config,
       method: 'POST',
-      body: JSON.stringify(body),
+      body: isFormData ? body : JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json',
+        ...(isFormData
+          ? {} // Let browser set multipart/form-data headers
+          : { 'Content-Type': 'application/json' }),
         ...config?.headers,
       },
     });

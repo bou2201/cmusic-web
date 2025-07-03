@@ -154,7 +154,7 @@
         "title": "Tên bài hát",
         "artist": "Ca sĩ",
         "duration": "Thời lượng",
-        "isPublic": "Hiển thị",
+        "isPublic": "Public",
         "lyrics": "Lyrics",
         "playCount": "Lượt nghe",
         "createdAt": "Ngày tạo",
@@ -165,6 +165,27 @@
         "edit": "Sửa",
         "hidden": "Ẩn bài hát",
         "unHidden": "Hiển thị bài hát"
+      },
+      "filters": {
+        "search": "Tìm kiếm theo bài hát, ca sĩ hoặc lyrics",
+        "artist": "Ca sĩ",
+        "album": "Album",
+        "genre": "Thể loại",
+        "isTrending": "Bài hát hot",
+        "all": "Tất cả"
+      },
+      "createOrUpdate": {
+        "add": "Thêm mới bài hát",
+        "update": "Cập nhật bài hát",
+        "title": "Tên bài hát",
+        "artist": "Ca sĩ",
+        "album": "Album",
+        "genre": "Thể loại",
+        "isPublic": "Public",
+        "lyrics": "Lyrics",
+        "cover": "Ảnh bìa",
+        "audio": "File âm thanh",
+        "duration": "Thời lượng"
       }
     }
   },
@@ -209,6 +230,12 @@
       "page": "Trang",
       "previous": "Trước",
       "next": "Tiếp"
+    },
+    "formHandler": {
+      "search": "Tìm kiếm",
+      "reset": "Làm mới",
+      "submit": "Gửi",
+      "noResult": "Không có kết quả."
     }
   }
 }

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Song } from '../types';
+import { Song, SongFilter } from '../types';
 import {
   addTrackToRecent,
   getInitialRecentTracks,
@@ -19,6 +19,7 @@ type SongState = {
   isShuffle: boolean;
   repeatMode: 'off' | 'all' | 'one';
   openPlayList: boolean;
+  filters: Omit<SongFilter, 'page' | 'limit'>;
 };
 
 type SongAction = {
@@ -35,6 +36,7 @@ type SongAction = {
   setIsShuffle: (isShuffle: boolean) => void;
   setRepeatMode: (repeatMode: 'off' | 'all' | 'one') => void;
   setOpenPlayList: (openPlayList: boolean) => void;
+  setFilters: (filters: Omit<SongFilter, 'page' | 'limit'>) => void;
 };
 
 const initialValues: SongState = {
@@ -48,6 +50,14 @@ const initialValues: SongState = {
   isShuffle: getInitialShuffle(),
   repeatMode: getInitialRepeatMode(),
   openPlayList: false,
+  filters: {
+    search: undefined,
+    artistId: undefined,
+    albumId: undefined,
+    genreId: undefined,
+    isTrending: undefined,
+    isExplicit: undefined,
+  },
 };
 
 export const useSongStore = create<SongState & SongAction>((set, get) => ({
@@ -122,4 +132,5 @@ export const useSongStore = create<SongState & SongAction>((set, get) => ({
   setIsShuffle: (isShuffle: boolean) => set({ isShuffle }),
   setRepeatMode: (repeatMode: 'off' | 'all' | 'one') => set({ repeatMode }),
   setOpenPlayList: (openPlayList: boolean) => set({ openPlayList }),
+  setFilters: (filters: Omit<SongFilter, 'page' | 'limit'>) => set({ filters }),
 }));

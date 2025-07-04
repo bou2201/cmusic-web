@@ -46,8 +46,8 @@ export function PageDetails({ id }: { id: string }) {
         </h1>
         <div className="flex items-center gap-2 mt-4 text-sm">
           <DispAvatar
-            src={song?.artist.avatar.url ?? ''}
-            alt={song?.artist.name ?? ''}
+            src={song?.artist?.avatar.url ?? ''}
+            alt={song?.artist?.name ?? ''}
             fallback={getShortName(song?.artist.name ?? '')}
             className="object-cover"
           />

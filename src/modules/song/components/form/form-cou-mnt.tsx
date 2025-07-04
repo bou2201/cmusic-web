@@ -1,10 +1,18 @@
 'use client';
 
-import { Combobox, InputText, InputTextarea, SectionMnt } from '@/components/common';
+import {
+  Combobox,
+  InputCheckbox,
+  InputText,
+  InputTextarea,
+  SectionMnt,
+  UploadImage,
+} from '@/components/common';
 import { Form } from '@/components/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
+import Dropzone, { DropzoneState } from 'shadcn-dropzone';
 import { z } from 'zod';
 import { NextIntl } from '~types/next-intl';
 import { useFetchArtist, useFetchGenre } from '../../hooks';
@@ -22,7 +30,7 @@ const useSongCouMntSchema = () => {
     lyrics: z.string().optional(),
     featuredArtistIds: z.array(z.string()).default([]),
     genreIds: z.array(z.string()).default([]),
-    albumId: z.string(),
+    albumId: z.string().nullable(),
     isExplicit: z.boolean().default(false),
     isPublic: z.boolean().default(true),
   });
@@ -40,7 +48,13 @@ export function FormCouMnt({ id }: { id?: string }) {
 
   const form = useForm<UseSongCouMntSchemaType>({
     resolver: zodResolver(schema),
-    defaultValues: {},
+    defaultValues: {
+      isExplicit: false,
+      isPublic: true,
+      genreIds: [],
+      featuredArtistIds: [],
+      albumId: null,
+    },
   });
 
   const { data: dataArtist, isLoading: isLoadingArtist } = useFetchArtist();
@@ -57,7 +71,11 @@ export function FormCouMnt({ id }: { id?: string }) {
                   className="col-span-1"
                   label={t('title')}
                   name="title"
+                  inputProps={{
+                    placeholder: t('title'),
+                  }}
                 />
+
                 <Combobox<UseSongCouMntSchemaType>
                   name="genreIds"
                   label={t('genre')}
@@ -69,6 +87,7 @@ export function FormCouMnt({ id }: { id?: string }) {
                   placeholder={t('genre')}
                   mode="multiple"
                 />
+
                 <Combobox<UseSongCouMntSchemaType>
                   name="artistId"
                   label={t('artist')}
@@ -79,6 +98,7 @@ export function FormCouMnt({ id }: { id?: string }) {
                   isLoading={isLoadingArtist}
                   placeholder={t('artist')}
                 />
+
                 <Combobox<UseSongCouMntSchemaType>
                   name="featuredArtistIds"
                   label={t('featArtists')}
@@ -90,6 +110,7 @@ export function FormCouMnt({ id }: { id?: string }) {
                   placeholder={t('featArtists')}
                   mode="multiple"
                 />
+
                 <InputTextarea<UseSongCouMntSchemaType>
                   label={t('lyrics')}
                   name="lyrics"
@@ -98,12 +119,22 @@ export function FormCouMnt({ id }: { id?: string }) {
                   debounceDelay={500}
                   textareaProps={{
                     placeholder: t('lyrics'),
+                    className: 'h-[200px]',
                   }}
+                />
+
+                <InputCheckbox<UseSongCouMntSchemaType>
+                  name="isPublic"
+                  label={t('isPublic')}
+                  className="col-span-2"
+                  description={t('isPublicDesc')}
                 />
               </div>
             </div>
 
-            <div className="col-span-1"></div>
+            <div className="col-span-1">
+              <UploadImage<UseSongCouMntSchemaType> name="cover" />
+            </div>
           </div>
         </form>
       </Form>

@@ -184,6 +184,7 @@
         "album": "Album",
         "genre": "Genre",
         "isPublic": "Public",
+        "isPublicDesc": "This song will be displayed for everyone.",
         "lyrics": "Lyrics",
         "cover": "Cover",
         "audio": "File Audio",
@@ -238,6 +239,12 @@
       "reset": "Reset",
       "submit": "Submit",
       "noResult": "No result."
+    },
+    "upload": {
+      "uploadImage": "Upload Image",
+      "uploadAudio": "Upload Audio",
+      "uploadFile": "Upload File",
+      "dropFileHere": "Drop your file here"
     }
   }
 }

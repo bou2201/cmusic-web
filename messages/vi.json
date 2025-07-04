@@ -184,6 +184,7 @@
         "album": "Album",
         "genre": "Thể loại",
         "isPublic": "Public",
+        "isPublicDesc": "Bài hát này sẽ được hiển thị cho mọi người.",
         "lyrics": "Lyrics",
         "cover": "Ảnh bìa",
         "audio": "File âm thanh",
@@ -238,6 +239,12 @@
       "reset": "Làm mới",
       "submit": "Gửi",
       "noResult": "Không có kết quả."
+    },
+    "upload": {
+      "uploadImage": "Tải lên ảnh",
+      "uploadAudio": "Tải lên file âm thanh",
+      "uploadFile": "Tải lên file",
+      "dropFileHere": "Thả file vào đây"
     }
   }
 }

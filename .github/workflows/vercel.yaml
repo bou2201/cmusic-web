@@ -21,6 +21,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install dependencies with legacy-peer-deps
+        run: npm install --legacy-peer-deps
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 

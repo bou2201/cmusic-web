@@ -45,7 +45,7 @@ export const InputTextarea = <T extends FieldValues>({
           <FormItem className={className}>
             {label && (
               <FormLabel className="text-[13px]">
-                {required && '*'}
+                {required && <span className="text-destructive">*</span>}
                 {label}
               </FormLabel>
             )}

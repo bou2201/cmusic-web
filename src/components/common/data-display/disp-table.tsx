@@ -2,6 +2,13 @@
 
 import {
   Button,
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
   Skeleton,
   Table,
   TableBody,
@@ -101,7 +108,7 @@ export function DispTable<TData, TValue>({
                           minWidth: header.column.columnDef.size,
                           maxWidth: header.column.columnDef.size,
                         }}
-                        className='font-bold'
+                        className="font-bold"
                       >
                         {header.isPlaceholder
                           ? null
@@ -188,7 +195,6 @@ function DispTablePagination<TData>({
   setLimit,
 }: DispTablePaginationProps<TData>) {
   const t = useTranslations<NextIntl.Namespace<'Component.table'>>('Component.table');
-  const hasNextPage = page < totalPages;
 
   const limitDropdown: DispDropdownMenuProps[] = useMemo(() => {
     return [5, 10, 20, 40].map((item) => ({
@@ -201,10 +207,79 @@ function DispTablePagination<TData>({
     }));
   }, [setLimit, setPage]);
 
+  const renderPages = () => {
+    const pages: number[] = [];
+
+    const startPage = Math.max(1, page - 2);
+    const endPage = Math.min(totalPages, page + 2);
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    const items = pages.map((p) => (
+      <PaginationItem key={p}>
+        <PaginationLink
+          isActive={p === page}
+          onClick={(e) => {
+            e.preventDefault();
+            setPage(p);
+          }}
+        >
+          {p}
+        </PaginationLink>
+      </PaginationItem>
+    ));
+
+    if (startPage > 1) {
+      items.unshift(
+        <PaginationItem key="start-ellipsis">
+          <PaginationEllipsis />
+        </PaginationItem>,
+      );
+      items.unshift(
+        <PaginationItem key={1}>
+          <PaginationLink
+            isActive={page === 1}
+            onClick={(e) => {
+              e.preventDefault();
+              setPage(1);
+            }}
+          >
+            1
+          </PaginationLink>
+        </PaginationItem>,
+      );
+    }
+
+    if (endPage < totalPages) {
+      items.push(
+        <PaginationItem key="end-ellipsis">
+          <PaginationEllipsis />
+        </PaginationItem>,
+      );
+      items.push(
+        <PaginationItem key={totalPages}>
+          <PaginationLink
+            isActive={page === totalPages}
+            onClick={(e) => {
+              e.preventDefault();
+              setPage(totalPages);
+            }}
+          >
+            {totalPages}
+          </PaginationLink>
+        </PaginationItem>,
+      );
+    }
+
+    return items;
+  };
+
   return (
-    <div className="flex items-center justify-end space-x-2 py-4">
+    <div className="flex items-center justify-between space-x-2 py-4">
       <div className="flex items-center gap-2 mr-6">
-        <p className="text-[13px]">{t('record')}</p>
+        <p className="text-[13px] whitespace-nowrap font-medium">{t('record')}</p>
         <DispDropdown label={t('record')} menu={limitDropdown}>
           <Button variant="outline" className="h-9 px-3 flex items-center gap-4">
             <span className="text-[13px]">{limit}</span>
@@ -213,7 +288,34 @@ function DispTablePagination<TData>({
           </Button>
         </DispDropdown>
       </div>
-      <Button
+
+      <Pagination className="justify-end">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={(e) => {
+                e.preventDefault();
+                if (page > 1) setPage(page - 1);
+              }}
+              title={t('previous')}
+            />
+          </PaginationItem>
+
+          {renderPages()}
+
+          <PaginationItem>
+            <PaginationNext
+              onClick={(e) => {
+                e.preventDefault();
+                if (page < totalPages) setPage(page + 1);
+              }}
+              title={t('next')}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+
+      {/* <Button
         variant="outline"
         size="sm"
         onClick={() => {
@@ -236,7 +338,7 @@ function DispTablePagination<TData>({
       >
         {t('next')}
         <MoveRight className="w-2.5" />
-      </Button>
+      </Button> */}
     </div>
   );
 }

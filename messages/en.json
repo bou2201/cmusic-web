@@ -176,8 +176,13 @@
         "all": "All"
       },
       "createOrUpdate": {
+        "save": "Save",
         "add": "Add new song",
         "update": "Update song",
+        "addSuccess": "Add new song successfully.",
+        "updateSuccess": "Update song successfully.",
+        "addFailed": "Add new song failed.",
+        "updateFailed": "Update song failed.",
         "title": "Title",
         "artist": "Artist",
         "featArtists": "Feat with.",
@@ -188,7 +193,8 @@
         "lyrics": "Lyrics",
         "cover": "Cover",
         "audio": "File Audio",
-        "duration": "Duration"
+        "duration": "Duration",
+        "descAudio": "Please do not reload the page or exit the browser to avoid errors."
       }
     }
   },

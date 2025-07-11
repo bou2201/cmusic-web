@@ -41,19 +41,22 @@ export function getArtistName(artist: Artist, featArtist: Artist[]): string {
 export function getArtistInfo(
   artist: Artist,
   featArtist: Artist[] = [],
+  admin?: boolean,
 ): Array<{ name: string; href: string }> {
   if (featArtist && featArtist.length > 0) {
     const allArtists = [artist, ...featArtist];
     return allArtists.map((art) => ({
       name: art.name,
-      href: `${Routes.Artists}/${art.id}`,
+      href: admin ? `${Routes.AdminArtists}/update?id=${art.id}` : `${Routes.Artists}/${art.id}`,
     }));
   }
 
   return [
     {
       name: artist.name,
-      href: `${Routes.Artists}/${artist.id}`,
+      href: admin
+        ? `${Routes.AdminArtists}/update?id=${artist.id}`
+        : `${Routes.Artists}/${artist.id}`,
     },
   ];
 }

@@ -4,6 +4,7 @@ export * from './data-display/disp-dialog';
 export * from './data-display/disp-drawer';
 export * from './data-display/disp-dropdown';
 export * from './data-display/disp-empty';
+export * from './data-display/disp-hls-audio-player';
 export * from './data-display/disp-sheet';
 export * from './data-display/disp-table';
 export * from './data-display/disp-tabs';

@@ -25,15 +25,14 @@ import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 
-type ComboboxOption = Record<string, any>;
-
 type ComboboxProps<T extends FieldValues> = {
   name: FieldPath<T>;
   label?: string;
   description?: string | ReactNode;
   className?: string;
   disableMessage?: boolean;
-  options: ComboboxOption[];
+  required?: boolean;
+  options: Record<string, any>[];
   placeholder?: string;
   isLoading?: boolean;
   /** Field name inside option to use as value */
@@ -49,6 +48,7 @@ export const Combobox = <T extends FieldValues>({
   description,
   className,
   disableMessage = false,
+  required = false,
   options,
   placeholder = '...',
   isLoading,
@@ -61,10 +61,8 @@ export const Combobox = <T extends FieldValues>({
   const { control, setValue } = useFormContext<T>();
   const t = useTranslations<NextIntl.Namespace<'Component.formHandler'>>('Component.formHandler');
 
-  const filteredOptions = options.filter(
-    (opt) =>
-      opt[optionLabel].toLowerCase().includes(searchTerm.toLowerCase()) ||
-      opt[optionValue].toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredOptions = options.filter((opt) =>
+    opt[optionLabel].toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -94,7 +92,12 @@ export const Combobox = <T extends FieldValues>({
 
         return (
           <FormItem className={className}>
-            {label && <FormLabel className="text-[13px]">{label}</FormLabel>}
+            {label && (
+              <FormLabel className="text-[13px]">
+                {required && <span className="text-destructive">*</span>}
+                {label}
+              </FormLabel>
+            )}
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <FormControl>

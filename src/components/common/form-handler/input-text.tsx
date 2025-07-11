@@ -24,6 +24,7 @@ type InputTextProps<T extends FieldValues> = {
   debounceDelay?: number;
   isDebounce?: boolean;
   disableMessage?: boolean;
+  required?: boolean;
 };
 
 export const InputText = <T extends FieldValues>({
@@ -35,6 +36,7 @@ export const InputText = <T extends FieldValues>({
   debounceDelay,
   isDebounce,
   disableMessage = false,
+  required,
 }: InputTextProps<T>) => {
   const { control } = useFormContext<T>();
 
@@ -45,7 +47,12 @@ export const InputText = <T extends FieldValues>({
       render={({ field, fieldState: { error } }) => {
         return (
           <FormItem className={className}>
-            {label && <FormLabel className="text-[13px]">{label}</FormLabel>}
+            {label && (
+              <FormLabel className="text-[13px]">
+                {required && <span className="text-destructive">*</span>}
+                {label}
+              </FormLabel>
+            )}
             <FormControl>
               {isDebounce ? (
                 <InputDebounce
@@ -78,6 +85,7 @@ export const InputTextPassword = <T extends FieldValues>({
   className,
   inputProps,
   disableMessage = false,
+  required,
 }: Omit<InputTextProps<T>, 'debounceDelay' | 'isDebounce'>) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -90,7 +98,12 @@ export const InputTextPassword = <T extends FieldValues>({
       render={({ field, fieldState: { error } }) => {
         return (
           <FormItem className={className}>
-            {label && <FormLabel className="text-[13px]">{label}</FormLabel>}
+            {label && (
+              <FormLabel className="text-[13px]">
+                {required && <span className="text-destructive">*</span>}
+                {label}
+              </FormLabel>
+            )}
             <FormControl>
               <div className="relative">
                 <Input

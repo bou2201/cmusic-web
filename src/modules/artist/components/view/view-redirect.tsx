@@ -9,10 +9,11 @@ type ViewRedirectArtistProps = {
   artist: Artist;
   artists: Artist[];
   className?: string;
+  admin?: boolean;
 };
 
-export function ViewRedirectArtist({ artist, artists, className }: ViewRedirectArtistProps) {
-  const infor = getArtistInfo(artist, artists);
+export function ViewRedirectArtist({ artist, artists, className, admin }: ViewRedirectArtistProps) {
+  const infor = getArtistInfo(artist, artists, admin);
 
   return infor.map((art, index) => (
     <Fragment key={art.name}>

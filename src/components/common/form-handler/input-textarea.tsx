@@ -20,6 +20,7 @@ type InputTextareaProps<T extends FieldValues> = {
   debounceDelay?: number;
   isDebounce?: boolean;
   disableMessage?: boolean;
+  required?: boolean;
 };
 
 export const InputTextarea = <T extends FieldValues>({
@@ -31,6 +32,7 @@ export const InputTextarea = <T extends FieldValues>({
   debounceDelay,
   isDebounce,
   disableMessage = false,
+  required = false,
 }: InputTextareaProps<T>) => {
   const { control } = useFormContext<T>();
 
@@ -41,7 +43,12 @@ export const InputTextarea = <T extends FieldValues>({
       render={({ field, fieldState: { error } }) => {
         return (
           <FormItem className={className}>
-            {label && <FormLabel className="text-[13px]">{label}</FormLabel>}
+            {label && (
+              <FormLabel className="text-[13px]">
+                {required && <span className="text-destructive">*</span>}
+                {label}
+              </FormLabel>
+            )}
             <FormControl>
               {isDebounce ? (
                 <TextareaDebounce

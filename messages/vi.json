@@ -176,18 +176,25 @@
         "all": "Tất cả"
       },
       "createOrUpdate": {
+        "save": "Lưu",
         "add": "Thêm mới bài hát",
         "update": "Cập nhật bài hát",
+        "addSuccess": "Thêm mới bài hát thành công.",
+        "updateSuccess": "Cập nhật bài hát thành công.",
+        "addFailed": "Thêm mới bài hát thất bại.",
+        "updateFailed": "Cập nhật bài hát thất bại.",
         "title": "Tên bài hát",
         "artist": "Ca sĩ",
         "featArtists": "Ca sĩ feat.",
         "album": "Album",
         "genre": "Thể loại",
         "isPublic": "Public",
+        "isPublicDesc": "Bài hát này sẽ được hiển thị cho mọi người.",
         "lyrics": "Lyrics",
         "cover": "Ảnh bìa",
         "audio": "File âm thanh",
-        "duration": "Thời lượng"
+        "duration": "Thời lượng",
+        "descAudio": "Vui lòng không tải lại trang hoặc thoát trình duyệt để tránh lỗi trong quá trình tải lên audio."
       }
     }
   },
@@ -238,6 +245,12 @@
       "reset": "Làm mới",
       "submit": "Gửi",
       "noResult": "Không có kết quả."
+    },
+    "upload": {
+      "uploadImage": "Tải lên ảnh",
+      "uploadAudio": "Tải lên file âm thanh",
+      "uploadFile": "Tải lên file",
+      "dropFileHere": "Thả file vào đây"
     }
   }
 }

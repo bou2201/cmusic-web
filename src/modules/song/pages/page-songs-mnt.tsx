@@ -16,7 +16,7 @@ import { Button } from '@/components/ui';
 import { EllipsisIcon } from 'lucide-react';
 import { useSongStore } from '../store';
 import { FormFiltersMnt } from '../components';
-import { useRouter } from '@/i18n/navigation';
+import { Link, useRouter } from '@/i18n/navigation';
 import { Routes } from '@/constants/routes';
 
 export function PageSongsMnt() {
@@ -57,9 +57,13 @@ export function PageSongsMnt() {
       size: 280,
       cell: ({ row }) => {
         return (
-          <span className="font-semibold truncate line-clamp-1" title={row.original.title}>
+          <Link
+            href={`${Routes.AdminSongs}/update?id=${row.original.id}`}
+            className="font-semibold truncate line-clamp-1 hover:underline"
+            title={row.original.title}
+          >
             {row.original.title}
-          </span>
+          </Link>
         );
       },
     },
@@ -73,7 +77,7 @@ export function PageSongsMnt() {
 
         return (
           <div className="line-clamp-1 truncate">
-            <ViewRedirectArtist artist={artist} artists={artists} />
+            <ViewRedirectArtist artist={artist} artists={artists} admin />
           </div>
         );
       },
@@ -118,6 +122,9 @@ export function PageSongsMnt() {
               {
                 key: 'action-edit',
                 label: t('action.edit'),
+                onClick: () => {
+                  router.push(Routes.AdminSongs + '/update?id=' + row.original.id);
+                },
               },
               {
                 key: 'action-edit-public',

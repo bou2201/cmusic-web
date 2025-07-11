@@ -4,14 +4,18 @@ export * from './data-display/disp-dialog';
 export * from './data-display/disp-drawer';
 export * from './data-display/disp-dropdown';
 export * from './data-display/disp-empty';
+export * from './data-display/disp-hls-audio-player';
 export * from './data-display/disp-sheet';
 export * from './data-display/disp-table';
 export * from './data-display/disp-tabs';
 export * from './data-display/disp-tooltip';
 
 export * from './form-handler/combobox';
+export * from './form-handler/input-checkbox';
 export * from './form-handler/input-text';
 export * from './form-handler/input-textarea';
+export * from './form-handler/upload-audio';
+export * from './form-handler/upload-image';
 
 export * from './section/section-artist';
 export * from './section/section-banner';

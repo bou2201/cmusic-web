@@ -1,6 +1,6 @@
 import api from '@/lib/api';
 import { ApiReturnList, PaginationReq } from '~types/common';
-import { Song, SongFilter } from '../types';
+import { Song, SongFilter, UseSongCouMntSchemaType } from '../types';
 import { objectToQueryString } from '@/utiils/function';
 
 const API_TAG_BASE = '/song';
@@ -13,7 +13,7 @@ export const songService = {
 
   getSongById: (id: string) => api.get<Song>(`${API_TAG_BASE}/${id}`),
 
-  createSong: (payload: any) => api.post<Song>(`${API_TAG_BASE}`, payload),
+  createSong: (payload: UseSongCouMntSchemaType) => api.post<Song>(`${API_TAG_BASE}`, payload),
 
   updateSong: (id: string, payload: any) => api.patch<Song>(`${API_TAG_BASE}/${id}`, payload),
 

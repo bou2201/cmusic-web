@@ -32,20 +32,6 @@ export function FormCouMnt({ id }: { id?: string }) {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const form = useForm<UseSongCouMntSchemaType>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      isExplicit: false,
-      isPublic: true,
-      genreIds: [],
-      featuredArtistIds: [],
-      albumId: null,
-    },
-  });
-
-  const artistId = form.watch('artistId');
-  const featuredArtistIds = form.watch('featuredArtistIds');
-
   const { data: dataArtist, isLoading: isLoadingArtist } = useFetchArtist();
   const { data: dataGenre, isLoading: isLoadingGenre } = useFetchGenre();
   const { data: dataDetails } = useQuery({
@@ -54,30 +40,61 @@ export function FormCouMnt({ id }: { id?: string }) {
     enabled: !!id,
   });
 
+  const form = useForm<UseSongCouMntSchemaType>({
+    resolver: zodResolver(schema),
+    values: {
+      isExplicit: dataDetails?.isExplicit ?? false,
+      isPublic: dataDetails?.isPublic ?? true,
+      title: dataDetails?.title ?? '',
+      lyrics: dataDetails?.lyrics ?? '',
+      genreIds: dataDetails?.genres.map((item) => item.id) ?? [],
+      featuredArtistIds: dataDetails?.artists.map((item) => item.id) ?? [],
+      albumId: dataDetails?.albumId ?? null,
+      artistId: dataDetails?.artistId ?? '',
+      audioUrl: dataDetails?.audioUrl ?? '',
+      audioPublicId: dataDetails?.audioPublicId ?? '',
+      cover: dataDetails?.cover ?? undefined,
+      duration: dataDetails?.duration ?? 0,
+    },
+  });
+
+  const artistId = form.watch('artistId');
+  const featuredArtistIds = form.watch('featuredArtistIds');
+
   const { mutate: executeSubmit, isPending: isLoadingSubmit } = useMutation({
-    mutationFn: (data: UseSongCouMntSchemaType) => songService.createSong(data),
+    mutationFn: (data: UseSongCouMntSchemaType) =>
+      id ? songService.updateSong(id, data) : songService.createSong(data),
     onSuccess: () => {
-      toast.success(t('addSuccess'));
+      if (id) {
+        toast.success(t('updateSuccess'));
+      } else {
+        toast.success(t('addSuccess'));
+      }
 
       queryClient.invalidateQueries({ queryKey: ['songs-mnt'] });
       router.push(Routes.AdminSongs);
     },
     onError: (error) => {
       console.log(error);
-      toast.error(t('addFailed'));
+
+      if (id) {
+        toast.error(t('updateFailed'));
+      } else {
+        toast.error(t('addFailed'));
+      }
     },
   });
 
-  useEffect(() => {
-    if (dataDetails) {
-      form.reset({
-        ...dataDetails,
-        genreIds: dataDetails.genres.map((item) => item.id) ?? [],
-        featuredArtistIds: dataDetails.artists.map((item) => item.id) ?? [],
-        albumId: dataDetails.albumId ?? null,
-      });
-    }
-  }, [dataDetails, form]);
+  // useEffect(() => {
+  //   if (dataDetails) {
+  //     form.reset({
+  //       ...dataDetails,
+  //       genreIds: dataDetails.genres.map((item) => item.id) ?? [],
+  //       featuredArtistIds: dataDetails.artists.map((item) => item.id) ?? [],
+  //       albumId: dataDetails.albumId ?? null,
+  //     });
+  //   }
+  // }, [dataDetails, form]);
 
   useEffect(() => {
     if (!artistId) return;
@@ -97,7 +114,7 @@ export function FormCouMnt({ id }: { id?: string }) {
           onSubmit={form.handleSubmit((data) => executeSubmit(data))}
         >
           <div className="grid grid-cols-2 gap-14">
-            <div className="col-span-1">
+            <div className="col-span-1 max-md:col-span-2">
               <div className="grid grid-cols-2 gap-6 items-baseline">
                 <InputText<UseSongCouMntSchemaType>
                   className="col-span-1"
@@ -162,7 +179,7 @@ export function FormCouMnt({ id }: { id?: string }) {
                   debounceDelay={500}
                   textareaProps={{
                     placeholder: t('lyrics'),
-                    className: 'h-[200px]',
+                    className: 'h-64',
                   }}
                 />
 
@@ -175,7 +192,7 @@ export function FormCouMnt({ id }: { id?: string }) {
               </div>
             </div>
 
-            <div className="col-span-1 gap-6 flex flex-col">
+            <div className="col-span-1 max-md:col-span-2 gap-6 flex flex-col">
               <UploadImage<UseSongCouMntSchemaType> name="cover" label={t('cover')} />
 
               <UploadAudio<UseSongCouMntSchemaType>
@@ -186,7 +203,6 @@ export function FormCouMnt({ id }: { id?: string }) {
               />
             </div>
           </div>
-
           <div className="flex justify-end mt-10">
             <Button
               variant="primary"
@@ -194,7 +210,6 @@ export function FormCouMnt({ id }: { id?: string }) {
               className="font-semibold text-base"
               type="submit"
               isLoading={isLoadingSubmit}
-              disabled={!form.formState.isDirty}
             >
               {t('save')}
             </Button>

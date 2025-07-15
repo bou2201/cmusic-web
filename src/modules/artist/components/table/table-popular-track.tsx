@@ -120,7 +120,7 @@ export function TablePopularTrack({ songLoading, songResults }: TablePopularTrac
   return (
     <DispTable
       columns={columns}
-      data={songResults?.data as Song[]}
+      data={songResults?.data as Song[] ?? []}
       isLoading={songLoading}
       showHeader={false}
       cnTableRow="border-0 rounded-md"

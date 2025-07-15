@@ -15,7 +15,7 @@ export const songService = {
 
   createSong: (payload: UseSongCouMntSchemaType) => api.post<Song>(`${API_TAG_BASE}`, payload),
 
-  updateSong: (id: string, payload: any) => api.patch<Song>(`${API_TAG_BASE}/${id}`, payload),
+  updateSong: (id: string, payload: UseSongCouMntSchemaType) => api.patch<Song>(`${API_TAG_BASE}/${id}`, payload),
 
   deleteSong: (id: string) => api.delete<Song>(`${API_TAG_BASE}/${id}`),
 

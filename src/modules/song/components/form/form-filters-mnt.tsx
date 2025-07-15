@@ -8,8 +8,6 @@ import { Combobox, InputText } from '@/components/common';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { artistService } from '@/modules/artist';
 import { useFetchArtist } from '../../hooks';
 
 export function FormFiltersMnt() {

@@ -29,7 +29,7 @@ import { ApiReturnList } from '~types/common';
 import { DispEmpty } from './disp-empty';
 import { DispDropdown, DispDropdownMenuProps } from './disp-dropdown';
 import { useMemo } from 'react';
-import { ChevronsUpDown, MoveLeft, MoveRight } from 'lucide-react';
+import { ChevronsUpDown, Loader2, MoveLeft, MoveRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 
@@ -94,7 +94,7 @@ export function DispTable<TData, TValue>({
   return (
     <section className="w-full">
       <div className="rounded-md">
-        <Table className={cnTable}>
+        <Table className={`relative ${cnTable}`} suppressHydrationWarning>
           {/* Header */}
           {showHeader ? (
             <TableHeader>
@@ -122,41 +122,39 @@ export function DispTable<TData, TValue>({
           ) : null}
 
           {/* Body */}
-          {isLoading ? (
-            <DispTableLoading table={table} countLoading={countLoading} cnSkeleton={cnSkeleton} />
-          ) : (
-            <TableBody className={cnTableBody}>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && 'selected'}
-                    className={cnTableRow}
-                    onMouseEnter={() => onRowMouseEnter?.(row.index)}
-                    onMouseLeave={onRowMouseLeave}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        style={{
-                          minWidth: cell.column.columnDef.size,
-                          maxWidth: cell.column.columnDef.size,
-                        }}
-                      >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={columns.length} className="h-24 text-center">
-                    <DispEmpty title={titleNoResult} />
-                  </TableCell>
+          <TableBody className={cnTableBody}>
+            {table?.getRowModel?.().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                  className={cnTableRow}
+                  onMouseEnter={() => onRowMouseEnter?.(row.index)}
+                  onMouseLeave={onRowMouseLeave}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      style={{
+                        minWidth: cell.column.columnDef.size,
+                        maxWidth: cell.column.columnDef.size,
+                      }}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              )}
-            </TableBody>
-          )}
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  <DispEmpty title={titleNoResult} />
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+
+          {isLoading ? <DispTableLoadingProgress /> : null}
         </Table>
       </div>
 
@@ -186,6 +184,14 @@ function DispTableLoading<TData>({
   );
 }
 
+function DispTableLoadingProgress() {
+  return (
+    <div className="absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full flex justify-center items-center bg-background/50 pointer-events-none">
+      <Loader2 className="animate-spin w-12 h-12" />
+    </div>
+  );
+}
+
 function DispTablePagination<TData>({
   page,
   limit,
@@ -207,9 +213,8 @@ function DispTablePagination<TData>({
     }));
   }, [setLimit, setPage]);
 
-  const renderPages = () => {
+  const pageItems = useMemo(() => {
     const pages: number[] = [];
-
     const startPage = Math.max(1, page - 2);
     const endPage = Math.min(totalPages, page + 2);
 
@@ -274,7 +279,7 @@ function DispTablePagination<TData>({
     }
 
     return items;
-  };
+  }, [page, totalPages, setPage]);
 
   return (
     <div className="flex items-center justify-between space-x-2 py-4">
@@ -287,58 +292,38 @@ function DispTablePagination<TData>({
             <ChevronsUpDown className="h-3 w-3" />
           </Button>
         </DispDropdown>
+        <span className="text-[13px] whitespace-nowrap opacity-70">
+          {t('total')}: {total}
+        </span>
       </div>
 
-      <Pagination className="justify-end">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              onClick={(e) => {
-                e.preventDefault();
-                if (page > 1) setPage(page - 1);
-              }}
-              title={t('previous')}
-            />
-          </PaginationItem>
+      {totalPages > 0 && (
+        <Pagination className="justify-end">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (page > 1) setPage(page - 1);
+                }}
+                title={t('previous')}
+              />
+            </PaginationItem>
 
-          {renderPages()}
+            {pageItems}
 
-          <PaginationItem>
-            <PaginationNext
-              onClick={(e) => {
-                e.preventDefault();
-                if (page < totalPages) setPage(page + 1);
-              }}
-              title={t('next')}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-
-      {/* <Button
-        variant="outline"
-        size="sm"
-        onClick={() => {
-          setPage(page - 1);
-        }}
-        disabled={page <= 1}
-        className="flex items-center gap-2 text-[12px]"
-      >
-        <MoveLeft className="w-2.5" />
-        {t('previous')}
-      </Button>
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => {
-          setPage(page + 1);
-        }}
-        disabled={!hasNextPage}
-        className="flex items-center gap-2 text-[12px]"
-      >
-        {t('next')}
-        <MoveRight className="w-2.5" />
-      </Button> */}
+            <PaginationItem>
+              <PaginationNext
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (page < totalPages) setPage(page + 1);
+                }}
+                title={t('next')}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
   );
 }

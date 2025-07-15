@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuthLoginSchema, type AuthReqLoginType } from '../types';
-import { DisDialog, InputText, InputTextPassword } from '@/components/common';
+import { DispDialog, InputText, InputTextPassword } from '@/components/common';
 import { ApiReturn, DialogState } from '~types/common';
 import { Button, Form } from '@/components/ui';
 import { NextIntl } from '~types/next-intl';
@@ -60,7 +60,7 @@ export function AuthLogin({ open, setOpen }: DialogState) {
   }, []);
 
   return (
-    <DisDialog open={open} setOpen={setOpen} title={t('submitLogin')}>
+    <DispDialog open={open} setOpen={setOpen} title={t('submitLogin')}>
       <Form {...form}>
         <form
           id="form-login"
@@ -101,6 +101,6 @@ export function AuthLogin({ open, setOpen }: DialogState) {
           </div>
         </form>
       </Form>
-    </DisDialog>
+    </DispDialog>
   );
 }

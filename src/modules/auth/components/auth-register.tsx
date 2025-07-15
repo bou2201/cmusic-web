@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuthRegisterSchema, type AuthReqRegisterType } from '../types';
-import { DisDialog, InputText, InputTextPassword } from '@/components/common';
+import { DispDialog, InputText, InputTextPassword } from '@/components/common';
 import { ApiReturn, DialogState } from '~types/common';
 import { Button, Form } from '@/components/ui';
 import { NextIntl } from '~types/next-intl';
@@ -62,7 +62,7 @@ export function AuthRegister({ open, setOpen }: DialogState) {
   }, []);
 
   return (
-    <DisDialog open={open} setOpen={setOpen} title={t('submitRegister')}>
+    <DispDialog open={open} setOpen={setOpen} title={t('submitRegister')}>
       <Form {...form}>
         <form
           id="form-register"
@@ -119,6 +119,6 @@ export function AuthRegister({ open, setOpen }: DialogState) {
           </div>
         </form>
       </Form>
-    </DisDialog>
+    </DispDialog>
   );
 }

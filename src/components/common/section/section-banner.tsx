@@ -23,7 +23,7 @@ export function SectionBanner({
   const t = useTranslations<NextIntl.Namespace<'Section'>>('Section');
 
   return (
-    <section className="py-4">
+    <section className="py-4 lg:py-8">
       <div className="flex justify-between items-center mb-4">
         <h3 className="md:text-xl lg:text-2xl font-bold opacity-90">{title}</h3>
         {isViewAll ? (

@@ -12,7 +12,7 @@ import {
 import { X } from 'lucide-react';
 import { ComponentProps, ReactNode } from 'react';
 
-export type DisDialogProps = {
+export type DispDialogProps = {
   children: ReactNode;
   trigger?: ReactNode;
   modal?: boolean;
@@ -22,7 +22,7 @@ export type DisDialogProps = {
   setOpen?: (open: boolean) => void;
 } & ComponentProps<typeof DialogContent>;
 
-export function DisDialog({
+export function DispDialog({
   children,
   trigger,
   modal,
@@ -31,7 +31,7 @@ export function DisDialog({
   open,
   setOpen,
   ...props
-}: DisDialogProps) {
+}: DispDialogProps) {
   return (
     <Dialog modal={modal} open={open} onOpenChange={setOpen}>
       {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}

@@ -11,6 +11,7 @@ import { TablePopularTrack } from '../components';
 import { Song, songService, useSongStore } from '@/modules/song';
 import { useState } from 'react';
 import { AuthLogin, useAuthStore } from '@/modules/auth';
+import Image from 'next/image';
 
 export function PageDetails({ id }: { id: string }) {
   const [openLogin, setOpenLogin] = useState<boolean>(false);
@@ -80,9 +81,29 @@ export function PageDetails({ id }: { id: string }) {
           </Button>
         </div>
 
-        <div>
-          <h3 className="font-bold my-6 text-2xl">{tSectionSong('featuredSong')}</h3>
+        <div className="my-10">
+          <h3 className="font-bold mb-6 text-2xl">{tSectionSong('featuredSong')}</h3>
           <TablePopularTrack songLoading={songLoading} songResults={songResults} />
+        </div>
+
+        <div className="my-10">
+          <h3 className="font-bold mb-6 text-2xl">
+            {tSectionSong('about')} {artist.name}
+          </h3>
+          <div className="grid grid-cols-2 xl:grid-cols-5 gap-8 max-w-4xl">
+            <div className="col-span-2 max-h-60">
+              <Image
+                width={400}
+                height={400}
+                alt={artist?.name}
+                src={artist?.avatar.url}
+                className="w-full h-full object-cover rounded-md"
+              />
+            </div>
+            <div className="col-span-2 xl:col-span-3">
+              <p className="text-[#a5a5a5] text-sm font-semibold">{artist.bio}</p>
+            </div>
+          </div>
         </div>
       </SectionDetails>
 

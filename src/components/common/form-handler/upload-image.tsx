@@ -38,9 +38,6 @@ export function UploadImage<T extends FieldValues>({
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [image, setImage] = useState<ImageType | null>(null);
 
-  const t = useTranslations<NextIntl.Namespace<'SongsPage.songMnt.createOrUpdate'>>(
-    'SongsPage.songMnt.createOrUpdate',
-  );
   const tUpload = useTranslations<NextIntl.Namespace<'Component.upload'>>('Component.upload');
   const { setValue, control } = useFormContext<T>();
   const fieldValue = useWatch({ control, name }) as unknown;

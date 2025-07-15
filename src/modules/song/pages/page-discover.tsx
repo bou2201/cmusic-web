@@ -47,7 +47,7 @@ export function PageDiscover() {
         </SectionBanner>
       ) : null}
 
-      <SectionBanner title={t('song.featuredSong')}>
+      <SectionBanner title={t('song.featuredSong')} isViewAll={false}>
         {songLoading ? (
           <SectionSongSkeleton quantity={6} />
         ) : (
@@ -59,7 +59,7 @@ export function PageDiscover() {
         )}
       </SectionBanner>
 
-      <SectionBanner title={t('song.featuredArtist')}>
+      <SectionBanner title={t('song.featuredArtist')} isViewAll={false}>
         {aristLoading ? (
           <SectionArtistSkeleton quantity={10} />
         ) : (

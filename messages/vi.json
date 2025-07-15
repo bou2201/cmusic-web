@@ -96,11 +96,77 @@
   "ArtistPage": {
     "metadata": {
       "title": "Ca sĩ"
+    },
+    "artistMnt": {
+      "title": "Quản lý ca sĩ",
+      "table": {
+        "avatar": "Ảnh đại diện",
+        "name": "Tên ca sĩ",
+        "songs": "Số bài hát",
+        "followers": "Người theo dõi",
+        "createdAt": "Ngày tạo",
+        "updatedAt": "Ngày cập nhật",
+        "popular": "Nổi bật"
+      },
+      "action": {
+        "create": "Thêm mới",
+        "edit": "Sửa"
+      },
+      "createOrUpdate": {
+        "save": "Lưu",
+        "add": "Thêm mới ca sĩ",
+        "update": "Cập nhật ca sĩ",
+        "addSuccess": "Thêm mới ca sĩ thành công.",
+        "updateSuccess": "Cập nhật ca sĩ thành công.",
+        "addFailed": "Thêm mới ca sĩ thất bại.",
+        "updateFailed": "Cập nhật ca sĩ thất bại.",
+        "name": "Tên ca sĩ",
+        "avatar": "Ảnh đại diện",
+        "descAvatar": "Vui lòng không tải lại trang hoặc thoát trình duyệt để tránh lỗi trong quá trình tải lên avatar.",
+        "popular": "Nổi bật",
+        "bio": "Giới thiệu"
+      },
+      "filters": {
+        "search": "Ca sĩ",
+        "popular": "Nổi bật"
+      }
     }
   },
   "GenrePage": {
     "metadata": {
       "title": "Thể loại"
+    },
+    "genreMnt": {
+      "title": "Quản lý thể loại",
+      "table": {
+        "name": "Tên thể loại",
+        "createdAt": "Ngày tạo",
+        "updatedAt": "Ngày cập nhật",
+        "slug": "Slug",
+        "desciption": "Mô tả",
+        "featured": "Nổi bật"
+      },
+      "action": {
+        "create": "Thêm mới",
+        "edit": "Sửa"
+      },
+      "createOrUpdate": {
+        "save": "Lưu",
+        "add": "Thêm mới thể loại",
+        "update": "Cập nhật thể loại",
+        "addSuccess": "Thêm mới thể loại thành công.",
+        "updateSuccess": "Cập nhật thể loại thành công.",
+        "addFailed": "Thêm mới thể loại thất bại.",
+        "updateFailed": "Cập nhật thể loại thất bại.",
+        "name": "Tên thể loại",
+        "slug": "Slug",
+        "description": "Mô tả",
+        "featured": "Nổi bật"
+      },
+      "filters": {
+        "search": "Thể loại",
+        "featured": "Nổi bật"
+      }
     }
   },
   "FavoriteSongsPage": {
@@ -224,7 +290,8 @@
       "listenAgain": "Nghe gần đây",
       "featuredSong": "Bài hát nổi bật",
       "featuredArtist": "Ca sĩ nổi bật",
-      "featuredAlbum": "Album"
+      "featuredAlbum": "Album",
+      "about": "Về"
     },
     "artist": {
       "role": "Nghệ sĩ",

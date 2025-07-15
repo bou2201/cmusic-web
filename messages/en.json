@@ -96,11 +96,77 @@
   "ArtistPage": {
     "metadata": {
       "title": "Artists"
+    },
+    "artistMnt": {
+      "title": "Artists Management",
+      "table": {
+        "avatar": "Avatar",
+        "name": "Name",
+        "songs": "Songs",
+        "followers": "Followers",
+        "createdAt": "Created At",
+        "updatedAt": "Updated At",
+        "popular": "Popular"
+      },
+      "action": {
+        "create": "Add new",
+        "edit": "Edit"
+      },
+      "createOrUpdate": {
+        "save": "Save",
+        "add": "Add new artist",
+        "update": "Update artist",
+        "addSuccess": "Add new artist successfully.",
+        "updateSuccess": "Update artist successfully.",
+        "addFailed": "Add new artist failed.",
+        "updateFailed": "Update artist failed.",
+        "name": "Name",
+        "avatar": "Avatar",
+        "descAvatar": "Do not reload the page or exit the browser to avoid errors.",
+        "popular": "Popular",
+        "bio": "Bio"
+      },
+      "filters": {
+        "search": "Search by name",
+        "popular": "Popular"
+      }
     }
   },
   "GenrePage": {
     "metadata": {
       "title": "Genres"
+    },
+    "genreMnt": {
+      "title": "Genre Management",
+      "table": {
+        "name": "Name",
+        "createdAt": "Created At",
+        "updatedAt": "Updated At",
+        "slug": "Slug",
+        "desciption": "Description",
+        "featured": "Featured"
+      },
+      "action": {
+        "create": "Add new",
+        "edit": "Edit"
+      },
+      "createOrUpdate": {
+        "save": "Save",
+        "add": "Add new genre",
+        "update": "Update genre",
+        "addSuccess": "Add new genre successfully.",
+        "updateSuccess": "Update genre successfully.",
+        "addFailed": "Add new genre failed.",
+        "updateFailed": "Update genre failed.",
+        "name": "Name",
+        "slug": "Slug",
+        "description": "Description",
+        "featured": "Featured"
+      },
+      "filters": {
+        "search": "Search by name",
+        "featured": "Featured"
+      }
     }
   },
   "FavoriteSongsPage": {
@@ -224,7 +290,8 @@
       "listenAgain": "Listen Again",
       "featuredSong": "Featured Song",
       "featuredArtist": "Popular Artist",
-      "featuredAlbum": "Album"
+      "featuredAlbum": "Album",
+      "about": "About"
     },
     "artist": {
       "role": "Artist",

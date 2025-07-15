@@ -49,7 +49,7 @@ const initialValues: SongState = {
   volume: getInitialVolume(),
   isShuffle: getInitialShuffle(),
   repeatMode: getInitialRepeatMode(),
-  openPlayList: false,
+  openPlayList: true,
   filters: {
     search: undefined,
     artistId: undefined,

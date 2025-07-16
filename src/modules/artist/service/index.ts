@@ -16,7 +16,7 @@ export const artistService = {
   createArtist: (payload: UseArtistCouMntSchemaType) =>
     api.post<Artist>(`${API_TAG_BASE}`, payload),
 
-  updateArtist: (id: string, payload: UseArtistCouMntSchemaType) =>
+  updateArtist: (id: string, payload: Partial<UseArtistCouMntSchemaType>) =>
     api.patch<Artist>(`${API_TAG_BASE}/${id}`, payload),
 
   deleteArtist: (id: string) => api.delete<Artist>(`${API_TAG_BASE}/${id}`),

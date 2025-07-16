@@ -40,12 +40,12 @@ export function NavigationWeb(): NavigationType[] {
           url: Routes.Discover,
           icon: <ComponentIcon />,
         },
-        {
-          key: 'songs',
-          title: t('library.items.songs'),
-          url: Routes.Songs,
-          icon: <ListMusicIcon />,
-        },
+        // {
+        //   key: 'songs',
+        //   title: t('library.items.songs'),
+        //   url: Routes.Songs,
+        //   icon: <ListMusicIcon />,
+        // },
         {
           key: 'albums',
           title: t('library.items.albums'),

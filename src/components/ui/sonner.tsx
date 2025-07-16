@@ -1,12 +1,13 @@
 'use client';
 
 import { useTheme } from 'next-themes';
+import { createPortal } from 'react-dom';
 import { Toaster as Sonner, ToasterProps } from 'sonner';
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = 'system' } = useTheme();
 
-  return (
+  const toasterContent = (
     <Sonner
       theme={theme as ToasterProps['theme']}
       className="toaster group"
@@ -23,6 +24,11 @@ const Toaster = ({ ...props }: ToasterProps) => {
       {...props}
     />
   );
+
+  // Only render in the browser
+  if (typeof window === 'undefined') return null;
+
+  return createPortal(toasterContent, document.body);
 };
 
 export { Toaster };

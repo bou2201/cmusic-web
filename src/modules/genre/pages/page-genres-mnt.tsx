@@ -11,6 +11,7 @@ import { DispDropdown, DispTable, SectionMnt } from '@/components/common';
 import { Button } from '@/components/ui';
 import { EllipsisIcon } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
+import { FormCouMnt, FormFiltersMnt } from '../components';
 
 export function PageGenresMnt() {
   const [page, setPage] = useState<number>(1);
@@ -30,12 +31,16 @@ export function PageGenresMnt() {
     {
       accessorKey: 'name',
       header: t('table.name'),
-      size: 200,
+      size: 150,
       cell: ({ row }) => {
         return (
           <span
-            className="font-semibold truncate line-clamp-1 hover:underline"
+            className="font-semibold truncate line-clamp-1 hover:underline cursor-pointer"
             title={row.original.name}
+            onClick={() => {
+              setOpenCou(true);
+              setCurrentGenre(row.original);
+            }}
           >
             {row.original.name}
           </span>
@@ -45,12 +50,19 @@ export function PageGenresMnt() {
     {
       accessorKey: 'slug',
       header: t('table.slug'),
-      size: 200,
+      size: 150,
     },
     {
       accessorKey: 'description',
       header: t('table.desciption'),
-      size: 300,
+      size: 250,
+      cell: ({ row }) => {
+        return (
+          <span className="whitespace-break-spaces line-clamp-2" title={row.original.description}>
+            {row.original.description}
+          </span>
+        );
+      },
     },
     {
       accessorKey: 'isFeatured',
@@ -100,7 +112,7 @@ export function PageGenresMnt() {
           setOpenCou(true);
         }}
       >
-        {/* <FormFiltersMnt /> */}
+        <FormFiltersMnt />
         <DispTable
           columns={columns}
           data={dataGenres?.data ?? []}
@@ -116,14 +128,14 @@ export function PageGenresMnt() {
         />
       </SectionMnt>
 
-      {/* {openCou ? (
-    <FormCouMnt
-      open={openCou}
-      setOpen={setOpenCou}
-      artist={currentArtist}
-      setArtist={setCurrentAritst}
-    />
-  ) : null} */}
+      {openCou ? (
+        <FormCouMnt
+          open={openCou}
+          setOpen={setOpenCou}
+          genre={currentGenre}
+          setGenre={setCurrentGenre}
+        />
+      ) : null}
     </>
   );
 }

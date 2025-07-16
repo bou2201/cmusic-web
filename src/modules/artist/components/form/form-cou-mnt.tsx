@@ -17,6 +17,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { artistService } from '../../service';
 import { toast } from 'sonner';
+import { getChangedFields } from '@/utiils/function';
 
 type FormCouMntProps = DialogState & {
   artist?: Artist;
@@ -41,8 +42,10 @@ export function FormCouMnt({ open, setOpen, artist, setArtist }: FormCouMntProps
   });
 
   const { mutate: executeSubmit, isPending: isLoadingSubmit } = useMutation({
-    mutationFn: (data: UseArtistCouMntSchemaType) =>
-      artist ? artistService.updateArtist(artist.id, data) : artistService.createArtist(data),
+    mutationFn: (data: Partial<UseArtistCouMntSchemaType>) =>
+      artist
+        ? artistService.updateArtist(artist.id, data)
+        : artistService.createArtist(data as UseArtistCouMntSchemaType),
     onSuccess: () => {
       if (artist) {
         toast.success(t('updateSuccess'));
@@ -78,8 +81,21 @@ export function FormCouMnt({ open, setOpen, artist, setArtist }: FormCouMntProps
     >
       <Form {...form}>
         <form
-          id={artist ? `form-cou-mnt-update-${artist.id}` : 'form-cou-mnt-create'}
-          onSubmit={form.handleSubmit((data) => executeSubmit(data))}
+          id={artist ? `form-artist-cou-mnt-update-${artist.id}` : 'form-artist-cou-mnt-create'}
+          onSubmit={form.handleSubmit((data) => {
+            let payload: Partial<UseArtistCouMntSchemaType> = data;
+
+            if (artist) {
+              const original = {
+                isPopular: artist.isPopular,
+                name: artist.name,
+                bio: artist.bio,
+                avatar: artist.avatar,
+              };
+              payload = getChangedFields(original, data);
+            }
+            return executeSubmit(payload);
+          })}
           className="flex flex-col gap-5 mt-2"
         >
           <UploadImage<UseArtistCouMntSchemaType> name="avatar" label={t('avatar')} />

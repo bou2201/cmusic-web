@@ -3,8 +3,8 @@
 import { Button, Skeleton } from '@/components/ui';
 import { Routes } from '@/constants/routes';
 import { Link, useRouter } from '@/i18n/navigation';
-import { isCurrentlyPlaying, Song, useSongStore } from '@/modules/song';
-import { PlayIcon } from 'lucide-react';
+import { DropdownHelper, isCurrentlyPlaying, Song, useSongStore } from '@/modules/song';
+import { PauseIcon, PlayIcon } from 'lucide-react';
 import Image from 'next/image';
 import { DispAnimationWave } from '../data-display/disp-animation';
 import { ViewRedirectArtist } from '@/modules/artist';
@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 
 export function SectionSongInPlayListPlaying({ song }: { song: Song }) {
   const { track, playlist, isPlaying, currentTrackIndex } = useSongStore((state) => state);
-  
+
   return (
     <div className="flex flex-col gap-3 p-2 rounded-md hover:bg-neutral-800 transition cursor-pointer">
       <div className="w-full h-auto rounded-md shrink-0 relative aspect-square">
@@ -42,7 +42,11 @@ export function SectionSongInPlayListPlaying({ song }: { song: Song }) {
             {song.title}
           </Link>
           <div>
-            <ViewRedirectArtist artist={song.artist} artists={song.artists} className="text-[13px]" />
+            <ViewRedirectArtist
+              artist={song.artist}
+              artists={song.artists}
+              className="text-[13px]"
+            />
           </div>
         </div>
       </div>
@@ -99,16 +103,15 @@ export function SectionSongInPlaylist({ song, indexSong }: { song: Song; indexSo
 }
 
 export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large' }) {
-  const { track, setTrack, playlist, isPlaying, currentTrackIndex } = useSongStore(
-    (state) => state,
-  );
+  const { track, setTrack, playlist, isPlaying, currentTrackIndex, playAudio, pauseAudio } =
+    useSongStore((state) => state);
 
   const router = useRouter();
 
   if (size === 'small') {
     return (
-      <div className="flex gap-3 p-3 rounded-md hover:bg-neutral-800 transition cursor-pointer">
-        <div className="w-12 h-12 rounded-md shrink-0 relative">
+      <div className="group flex gap-3 p-3 rounded-md hover:bg-neutral-800 transition cursor-pointer relative">
+        <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-md shrink-0 relative">
           <Image
             src={song.cover?.url ?? '/images/song-default-white.png'}
             alt={song.title}
@@ -131,28 +134,53 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
             return router.push(`${Routes.Songs}/${song.id}`);
           }}
         >
-          <div className="flex flex-col truncate">
-            <Link
-              href={`${Routes.Songs}/${song.id}`}
-              className="font-semibold truncate hover:underline"
-              title={song.title}
+          <div className="relative w-full">
+            <div
+              className="flex justify-between gap-5 items-center w-full overflow-hidden"
+              onClick={() => router.push(`${Routes.Songs}/${song.id}`)}
             >
-              {song.title}
-            </Link>
-            <div>
-              <ViewRedirectArtist artist={song.artist} artists={song.artists} />
+              <div className="flex flex-col truncate">
+                <Link
+                  href={`${Routes.Songs}/${song.id}`}
+                  className="font-semibold truncate hover:underline"
+                  title={song.title}
+                >
+                  {song.title}
+                </Link>
+                <div>
+                  <ViewRedirectArtist artist={song.artist} artists={song.artists} />
+                </div>
+              </div>
+            </div>
+
+            {/* Action buttons (hover only) */}
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 flex gap-1 items-center opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition">
+              <Button
+                className="rounded-full bg-primary-pink hover:bg-primary-pink/80 p-3 drop-shadow-md transition w-8 h-8 shrink-0"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const isCurrentSong = track?.id === song.id;
+
+                  if (isPlaying && isCurrentSong) {
+                    pauseAudio();
+                  } else {
+                    if (!isCurrentSong) {
+                      setTrack(song); // chỉ set nếu là bài mới
+                    }
+                    playAudio(); // luôn gọi play
+                  }
+                }}
+                size="icon"
+              >
+                {isPlaying && track?.id === song.id ? (
+                  <PauseIcon className="stroke-white fill-white" />
+                ) : (
+                  <PlayIcon className="stroke-white fill-white" />
+                )}
+              </Button>
+              <DropdownHelper song={song} />
             </div>
           </div>
-          <Button
-            className="rounded-full bg-primary-pink hover:bg-primary-pink/80 p-3 drop-shadow-md transition w-8 h-8 shrink-0"
-            onClick={(e) => {
-              e.stopPropagation();
-              setTrack(song);
-            }}
-            size="icon"
-          >
-            <PlayIcon className="stroke-white fill-white" />
-          </Button>
         </div>
       </div>
     );
@@ -172,16 +200,30 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
           fill
           className="object-cover"
         />
-        <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition">
+        <div className="absolute bottom-2 right-2 flex gap-2 items-center opacity-0 group-hover:opacity-100 transition">
+          <DropdownHelper song={song} />
           <Button
             className="rounded-full bg-primary-pink hover:bg-primary-pink p-3 drop-shadow-md hover:scale-110 transition w-12 h-12"
             onClick={(e) => {
               e.stopPropagation();
-              setTrack(song);
+              const isCurrentSong = track?.id === song.id;
+
+              if (isPlaying && isCurrentSong) {
+                pauseAudio();
+              } else {
+                if (!isCurrentSong) {
+                  setTrack(song); // chỉ set nếu là bài mới
+                }
+                playAudio(); // luôn gọi play
+              }
             }}
             size="icon"
           >
-            <PlayIcon className="!h-6 !w-6 stroke-white fill-white" />
+            {isPlaying && track?.id === song.id ? (
+              <PauseIcon className="!h-6 !w-6 stroke-white fill-white" />
+            ) : (
+              <PlayIcon className="!h-6 !w-6 stroke-white fill-white" />
+            )}
           </Button>
         </div>
       </div>

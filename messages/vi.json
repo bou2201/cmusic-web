@@ -291,6 +291,7 @@
       "featuredSong": "Bài hát nổi bật",
       "featuredArtist": "Ca sĩ nổi bật",
       "featuredAlbum": "Album",
+      "genre": "Thể loại âm nhạc",
       "about": "Về"
     },
     "artist": {
@@ -318,6 +319,13 @@
       "uploadAudio": "Tải lên file âm thanh",
       "uploadFile": "Tải lên file",
       "dropFileHere": "Thả file vào đây"
+    },
+    "dropdown": {
+      "copyLink": "Sao chép link",
+      "copyLinkSuccess": "Link đã được sao chép vào clipboard",
+      "playOnNext": "Phát tiếp theo",
+      "addToPlaylist": "Thêm vào danh sách phát",
+      "addToUserPlaylist": "Thêm vào playlist"
     }
   }
 }

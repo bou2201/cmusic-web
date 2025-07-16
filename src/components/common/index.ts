@@ -20,5 +20,6 @@ export * from './form-handler/upload-image';
 export * from './section/section-artist';
 export * from './section/section-banner';
 export * from './section/section-details';
+export * from './section/section-genre';
 export * from './section/section-mnt';
 export * from './section/section-song';

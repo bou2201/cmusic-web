@@ -7,6 +7,7 @@ import {
   SectionArtist,
   SectionArtistSkeleton,
   SectionBanner,
+  SectionGenre,
   SectionSong,
   SectionSongSkeleton,
 } from '@/components/common';
@@ -14,9 +15,11 @@ import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { artistService } from '@/modules/artist';
 import { useSongStore } from '../store';
+import { genreService } from '@/modules/genre';
 
 const GET_LIMIT_SONG = 10;
 const GET_LIMIT_ARTIST = 20;
+const GET_LIMIT_GENRE = 6;
 const SHOW_LIMIT_RECENT_SONG = 9;
 
 export function PageDiscover() {
@@ -33,6 +36,11 @@ export function PageDiscover() {
     queryKey: ['artist', 'discover', GET_LIMIT_ARTIST],
     queryFn: () =>
       artistService.getListArtist({ page: 1, limit: GET_LIMIT_ARTIST, isPopular: true }),
+  });
+
+  const { data: genreResults, isLoading: genreLoading } = useQuery({
+    queryKey: ['genre', 'discover', GET_LIMIT_GENRE],
+    queryFn: () => genreService.getListGenre({ page: 1, limit: GET_LIMIT_GENRE }),
   });
 
   return (
@@ -66,6 +74,18 @@ export function PageDiscover() {
           artistResults?.data?.map((artist) => (
             <CarouselItem className="basis-44 md:basis-48 lg:basis-52" key={artist.id}>
               <SectionArtist artist={artist} />
+            </CarouselItem>
+          ))
+        )}
+      </SectionBanner>
+
+      <SectionBanner title={t('song.genre')} isViewAll={false}>
+        {genreLoading ? (
+          <SectionSongSkeleton quantity={4} />
+        ) : (
+          genreResults?.data?.map((genre) => (
+            <CarouselItem className="basis-52 md:basis-60 lg:basis-72" key={genre.id}>
+              <SectionGenre genre={genre} />
             </CarouselItem>
           ))
         )}

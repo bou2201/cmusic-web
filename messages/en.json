@@ -291,6 +291,7 @@
       "featuredSong": "Featured Song",
       "featuredArtist": "Popular Artist",
       "featuredAlbum": "Album",
+      "genre": "Genres",
       "about": "About"
     },
     "artist": {
@@ -318,6 +319,13 @@
       "uploadAudio": "Upload Audio",
       "uploadFile": "Upload File",
       "dropFileHere": "Drop your file here"
+    },
+    "dropdown": {
+      "copyLink": "Copy link",
+      "copyLinkSuccess": "Link has been copied to clipboard.",
+      "playOnNext": "Play next",
+      "addToPlaylist": "Add to playlist",
+      "addToUserPlaylist": "Add to your playlist"
     }
   }
 }

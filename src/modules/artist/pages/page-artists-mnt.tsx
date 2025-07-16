@@ -56,6 +56,10 @@ export function PageArtistsMnt() {
           <span
             className="font-semibold truncate line-clamp-1 hover:underline"
             title={row.original.name}
+            onClick={() => {
+              setOpenCou(true);
+              setCurrentAritst(row.original);
+            }}
           >
             {row.original.name}
           </span>

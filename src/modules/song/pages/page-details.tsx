@@ -12,18 +12,18 @@ import { Link, useRouter } from '@/i18n/navigation';
 import { Routes } from '@/constants/routes';
 import { formatDuration } from '@/utiils/function';
 import { useSongStore } from '../store';
-import { Song } from '../types';
-import { Play } from 'lucide-react';
+import { PauseIcon, PlayIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Artist } from '@/modules/artist';
 import { BtnLikeSong } from '../components/audio-player/btn-like-song';
+import { DropdownHelper } from '../components';
 
 export function PageDetails({ id }: { id: string }) {
   const [showFullLyrics, setShowFullLyrics] = useState<boolean>(false);
 
   const t = useTranslations<NextIntl.Namespace<'SongsPage.songDetails'>>('SongsPage.songDetails');
   const tSection = useTranslations<NextIntl.Namespace<'Section.artist'>>('Section.artist');
-  const setTrack = useSongStore((state) => state.setTrack);
+  const { track, setTrack, playAudio, pauseAudio, isPlaying } = useSongStore((state) => state);
   const router = useRouter();
 
   const { data: song, isLoading } = useQuery({
@@ -77,16 +77,32 @@ export function PageDetails({ id }: { id: string }) {
     >
       <div className="flex items-center gap-5">
         <Button
-          onClick={() => {
-            setTrack(song as Song);
+          onClick={(e) => {
+            e.stopPropagation();
+            const isCurrentSong = track?.id === song.id;
+
+            if (isPlaying && isCurrentSong) {
+              pauseAudio();
+            } else {
+              if (!isCurrentSong) {
+                setTrack(song); // chỉ set nếu là bài mới
+              }
+              playAudio(); // luôn gọi play
+            }
           }}
           size="icon"
           className="rounded-full w-14 h-14 bg-primary-pink hover:bg-primary-pink/80 group"
         >
-          <Play className="fill-primary stroke-primary !h-6 !w-6" />
+          {isPlaying && track?.id === song.id ? (
+            <PauseIcon className="fill-primary stroke-primary !h-6 !w-6" />
+          ) : (
+            <PlayIcon className="fill-primary stroke-primary !h-6 !w-6" />
+          )}
         </Button>
 
         <BtnLikeSong size="large" songId={song.id} />
+
+        <DropdownHelper song={song} />
       </div>
 
       <div className="grid grid-cols-2 gap-5">

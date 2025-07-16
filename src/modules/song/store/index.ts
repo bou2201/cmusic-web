@@ -9,6 +9,7 @@ import {
 } from '../utils/function';
 
 type SongState = {
+  audioElement: HTMLAudioElement | null;
   track: Song | null;
   playlist: Song[];
   currentTrackIndex: number;
@@ -23,9 +24,14 @@ type SongState = {
 };
 
 type SongAction = {
+  setAudioElement: (element: HTMLAudioElement | null) => void;
+  playAudio: () => void;
+  pauseAudio: () => void;
   setTrack: (track: Song) => void;
   clearTrack: () => void;
   setPlaylist: (playlist: Song[], startIndex?: number) => void;
+  addToPlaylist: (track: Song) => void;
+  playNext: (track: Song) => void;
   nextTrack: (specificIndex?: number) => void;
   previousTrack: () => void;
   addToRecentTracks: (track: Song) => void;
@@ -40,6 +46,7 @@ type SongAction = {
 };
 
 const initialValues: SongState = {
+  audioElement: null,
   track: null,
   playlist: [],
   currentTrackIndex: 0,
@@ -72,6 +79,66 @@ export const useSongStore = create<SongState & SongAction>((set, get) => ({
       playlist,
       currentTrackIndex: validIndex,
       track: playlist[validIndex],
+    });
+  },
+  addToPlaylist: (track: Song) => {
+    const { playlist } = get();
+
+    // Nếu track không hợp lệ (chưa có id)
+    if (!track?.id) return;
+
+    // Kiểm tra đã có chưa
+    const alreadyExists = playlist.some((s) => s.id === track.id);
+    if (alreadyExists) return;
+
+    // Thêm vào cuối playlist
+    set({ playlist: [...playlist, track] });
+  },
+  playNext: (track: Song) => {
+    const { playlist, currentTrackIndex, track: currentTrack } = get();
+
+    // Trường hợp 1: Không có playlist nhưng có track đang phát
+    if (playlist.length === 0 && currentTrack) {
+      // Playlist mới gồm track hiện tại và track muốn playNext
+      set({
+        playlist: [currentTrack, track],
+        currentTrackIndex: 0,
+      });
+      return;
+    }
+
+    // Trường hợp 2: Không có playlist và không có track → khởi tạo luôn
+    if (playlist.length === 0 && !currentTrack) {
+      set({
+        playlist: [track],
+        track,
+        currentTrackIndex: 0,
+      });
+      return;
+    }
+
+    // Trường hợp 3: Playlist đã có
+    const newPlaylist = [...playlist];
+    let newCurrentIndex = currentTrackIndex;
+
+    // Nếu track đã tồn tại trong playlist → xóa trước
+    const existingIndex = newPlaylist.findIndex((s) => s.id === track.id);
+    if (existingIndex !== -1) {
+      newPlaylist.splice(existingIndex, 1);
+
+      // Nếu bài bị xóa nằm trước hoặc tại currentTrackIndex → điều chỉnh lại index
+      if (existingIndex <= currentTrackIndex) {
+        newCurrentIndex -= 1;
+      }
+    }
+
+    // Chèn vào sau currentTrackIndex (đã cập nhật)
+    const insertIndex = newCurrentIndex + 1;
+    newPlaylist.splice(insertIndex, 0, track);
+
+    set({
+      playlist: newPlaylist,
+      currentTrackIndex: newCurrentIndex,
     });
   },
   nextTrack: (specificIndex?: number) => {
@@ -133,4 +200,21 @@ export const useSongStore = create<SongState & SongAction>((set, get) => ({
   setRepeatMode: (repeatMode: 'off' | 'all' | 'one') => set({ repeatMode }),
   setOpenPlayList: (openPlayList: boolean) => set({ openPlayList }),
   setFilters: (filters: Omit<SongFilter, 'page' | 'limit'>) => set({ filters }),
+  setAudioElement: (element) => set({ audioElement: element }),
+
+  playAudio: () => {
+    const audio = get().audioElement;
+    if (audio) {
+      audio.play().catch(console.error);
+      set({ isPlaying: true });
+    }
+  },
+
+  pauseAudio: () => {
+    const audio = get().audioElement;
+    if (audio) {
+      audio.pause();
+      set({ isPlaying: false });
+    }
+  },
 }));

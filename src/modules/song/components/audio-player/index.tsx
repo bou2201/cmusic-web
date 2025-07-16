@@ -17,6 +17,7 @@ export function AudioPlayer() {
   const [currentTime, setCurrentTime] = useState<number>(0);
 
   const {
+    setAudioElement,
     track,
     setTrack,
     playlist,
@@ -72,6 +73,8 @@ export function AudioPlayer() {
 
     const audio = audioRef.current;
     if (!audio || !track) return;
+
+    setAudioElement(audio); // <-- Gắn ref vào store
 
     audio.volume = volume;
     audio.loop = repeatMode === 'one';
@@ -145,6 +148,7 @@ export function AudioPlayer() {
       audio.removeEventListener('pause', handlePause);
 
       hlsRef.current?.destroy();
+      setAudioElement(null);
 
       setCurrentTime(0);
       setDuration(0);
@@ -152,7 +156,7 @@ export function AudioPlayer() {
       setIsLoading(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addToRecentTracks, setIsLoading, setIsPlaying, setTrack, track]);
+  }, [addToRecentTracks, setIsLoading, setIsPlaying, setTrack, setAudioElement, track]);
 
   // Side effect to handle audio playback end
   useEffect(() => {

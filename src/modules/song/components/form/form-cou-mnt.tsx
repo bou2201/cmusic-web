@@ -110,7 +110,7 @@ export function FormCouMnt({ id }: { id?: string }) {
     <SectionMnt title={id ? t('update') : t('add')}>
       <Form {...form}>
         <form
-          id={id ? `form-cou-mnt-update-${id}` : 'form-cou-mnt-create'}
+          id={id ? `form-song-cou-mnt-update-${id}` : 'form-song-cou-mnt-create'}
           onSubmit={form.handleSubmit((data) => executeSubmit(data))}
         >
           <div className="grid grid-cols-2 gap-14">

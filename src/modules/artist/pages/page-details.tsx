@@ -86,7 +86,7 @@ export function PageDetails({ id }: { id: string }) {
           <TablePopularTrack songLoading={songLoading} songResults={songResults} />
         </div>
 
-        <div className="my-10">
+        <div className="mt-10">
           <h3 className="font-bold mb-6 text-2xl">
             {tSectionSong('about')} {artist.name}
           </h3>

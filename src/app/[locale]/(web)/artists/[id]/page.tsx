@@ -10,23 +10,23 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const art = await artistService.getArtistById(id);
 
   return {
-    title: art.name,
+    title: art?.name,
     description: art?.bio,
     openGraph: {
-      title: art.name,
+      title: art?.name,
       description: art?.bio,
       images: [
         {
           url: art?.avatar?.url ?? '',
           width: 1200,
           height: 630,
-          alt: art.name,
+          alt: art?.name,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: art.name,
+      title: art?.name,
       description: art?.bio,
       images: [art?.avatar?.url ?? ''],
     },

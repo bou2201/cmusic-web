@@ -267,6 +267,12 @@
   "SearchPage": {
     "metadata": {
       "title": "Tìm kiếm"
+    },
+    "page": {
+      "keyword": "Tìm kiếm từ khóa",
+      "result": "Kết quả tìm kiếm",
+      "resultArtist": "Nghệ sĩ",
+      "resultSong": "Bài hát"
     }
   },
   "Validation": {

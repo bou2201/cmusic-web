@@ -11,13 +11,13 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   return {
     title: art.name,
-    description: art.bio,
+    description: art?.bio,
     openGraph: {
       title: art.name,
-      description: art.bio,
+      description: art?.bio,
       images: [
         {
-          url: art.avatar.url ?? '',
+          url: art?.avatar?.url ?? '',
           width: 1200,
           height: 630,
           alt: art.name,
@@ -27,8 +27,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: art.name,
-      description: art.bio,
-      images: [art.avatar.url ?? ''],
+      description: art?.bio,
+      images: [art?.avatar?.url ?? ''],
     },
   };
 }

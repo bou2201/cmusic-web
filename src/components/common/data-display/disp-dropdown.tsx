@@ -5,8 +5,12 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui';
 import type { ComponentProps, MouseEventHandler, ReactNode } from 'react';
@@ -17,6 +21,7 @@ export type DispDropdownMenuProps = {
   shortcut?: ReactNode;
   onClick?: MouseEventHandler<HTMLDivElement>;
   disabled?: boolean;
+  sub?: DispDropdownMenuProps[];
 };
 
 export type DispDropdownProps = {
@@ -38,17 +43,37 @@ export function DispDropdown({ children, menu, modal, label, ...props }: DispDro
           </>
         ) : null}
 
-        {menu.map((item) => (
-          <DropdownMenuItem
-            className="cursor-pointer"
-            key={item.key}
-            disabled={item.disabled}
-            onClick={item.onClick}
-          >
-            {item.label}
-            {item.shortcut ? <DropdownMenuShortcut>{item.shortcut}</DropdownMenuShortcut> : null}
-          </DropdownMenuItem>
-        ))}
+        {menu.map((item) =>
+          item.sub ? (
+            <DropdownMenuSub key={item.key}>
+              <DropdownMenuSubTrigger>{item.label}</DropdownMenuSubTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent>
+                  {item.sub.map((subItem) => (
+                    <DropdownMenuItem
+                      className="cursor-pointer"
+                      key={subItem.key}
+                      disabled={subItem.disabled}
+                      onClick={subItem.onClick}
+                    >
+                      {subItem.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
+          ) : (
+            <DropdownMenuItem
+              className="cursor-pointer"
+              key={item.key}
+              disabled={item.disabled}
+              onClick={item.onClick}
+            >
+              <span className='font-semibold'>{item.label}</span>
+              {item.shortcut ? <DropdownMenuShortcut>{item.shortcut}</DropdownMenuShortcut> : null}
+            </DropdownMenuItem>
+          ),
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -224,19 +224,14 @@
 }
 
 /* Scrollbar mặc định */
-* {
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #6b6b6b transparent;
-}
-
 *::-webkit-scrollbar-button {
   display: none;
 }
 
 /* Chrome, Edge */
 *::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 14px;
+  height: 14px;
 }
 
 *::-webkit-scrollbar-track {
@@ -245,7 +240,6 @@
 
 *::-webkit-scrollbar-thumb {
   background-color: rgba(107, 107, 107, 0.4); /* Màu xám nhạt */
-  border-radius: 9999px; /* tròn như Spotify */
   border: 2px solid transparent;
   background-clip: content-box;
 }

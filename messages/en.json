@@ -234,7 +234,7 @@
         "unHidden": "Unhidden"
       },
       "filters": {
-        "search": "Search by title, artist or lyrics",
+        "search": "Search by title, lyrics",
         "artist": "Artist",
         "album": "Album",
         "genre": "Genre",
@@ -325,7 +325,8 @@
       "copyLinkSuccess": "Link has been copied to clipboard.",
       "playOnNext": "Play next",
       "addToPlaylist": "Add to playlist",
-      "addToUserPlaylist": "Add to your playlist"
+      "addToUserPlaylist": "Add to your playlist",
+      "goToArtist": "Go to artist"
     }
   }
 }

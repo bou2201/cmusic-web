@@ -21,12 +21,15 @@ import { useMutation } from '@tanstack/react-query';
 import { authService } from '@/modules/auth/service';
 import { toast } from 'sonner';
 import { LayoutSearchDialog } from './layout-dialog';
+import { useRouter } from '@/i18n/navigation';
+import { Routes } from '@/constants/routes';
 
 function UserButton() {
   const [openLogin, setOpenLogin] = useState<boolean>(false);
   const [openRegister, setOpenRegister] = useState<boolean>(false);
 
   const { user, isAuthenticated, clearAuth } = useAuthStore((state) => state);
+  const router = useRouter();
   const t = useTranslations<NextIntl.Namespace<'Header'>>('Header');
   const tAuth = useTranslations<NextIntl.Namespace<'Auth'>>('Auth');
 
@@ -35,6 +38,7 @@ function UserButton() {
     onSuccess: () => {
       clearAuth();
       toast(tAuth('alert.logoutSuccess'));
+      router.push(Routes.Discover);
       window.location.reload();
     },
     onError: () => {

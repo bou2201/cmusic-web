@@ -54,6 +54,7 @@ export function FormCouMnt({ open, setOpen, artist, setArtist }: FormCouMntProps
       }
 
       queryClient.invalidateQueries({ queryKey: ['artists-mnt'] });
+      queryClient.invalidateQueries({ queryKey: ['songs-mnt', 'artist'] });
       setOpen(false);
       if (artist && setArtist) setArtist(undefined);
     },

@@ -8,6 +8,7 @@ import {
   EllipsisIcon,
   ListPlusIcon,
   SquareChevronRightIcon,
+  UserSearchIcon,
 } from 'lucide-react';
 import { Button } from '@/components/ui';
 import { useTranslations } from 'next-intl';
@@ -17,11 +18,13 @@ import { Routes } from '@/constants/routes';
 import { useParams } from 'next/navigation';
 import { toast } from 'sonner';
 import { useSongStore } from '../../store';
+import { useRouter } from '@/i18n/navigation';
 
 export function DropdownHelper({ song }: { song: Song }) {
   const t = useTranslations<NextIntl.Namespace<'Component.dropdown'>>('Component.dropdown');
   const { addToPlaylist, playNext, track } = useSongStore((state) => state);
   const { locale } = useParams<{ locale: string }>();
+  const router = useRouter();
 
   return (
     <DispDropdown
@@ -69,6 +72,19 @@ export function DropdownHelper({ song }: { song: Song }) {
               toast(t('copyLinkSuccess'));
             }
           },
+        },
+        {
+          shortcut: <UserSearchIcon />,
+          key: 'action-search-artist',
+          label: t('goToArtist'),
+          sub: [song.artist, ...song?.artists ?? []].map((art) => ({
+            key: `action-go-artist-${art.id}`,
+            label: art.name,
+            onClick: (e) => {
+              e.stopPropagation();
+              router.push(`${Routes.Artists}/${art.id}`);
+            },
+          })),
         },
       ]}
       modal={false}

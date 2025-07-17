@@ -46,18 +46,18 @@ export function NavigationWeb(): NavigationType[] {
         //   url: Routes.Songs,
         //   icon: <ListMusicIcon />,
         // },
-        {
-          key: 'albums',
-          title: t('library.items.albums'),
-          url: Routes.Albums,
-          icon: <AlbumIcon />,
-        },
-        {
-          key: 'artists',
-          title: t('library.items.artists'),
-          url: Routes.Artists,
-          icon: <UserIcon />,
-        },
+        // {
+        //   key: 'albums',
+        //   title: t('library.items.albums'),
+        //   url: Routes.Albums,
+        //   icon: <AlbumIcon />,
+        // },
+        // {
+        //   key: 'artists',
+        //   title: t('library.items.artists'),
+        //   url: Routes.Artists,
+        //   icon: <UserIcon />,
+        // },
         {
           key: 'genres',
           title: t('library.items.genres'),

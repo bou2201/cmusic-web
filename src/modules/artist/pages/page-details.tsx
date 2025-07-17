@@ -62,7 +62,7 @@ export function PageDetails({ id }: { id: string }) {
       <SectionDetails
         headerImage={{
           alt: artist?.name,
-          url: artist?.avatar.url,
+          url: artist?.avatar?.url,
         }}
         type="artist"
         headerContent={renderHeaderContent()}
@@ -96,12 +96,12 @@ export function PageDetails({ id }: { id: string }) {
                 width={400}
                 height={400}
                 alt={artist?.name}
-                src={artist?.avatar.url}
+                src={artist?.avatar?.url}
                 className="w-full h-full object-cover rounded-md"
               />
             </div>
             <div className="col-span-2 xl:col-span-3">
-              <p className="text-[#a5a5a5] text-sm font-semibold">{artist.bio}</p>
+              <p className="text-[#a5a5a5] text-sm font-semibold">{artist?.bio}</p>
             </div>
           </div>
         </div>

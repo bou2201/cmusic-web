@@ -1,6 +1,6 @@
 'use client';
 
-import { DispSheet, DispTooltip } from '@/components/common';
+import { DispTooltip } from '@/components/common';
 import { Button } from '@/components/ui';
 import { ListMusic } from 'lucide-react';
 import { useTranslations } from 'next-intl';

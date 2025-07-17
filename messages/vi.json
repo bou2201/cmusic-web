@@ -234,7 +234,7 @@
         "unHidden": "Hiển thị bài hát"
       },
       "filters": {
-        "search": "Tìm kiếm theo bài hát, ca sĩ hoặc lyrics",
+        "search": "Tìm kiếm theo bài hát, lyrics",
         "artist": "Ca sĩ",
         "album": "Album",
         "genre": "Thể loại",
@@ -325,7 +325,8 @@
       "copyLinkSuccess": "Link đã được sao chép vào clipboard",
       "playOnNext": "Phát tiếp theo",
       "addToPlaylist": "Thêm vào danh sách phát",
-      "addToUserPlaylist": "Thêm vào playlist"
+      "addToUserPlaylist": "Thêm vào playlist",
+      "goToArtist": "Đi đến ca sĩ"
     }
   }
 }

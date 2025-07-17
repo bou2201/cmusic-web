@@ -13,7 +13,6 @@ import { Button, Form } from '@/components/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { NextIntl } from '~types/next-intl';
 import { useFetchArtist, useFetchGenre } from '../../hooks';
 import { useEffect } from 'react';
@@ -85,17 +84,6 @@ export function FormCouMnt({ id }: { id?: string }) {
     },
   });
 
-  // useEffect(() => {
-  //   if (dataDetails) {
-  //     form.reset({
-  //       ...dataDetails,
-  //       genreIds: dataDetails.genres.map((item) => item.id) ?? [],
-  //       featuredArtistIds: dataDetails.artists.map((item) => item.id) ?? [],
-  //       albumId: dataDetails.albumId ?? null,
-  //     });
-  //   }
-  // }, [dataDetails, form]);
-
   useEffect(() => {
     if (!artistId) return;
 
@@ -105,6 +93,21 @@ export function FormCouMnt({ id }: { id?: string }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artistId]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (form.formState.isDirty) {
+        event.preventDefault();
+        event.returnValue = ''; // Chrome needs this line
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [form.formState.isDirty]);
 
   return (
     <SectionMnt title={id ? t('update') : t('add')}>

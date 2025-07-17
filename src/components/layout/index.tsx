@@ -3,7 +3,7 @@
 import { ReactNode } from 'react';
 import { LayoutSidebar } from './layout-sidebar';
 import { LayoutHeader } from './layout-header';
-import { LayoutFooter } from './layout-footer';
+// import { LayoutFooter } from './layout-footer';
 import { useSongStore } from '@/modules/song';
 import { LayoutPlaylist } from './layout-playlist';
 import { useIsMobile } from '@/hooks/use-mobile';

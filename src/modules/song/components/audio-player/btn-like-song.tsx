@@ -132,20 +132,6 @@ export const BtnLikeSong = memo(
                 </motion.span>
               ))}
           </AnimatePresence>
-          {/* <Button
-          variant="ghost"
-          size="icon"
-          className={`shrink-0 rounded-full ${size === 'large' ? 'w-12 h-12' : ''}`}
-          style={{ cursor: isPending ? 'wait' : 'pointer' }}
-          onClick={() => {
-            executeToggle();
-          }}
-          disabled={isPending}
-        >
-          <Heart
-            className={`${isLiked ? 'fill-primary-pink stroke-primary-pink' : ''} ${size === 'large' ? '!w-6 !h-6 opacity-80' : ''}`}
-          />
-        </Button> */}
         </div>
 
         {openLogin ? <AuthLogin open={openLogin} setOpen={setOpenLogin} /> : null}

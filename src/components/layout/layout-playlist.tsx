@@ -12,7 +12,7 @@ export function LayoutPlaylist() {
 
   return (
     <div
-      className={`top-2 left-2 bg-sidebar rounded-xl w-80 h-[calc(100vh-88px)] overflow-y-auto ${track ? 'bottom-20' : 'bottom-2'}`}
+      className={`top-2 left-2 bg-sidebar rounded-xl w-80 overflow-y-auto ${track ? 'bottom-20 h-[calc(100vh-88px)]' : 'bottom-2 h-[calc(100vh-16px)]'}`}
     >
       <div className="py-4 px-2">
         {track ? (

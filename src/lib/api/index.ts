@@ -60,19 +60,25 @@ class CustomFetch {
           setCookie('accessToken', authData.accessToken);
           setCookie('refreshToken', authData.refreshToken);
 
-          const newConfig: RequestInit & { _retried: boolean } = {
-            ...config,
-            headers: {
-              ...config?.headers,
-              Authorization: `Bearer ${authData.accessToken}`,
-            },
-            _retried: true, // Prevent further retries
-          };
+          // Retry original request with new access token only if refresh succeeded
+          if (authData?.accessToken && authData?.refreshToken) {
+            const newConfig: RequestInit & { _retried: boolean } = {
+              ...config,
+              headers: {
+                ...config?.headers,
+                Authorization: `Bearer ${authData.accessToken}`,
+              },
+              _retried: true,
+            };
 
-          return this.fetch(url!.replace(this.baseURL, ''), newConfig);
+            return this.fetch(url!.replace(this.baseURL, ''), newConfig);
+          } else {
+            throw new Error('Invalid token response');
+          }
         } catch (error) {
           useAuthStore.getState().clearAuth();
           window.location.href = Routes.Discover;
+
           console.error('Token refresh failed:', error);
           throw new Error('Refresh token expired or invalid. Please login again.');
         }

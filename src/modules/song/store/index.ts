@@ -82,17 +82,46 @@ export const useSongStore = create<SongState & SongAction>((set, get) => ({
     });
   },
   addToPlaylist: (track: Song) => {
-    const { playlist } = get();
+    const { playlist, currentTrackIndex, track: currentTrack } = get();
 
-    // Nếu track không hợp lệ (chưa có id)
     if (!track?.id) return;
 
-    // Kiểm tra đã có chưa
-    const alreadyExists = playlist.some((s) => s.id === track.id);
-    if (alreadyExists) return;
+    // TH1: Playlist rỗng và chưa có bài nào đang phát → khởi tạo luôn
+    if (playlist.length === 0 && !currentTrack) {
+      set({
+        playlist: [track],
+        track,
+        currentTrackIndex: 0,
+      });
+      return;
+    }
+
+    // TH2: Playlist rỗng nhưng có bài đang phát → thêm sau
+    if (playlist.length === 0 && currentTrack) {
+      set({
+        playlist: [currentTrack, track],
+        currentTrackIndex: 0,
+      });
+      return;
+    }
+
+    // TH3: Playlist đã có
+    const newPlaylist = [...playlist];
+    const newCurrentIndex = currentTrackIndex;
+
+    const existingIndex = newPlaylist.findIndex((s) => s.id === track.id);
+    if (existingIndex !== -1) {
+      // Đã tồn tại thì không thêm nữa
+      return;
+    }
 
     // Thêm vào cuối playlist
-    set({ playlist: [...playlist, track] });
+    newPlaylist.push(track);
+
+    set({
+      playlist: newPlaylist,
+      currentTrackIndex: newCurrentIndex,
+    });
   },
   playNext: (track: Song) => {
     const { playlist, currentTrackIndex, track: currentTrack } = get();

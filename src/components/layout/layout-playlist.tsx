@@ -11,7 +11,9 @@ export function LayoutPlaylist() {
   const t = useTranslations<NextIntl.Namespace<'SongsPage.audioPlayer'>>('SongsPage.audioPlayer');
 
   return (
-    <div className="top-2 left-2 bg-sidebar rounded-xl w-80 bottom-20 h-[calc(100vh-88px)] overflow-y-auto">
+    <div
+      className={`top-2 left-2 bg-sidebar rounded-xl w-80 h-[calc(100vh-88px)] overflow-y-auto ${track ? 'bottom-20' : 'bottom-2'}`}
+    >
       <div className="py-4 px-2">
         {track ? (
           <>

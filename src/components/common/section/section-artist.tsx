@@ -8,14 +8,17 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { NextIntl } from '~types/next-intl';
 
-export function SectionArtist({ artist }: { artist: Artist }) {
-  const router = useRouter()
+export function SectionArtist({ artist, size }: { artist: Artist; size: 'small' | 'large' }) {
+  const router = useRouter();
   const t = useTranslations<NextIntl.Namespace<'Section'>>('Section');
 
-  return (
-    <div className="group flex flex-col items-center gap-4 p-4 rounded-md hover:bg-neutral-800 transition cursor-pointer w-auto" onClick={() => {
-      router.push(`${Routes.Artists}/${artist.id}`)
-    }}>
+  return size === 'large' ? (
+    <div
+      className="group flex flex-col items-center gap-4 p-4 rounded-md hover:bg-neutral-800 transition cursor-pointer w-auto"
+      onClick={() => {
+        router.push(`${Routes.Artists}/${artist.id}`);
+      }}
+    >
       <div className="relative aspect-square w-full rounded-full overflow-hidden">
         <Image src={artist.avatar.url} alt={artist.name} fill className="object-cover" />
       </div>
@@ -27,6 +30,26 @@ export function SectionArtist({ artist }: { artist: Artist }) {
           {artist.name}
         </Link>
         <p className="text-neutral-400 text-sm">{t('artist.role')}</p>
+      </div>
+    </div>
+  ) : (
+    <div
+      className="flex items-center gap-4 p-3 rounded-md hover:bg-neutral-800 transition cursor-pointer w-auto"
+      onClick={() => {
+        router.push(`${Routes.Artists}/${artist.id}`);
+      }}
+    >
+      <div className="relative aspect-square w-16 h-16 rounded-full overflow-hidden">
+        <Image src={artist.avatar.url} alt={artist.name} fill className="object-cover" />
+      </div>
+      <div>
+        <p className="text-sm font-semibold opacity-70 mb-1">{t('artist.role')}</p>
+        <Link
+          href={`${Routes.Artists}/${artist.id}`}
+          className="font-semibold truncate w-full text-center hover:underline"
+        >
+          {artist.name}
+        </Link>
       </div>
     </div>
   );

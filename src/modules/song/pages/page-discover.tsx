@@ -73,7 +73,7 @@ export function PageDiscover() {
         ) : (
           artistResults?.data?.map((artist) => (
             <CarouselItem className="basis-44 md:basis-48 lg:basis-52" key={artist.id}>
-              <SectionArtist artist={artist} />
+              <SectionArtist artist={artist} size="large" />
             </CarouselItem>
           ))
         )}

@@ -69,6 +69,11 @@
       "items": {
         "recently-played": "Gần đây",
         "favorite": "Yêu thích"
+      },
+      "action": {
+        "create": "Tạo danh sách mới",
+        "edit": "Sửa danh sách",
+        "delete": "Xóa danh sách"
       }
     },
     "admin": {
@@ -333,6 +338,20 @@
       "addToPlaylist": "Thêm vào danh sách phát",
       "addToUserPlaylist": "Thêm vào playlist",
       "goToArtist": "Đi đến ca sĩ"
+    },
+    "playlist": {
+      "cover": "Ảnh playlist",
+      "title": "Tiêu đề",
+      "save": "Lưu",
+      "create": "Tạo playlist",
+      "createSuccess": "Tạo playlist thành công.",
+      "createFailed": "Tạo playlist thất bại.",
+      "update": "Cập nhật playlist",
+      "updateSuccess": "Cập nhật playlist thành công.",
+      "updateFailed": "Cập nhật playlist thất bại.",
+      "delete": "Xóa playlist",
+      "deleteSuccess": "Xóa playlist thành công.",
+      "deleteFailed": "Xóa playlist thất bại."
     }
   }
 }

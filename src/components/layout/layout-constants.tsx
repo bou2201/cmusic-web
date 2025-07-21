@@ -100,7 +100,7 @@ export function NavigationWeb(): NavigationType[] {
   ];
 
   if (user && user?.role === Role.Admin) {
-    return [...userItems, ...adminItems];
+    return [...adminItems, ...userItems];
   }
 
   return userItems;

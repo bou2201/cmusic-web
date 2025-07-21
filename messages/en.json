@@ -69,6 +69,11 @@
       "items": {
         "recently-played": "Recently Played",
         "favorite": "Favorites"
+      },
+      "action": {
+        "create": "Add new",
+        "edit": "Edit",
+        "delete": "Delete"
       }
     },
     "admin": {
@@ -333,6 +338,20 @@
       "addToPlaylist": "Add to playlist",
       "addToUserPlaylist": "Add to your playlist",
       "goToArtist": "Go to artist"
+    },
+    "playlist": {
+      "cover": "Cover",
+      "title": "Title",
+      "save": "Save",
+      "create": "Create playlist",
+      "createSuccess": "Create playlist successfully.",
+      "createFailed": "Create playlist failed.",
+      "update": "Update playlist",
+      "updateSuccess": "Update playlist successfully.",
+      "updateFailed": "Update playlist failed.",
+      "delete": "Delete playlist",
+      "deleteSuccess": "Delete playlist successfully.",
+      "deleteFailed": "Delete playlist failed."
     }
   }
 }

@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { z } from 'zod';
 import { NextIntl } from '~types/next-intl';
 
-const usePlaylistCreate = () => {
+const usePlaylistCou = () => {
   const t = useTranslations<NextIntl.Namespace<'Validation'>>('Validation');
 
   const schema = z.object({
@@ -13,6 +13,6 @@ const usePlaylistCreate = () => {
   return schema;
 };
 
-type PlaylistCreateSchema = z.infer<ReturnType<typeof usePlaylistCreate>>;
+type UsePlaylistCouSchema = z.infer<ReturnType<typeof usePlaylistCou>>;
 
-export { usePlaylistCreate, type PlaylistCreateSchema };
+export { usePlaylistCou, type UsePlaylistCouSchema };

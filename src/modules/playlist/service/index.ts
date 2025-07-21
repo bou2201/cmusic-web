@@ -1,7 +1,7 @@
 import api from '@/lib/api';
 import { ApiReturnList, PaginationReq } from '~types/common';
 import { objectToQueryString } from '@/utiils/function';
-import { Playlist, PlaylistCreateSchema } from '../types';
+import { Playlist, UsePlaylistCouSchema } from '../types';
 
 const API_TAG_BASE = '/playlist';
 
@@ -13,9 +13,9 @@ export const playlistService = {
 
   getPlaylistById: (id: string) => api.get<Playlist>(`${API_TAG_BASE}/${id}`),
 
-  createPlaylist: (payload: PlaylistCreateSchema) => api.post<Playlist>(`${API_TAG_BASE}`, payload),
+  createPlaylist: (payload: UsePlaylistCouSchema) => api.post<Playlist>(`${API_TAG_BASE}`, payload),
 
-  updatePlaylist: (id: string, payload: PlaylistCreateSchema) =>
+  updatePlaylist: (id: string, payload: UsePlaylistCouSchema) =>
     api.patch<Playlist>(`${API_TAG_BASE}/${id}`, payload),
 
   deletePlaylist: (id: string) => api.delete<Playlist>(`${API_TAG_BASE}/${id}`),

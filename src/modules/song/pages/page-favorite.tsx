@@ -21,7 +21,7 @@ export function PageFavorite() {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error, isSuccess } =
     useInfiniteQuery({
-      queryKey: ['songs=favorite'],
+      queryKey: ['songs-favorite'],
       queryFn: ({ pageParam }) => songService.getSongsLiked({ page: pageParam ?? 1, limit: 10 }),
       initialPageParam: 1,
       getNextPageParam: (lastPage: ApiReturnList<Song>) => {

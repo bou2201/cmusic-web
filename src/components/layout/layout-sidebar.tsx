@@ -12,18 +12,20 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarSeparator,
   useSidebar,
 } from '../ui';
 import Image from 'next/image';
 import { NavigationDashboard, NavigationType, NavigationWeb } from './layout-constants';
 import { Routes } from '@/constants/routes';
-import { GlobeIcon } from 'lucide-react';
+import { GlobeIcon, PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { AudioPlayer, useSongStore } from '@/modules/song';
 import { AuthLogin, useAuthStore } from '@/modules/auth';
 import { useCallback, useState } from 'react';
 import { Role } from '@/modules/user';
+import { FormCouPlaylist, ViewPlaylistSidebar } from '@/modules/playlist';
 
 function LayoutSidebarHeader() {
   const { state } = useSidebar();
@@ -49,7 +51,9 @@ function LayoutSidebarHeader() {
 
 function LayoutSidebarContent() {
   const [openLogin, setOpenLogin] = useState<boolean>(false);
+  const [openCreatePlaylist, setOpenCreatePlaylist] = useState<boolean>(false);
 
+  const t = useTranslations<NextIntl.Namespace<'Navigation'>>('Navigation');
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const user = useAuthStore((state) => state.user);
   const pathname = usePathname();
@@ -106,9 +110,44 @@ function LayoutSidebarContent() {
             ? navigationDashboard
             : navigation,
         )}
+        <SidebarSeparator />
+
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem className="flex justify-center">
+                <SidebarMenuButton
+                  asChild
+                  className="h-auto py-2.5 bg-primary text-background hover:bg-primary hover:text-background"
+                  tooltip={t('playlist.action.create')}
+                >
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => {
+                      if (isAuthenticated) {
+                        setOpenCreatePlaylist(true);
+                      } else {
+                        setOpenLogin(true);
+                      }
+                    }}
+                  >
+                    <PlusIcon />
+                    <span className="font-semibold">{t('playlist.action.create')}</span>
+                  </div>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <ViewPlaylistSidebar />
       </SidebarContent>
 
       {openLogin ? <AuthLogin open={openLogin} setOpen={setOpenLogin} /> : null}
+
+      {openCreatePlaylist ? (
+        <FormCouPlaylist open={openCreatePlaylist} setOpen={setOpenCreatePlaylist} />
+      ) : null}
     </>
   );
 }

@@ -140,7 +140,9 @@ function LayoutSidebarContent() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <ViewPlaylistSidebar />
+        <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+          <ViewPlaylistSidebar />
+        </SidebarGroup>
       </SidebarContent>
 
       {openLogin ? <AuthLogin open={openLogin} setOpen={setOpenLogin} /> : null}

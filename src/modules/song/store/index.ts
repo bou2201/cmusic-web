@@ -2,9 +2,12 @@ import { create } from 'zustand';
 import { Song, SongFilter } from '../types';
 import {
   addTrackToRecent,
+  getInitialCurrentTrackIndex,
+  getInitialPlaylist,
   getInitialRecentTracks,
   getInitialRepeatMode,
   getInitialShuffle,
+  getInitialTrack,
   getInitialVolume,
 } from '../utils/function';
 
@@ -47,9 +50,9 @@ type SongAction = {
 
 const initialValues: SongState = {
   audioElement: null,
-  track: null,
-  playlist: [],
-  currentTrackIndex: 0,
+  track: getInitialTrack(),
+  playlist: getInitialPlaylist(),
+  currentTrackIndex: getInitialCurrentTrackIndex(),
   isLoading: false,
   recentTracks: getInitialRecentTracks(),
   isPlaying: false,

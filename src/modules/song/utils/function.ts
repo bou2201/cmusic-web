@@ -37,6 +37,38 @@ export const getInitialRecentTracks = (): Song[] => {
   return [];
 };
 
+export const getInitialPlaylist = (): Song[] => {
+  if (typeof window !== 'undefined') {
+    try {
+      const saved = localStorage.getItem('audio-player-playlist');
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error('Error loading playlist from localStorage:', error);
+    }
+  }
+  return [];
+};
+
+export const getInitialCurrentTrackIndex = (): number => {
+  if (typeof window !== 'undefined') {
+    const saved = localStorage.getItem('audio-player-currentTrackIndex');
+    return saved ? parseInt(saved, 10) : 0;
+  }
+  return 0;
+};
+
+export const getInitialTrack = (): Song | null => {
+  if (typeof window !== 'undefined') {
+    try {
+      const saved = localStorage.getItem('audio-player-track');
+      return saved ? JSON.parse(saved) : null;
+    } catch (error) {
+      console.error('Error loading current track from localStorage:', error);
+    }
+  }
+  return null;
+};
+
 // Function to save recent tracks to localStorage
 export const saveRecentTracks = (tracks: Song[]) => {
   try {

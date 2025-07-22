@@ -7,6 +7,7 @@ import { useSongStore } from '../../store';
 import { AudioPlayerMobile } from './audio-player-mobile';
 import { AudioPlayerDesktop } from './audio-player-desktop';
 import { songService } from '../../service';
+import { Song } from '../../types';
 
 export function AudioPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -21,6 +22,7 @@ export function AudioPlayer() {
     track,
     setTrack,
     playlist,
+    setPlaylist,
     currentTrackIndex,
     nextTrack,
     setIsLoading,
@@ -41,35 +43,63 @@ export function AudioPlayer() {
     }
   }, [track]);
 
-  // Save player state to localStorage
+  // ✅ Save player settings and state
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('audio-player-volume', volume.toString());
       localStorage.setItem('audio-player-shuffle', isShuffle.toString());
       localStorage.setItem('audio-player-repeat', repeatMode);
-
-      // Save current track if it exists
       if (track) {
         localStorage.setItem('audio-player-track', JSON.stringify(track));
       }
+      if (playlist.length > 0) {
+        localStorage.setItem('audio-player-playlist', JSON.stringify(playlist));
+        localStorage.setItem('audio-player-currentTrackIndex', currentTrackIndex.toString());
+      }
     }
-  }, [volume, isShuffle, repeatMode, track]);
+  }, [volume, isShuffle, repeatMode, track, playlist, currentTrackIndex]);
+
+  // ✅ Restore saved track and playlist on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const savedTrack = localStorage.getItem('audio-player-track');
+        const savedPlaylist = localStorage.getItem('audio-player-playlist');
+        const savedIndex = localStorage.getItem('audio-player-currentTrackIndex');
+
+        if (savedPlaylist) {
+          const parsedPlaylist: Song[] = JSON.parse(savedPlaylist);
+          const index = savedIndex ? parseInt(savedIndex, 10) : 0;
+          if (parsedPlaylist.length > 0) {
+            setPlaylist(parsedPlaylist, index);
+          }
+        }
+
+        if (savedTrack) {
+          const parsedTrack: Song = JSON.parse(savedTrack);
+          setTrack(parsedTrack);
+        }
+      } catch (error) {
+        console.error('Failed to load saved audio player state:', error);
+      }
+    }
+  }, [setTrack, setPlaylist]);
 
   // Side effect to handle audio loading and playback
   useEffect(() => {
     // Load saved track on initial mount if no track is set
-    if (typeof window !== 'undefined' && !track) {
-      const savedTrack = localStorage.getItem('audio-player-track');
-      if (savedTrack) {
-        try {
-          const parsedTrack = JSON.parse(savedTrack);
-          setTrack(parsedTrack);
-        } catch (error) {
-          console.error('Failed to parse saved track:', error);
-          localStorage.removeItem('audio-player-track');
-        }
-      }
-    }
+    // if (typeof window !== 'undefined' && !track) {
+    //   const savedTrack = localStorage.getItem('audio-player-track');
+    //   if (savedTrack) {
+    //     try {
+    //       const parsedTrack = JSON.parse(savedTrack);
+    //       setTrack(parsedTrack);
+    //     } catch (error) {
+    //       console.error('Failed to parse saved track:', error);
+    //       localStorage.removeItem('audio-player-track');
+    //     }
+    //   }
+    // }
 
     const audio = audioRef.current;
     if (!audio || !track) return;

@@ -22,11 +22,11 @@ export function ViewPlaylistSidebar() {
 
   return (
     isSuccess && (
-      <div className="flex flex-col gap-2 p-2">
+      <div className="flex flex-col gap-2">
         {data.pages.map((page) =>
           page.data?.map((playlist) => (
             <div
-              className="flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all hover:bg-neutral-800"
+              className="flex items-center gap-3 p-1 rounded-md cursor-pointer transition-all hover:bg-neutral-800"
               key={playlist.id}
             >
               <div className="w-10 h-10">

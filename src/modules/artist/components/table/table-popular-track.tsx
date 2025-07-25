@@ -105,6 +105,7 @@ export function TablePopularTrack({ songLoading, songResults }: TablePopularTrac
                 'truncate font-bold hover:underline',
                 isRowPlaying && 'text-primary-pink',
               )}
+              title={row.original.title}
             >
               {row.original.title}
             </Link>
@@ -126,7 +127,8 @@ export function TablePopularTrack({ songLoading, songResults }: TablePopularTrac
       cell: ({ row }) => (
         <div className="flex items-center justify-center gap-4">
           <span className="font-semibold opacity-80">{formatDuration(row.original.duration)}</span>
-          {hoveredRowIndex === row.index ? <DropdownHelper song={row.original} /> : null}
+          <DropdownHelper song={row.original} />
+          {/* {hoveredRowIndex === row.index ? <DropdownHelper song={row.original} /> : null} */}
         </div>
       ),
       size: 50,

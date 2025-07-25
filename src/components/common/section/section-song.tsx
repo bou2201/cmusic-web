@@ -95,7 +95,7 @@ export function SectionSongInPlaylist({ song, indexSong }: { song: Song; indexSo
           size="icon"
           variant="ghost"
         >
-          <PlayIcon />
+          <PlayIcon className="fill-primary stroke-primary" />
         </Button>
       </div>
     </div>

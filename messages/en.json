@@ -343,6 +343,7 @@
       "cover": "Cover",
       "title": "Title",
       "save": "Save",
+      "empty": "The playlist is empty.",
       "create": "Create playlist",
       "createSuccess": "Create playlist successfully.",
       "createFailed": "Create playlist failed.",
@@ -351,7 +352,13 @@
       "updateFailed": "Update playlist failed.",
       "delete": "Delete playlist",
       "deleteSuccess": "Delete playlist successfully.",
-      "deleteFailed": "Delete playlist failed."
+      "deleteFailed": "Delete playlist failed.",
+      "addToPlaylist": "Add to playlist",
+      "addToPlaylistSuccess": "Add to playlist successfully.",
+      "addToPlaylistFailed": "Add to playlist failed.",
+      "removeFromPlaylist": "Remove from playlist",
+      "removeFromPlaylistSuccess": "Remove from playlist successfully.",
+      "removeFromPlaylistFailed": "Remove from playlist failed."
     }
   }
 }

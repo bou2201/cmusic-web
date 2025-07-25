@@ -343,6 +343,7 @@
       "cover": "Ảnh playlist",
       "title": "Tiêu đề",
       "save": "Lưu",
+      "empty": "Danh sách phát trống",
       "create": "Tạo playlist",
       "createSuccess": "Tạo playlist thành công.",
       "createFailed": "Tạo playlist thất bại.",
@@ -351,7 +352,13 @@
       "updateFailed": "Cập nhật playlist thất bại.",
       "delete": "Xóa playlist",
       "deleteSuccess": "Xóa playlist thành công.",
-      "deleteFailed": "Xóa playlist thất bại."
+      "deleteFailed": "Xóa playlist thất bại.",
+      "addToPlaylist": "Thêm vào playlist",
+      "addToPlaylistSuccess": "Thêm vào playlist thành công.",
+      "addToPlaylistFailed": "Thêm vào playlist thất bại.",
+      "removeFromPlaylist": "Xóa khỏi playlist",
+      "removeFromPlaylistSuccess": "Xóa khỏi playlist thành công.",
+      "removeFromPlaylistFailed": "Xóa khỏi playlist thất bại."
     }
   }
 }

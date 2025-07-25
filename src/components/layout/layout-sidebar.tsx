@@ -60,6 +60,8 @@ function LayoutSidebarContent() {
   const navigation = NavigationWeb();
   const navigationDashboard = NavigationDashboard();
 
+  const isPermissionAdmin = user?.role === Role.Admin && pathname.includes('/admin');
+
   const renderNavigation = useCallback(
     (navi: NavigationType[]) => {
       return navi.map((nav) => (
@@ -105,44 +107,44 @@ function LayoutSidebarContent() {
   return (
     <>
       <SidebarContent>
-        {renderNavigation(
-          user?.role === Role.Admin && pathname.includes('/admin')
-            ? navigationDashboard
-            : navigation,
-        )}
-        <SidebarSeparator />
+        {renderNavigation(isPermissionAdmin ? navigationDashboard : navigation)}
 
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem className="flex justify-center">
-                <SidebarMenuButton
-                  asChild
-                  className="h-auto py-2.5 bg-primary text-background hover:bg-primary hover:text-background"
-                  tooltip={t('playlist.action.create')}
-                >
-                  <div
-                    className="cursor-pointer"
-                    onClick={() => {
-                      if (isAuthenticated) {
-                        setOpenCreatePlaylist(true);
-                      } else {
-                        setOpenLogin(true);
-                      }
-                    }}
-                  >
-                    <PlusIcon />
-                    <span className="font-semibold">{t('playlist.action.create')}</span>
-                  </div>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {!isPermissionAdmin ? (
+          <>
+            <SidebarSeparator />
+            <SidebarGroup>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem className="flex justify-center">
+                    <SidebarMenuButton
+                      asChild
+                      className="h-auto py-2.5 bg-primary text-background hover:bg-primary hover:text-background"
+                      tooltip={t('playlist.action.create')}
+                    >
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => {
+                          if (isAuthenticated) {
+                            setOpenCreatePlaylist(true);
+                          } else {
+                            setOpenLogin(true);
+                          }
+                        }}
+                      >
+                        <PlusIcon />
+                        <span className="font-semibold">{t('playlist.action.create')}</span>
+                      </div>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
 
-        <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-          <ViewPlaylistSidebar />
-        </SidebarGroup>
+            <SidebarGroup className="group-data-[collapsible=icon]:hidden h-full overflow-y-auto">
+              <ViewPlaylistSidebar />
+            </SidebarGroup>
+          </>
+        ) : null}
       </SidebarContent>
 
       {openLogin ? <AuthLogin open={openLogin} setOpen={setOpenLogin} /> : null}

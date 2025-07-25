@@ -24,5 +24,5 @@ export const playlistService = {
     api.post<Playlist>(`${API_TAG_BASE}/${playlistId}/add/${songId}`, {}),
 
   removeSongFromPlaylist: (playlistId: string, songId: string) =>
-    api.post<Playlist>(`${API_TAG_BASE}/${playlistId}/remove/${songId}`, {}),
+    api.delete<Playlist>(`${API_TAG_BASE}/${playlistId}/remove/${songId}`, {}),
 };

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useSongStore } from '../../store';
 import { Artist, ViewRedirectArtist } from '@/modules/artist';
 import { BtnLikeSong } from './btn-like-song';
+import { IMAGE_PLACEHOLDER } from '@/constants/link';
 
 export function AudioMeta() {
   const track = useSongStore((state) => state.track);
@@ -14,7 +15,7 @@ export function AudioMeta() {
     <div className="flex items-center gap-3 w-full">
       <div className="w-10 h-10 md:w-14 md:h-14 rounded-md overflow-hidden shrink-0">
         <Image
-          src={track?.cover?.url ?? '/images/song-default-white.png'}
+          src={track?.cover?.url ?? IMAGE_PLACEHOLDER}
           alt="cover"
           className="w-full h-full object-cover"
           width={120}

@@ -72,7 +72,18 @@ const initialValues: SongState = {
 
 export const useSongStore = create<SongState & SongAction>((set, get) => ({
   ...initialValues,
-  setTrack: (track: Song) => set({ track }),
+  setTrack: (track: Song) => {
+    const { playlist } = get();
+    const index = playlist.findIndex((s) => s.id === track.id);
+
+    if (index !== -1) {
+      // ✅ đã có trong playlist → nhảy tới bài đó
+      set({ currentTrackIndex: index, track });
+    } else {
+      // ❌ chưa có trong playlist → reset playlist
+      set({ track, playlist: [], currentTrackIndex: -1 });
+    }
+  },
   clearTrack: () => set(initialValues),
   setPlaylist: (playlist: Song[], startIndex = 0) => {
     if (playlist.length === 0) return;

@@ -9,6 +9,7 @@ import { NextIntl } from '~types/next-intl';
 import { useSongStore } from '../../store';
 import Image from 'next/image';
 import { getArtistName } from '@/utiils/function';
+import { IMAGE_PLACEHOLDER } from '@/constants/link';
 
 export function BtnLyric() {
   const [openLyric, setOpenLyric] = useState<boolean>(false);
@@ -32,12 +33,12 @@ export function BtnLyric() {
         </Button>
       </DispTooltip>
 
-      <DispDrawer open={openLyric} setOpen={setOpenLyric} modal={false} className='px-10'>
+      <DispDrawer open={openLyric} setOpen={setOpenLyric} modal={false} className="px-10">
         <div className="relative w-full h-screen">
           <div
             className="absolute inset-0 z-0"
             style={{
-              backgroundImage: `url(${track?.cover?.url ?? '/images/song-default-white.png'})`,
+              backgroundImage: `url(${track?.cover?.url ?? IMAGE_PLACEHOLDER})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               filter: 'blur(80px)',
@@ -54,7 +55,7 @@ export function BtnLyric() {
                   width={1000}
                   height={1000}
                   alt={track?.title ?? ''}
-                  src={track?.cover?.url ?? '/images/song-default-white.png'}
+                  src={track?.cover?.url ?? IMAGE_PLACEHOLDER}
                   className="w-full h-full object-cover rounded-full"
                   unoptimized
                 />

@@ -18,6 +18,7 @@ import { useSongStore } from '../store';
 import { FormFiltersMnt } from '../components';
 import { Link, useRouter } from '@/i18n/navigation';
 import { Routes } from '@/constants/routes';
+import { IMAGE_PLACEHOLDER } from '@/constants/link';
 
 export function PageSongsMnt() {
   const [page, setPage] = useState<number>(1);
@@ -41,7 +42,7 @@ export function PageSongsMnt() {
         return (
           <div className="w-12 h-12 shrink-0">
             <Image
-              src={row.original.cover?.url ?? '/images/song-default-white.png'}
+              src={row.original.cover?.url ?? IMAGE_PLACEHOLDER}
               alt={row.original.title}
               width={200}
               height={200}

@@ -1,5 +1,6 @@
 'use client';
 
+import { IMAGE_PLACEHOLDER } from '@/constants/link';
 import { Routes } from '@/constants/routes';
 import { Link } from '@/i18n/navigation';
 import { Genre } from '@/modules/genre';
@@ -12,12 +13,7 @@ export function SectionGenre({ genre }: { genre: Genre }) {
       onClick={() => {}}
     >
       <div className="relative aspect-square w-full rounded-md overflow-hidden">
-        <Image
-          src="/images/song-default-white.png"
-          alt={genre.name}
-          fill
-          className="object-cover"
-        />
+        <Image src={IMAGE_PLACEHOLDER} alt={genre.name} fill className="object-cover" />
       </div>
       <Link href={'#'} className="font-semibold line-clamp-2 w-full hover:underline">
         {genre.name}

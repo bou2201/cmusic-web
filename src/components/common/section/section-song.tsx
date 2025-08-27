@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { DispAnimationWave } from '../data-display/disp-animation';
 import { ViewRedirectArtist } from '@/modules/artist';
 import { cn } from '@/lib/utils';
+import { IMAGE_PLACEHOLDER } from '@/constants/link';
 
 export function SectionSongInPlayListPlaying({ song }: { song: Song }) {
   const { track, playlist, isPlaying, currentTrackIndex } = useSongStore((state) => state);
@@ -17,7 +18,7 @@ export function SectionSongInPlayListPlaying({ song }: { song: Song }) {
     <div className="flex flex-col gap-3 p-2 rounded-md hover:bg-neutral-800 transition cursor-pointer">
       <div className="w-full h-auto rounded-md shrink-0 relative aspect-square">
         <Image
-          src={song.cover?.url ?? '/images/song-default-white.png'}
+          src={song.cover?.url ?? IMAGE_PLACEHOLDER}
           alt={song.title}
           height={500}
           width={500}
@@ -66,7 +67,7 @@ export function SectionSongInPlaylist({ song, indexSong }: { song: Song; indexSo
     >
       <div className="w-11 h-11 rounded-md shrink-0 relative">
         <Image
-          src={song.cover?.url ?? '/images/song-default-white.png'}
+          src={song.cover?.url ?? IMAGE_PLACEHOLDER}
           alt={song.title}
           height={100}
           width={100}
@@ -113,7 +114,7 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
       <div className="group flex gap-3 p-3 rounded-md hover:bg-neutral-800 transition cursor-pointer relative">
         <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-md shrink-0 relative">
           <Image
-            src={song.cover?.url ?? '/images/song-default-white.png'}
+            src={song.cover?.url ?? IMAGE_PLACEHOLDER}
             alt={song.title}
             height={100}
             width={100}
@@ -164,10 +165,8 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
                   if (isPlaying && isCurrentSong) {
                     pauseAudio();
                   } else {
-                    if (!isCurrentSong) {
-                      setTrack(song); // chỉ set nếu là bài mới
-                    }
-                    playAudio(); // luôn gọi play
+                    setTrack(song); // tự xử lý nhảy/replace playlist
+                    playAudio(); // luôn play
                   }
                 }}
                 size="icon"
@@ -195,7 +194,7 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
         }}
       >
         <Image
-          src={song.cover?.url ?? '/images/song-default-white.png'}
+          src={song.cover?.url ?? IMAGE_PLACEHOLDER}
           alt={song.title}
           fill
           className="object-cover"
@@ -211,10 +210,8 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
               if (isPlaying && isCurrentSong) {
                 pauseAudio();
               } else {
-                if (!isCurrentSong) {
-                  setTrack(song); // chỉ set nếu là bài mới
-                }
-                playAudio(); // luôn gọi play
+                setTrack(song); // tự xử lý nhảy/replace playlist
+                playAudio(); // luôn play
               }
             }}
             size="icon"

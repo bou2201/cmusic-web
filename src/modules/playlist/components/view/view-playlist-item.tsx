@@ -3,7 +3,6 @@
 import { JSX, useEffect, useState } from 'react';
 import { Playlist } from '../../types';
 import Image from 'next/image';
-import { useAuthStore } from '@/modules/auth';
 import { Button } from '@/components/ui';
 import { Loader2Icon, PlayIcon } from 'lucide-react';
 import { useSongStore } from '@/modules/song';
@@ -11,12 +10,14 @@ import { usePlaylistDetails } from '../../hooks';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
+import { IMAGE_PLACEHOLDER } from '@/constants/link';
+import { Link } from '@/i18n/navigation';
+import { Routes } from '@/constants/routes';
 
 export function ViewPlaylistItem({ playlist }: { playlist: Playlist }): JSX.Element {
   const [playlistId, setPlaylistId] = useState<string | undefined>(undefined);
 
   const t = useTranslations<NextIntl.Namespace<'Component.playlist'>>('Component.playlist');
-  const user = useAuthStore((state) => state.user);
   const { setPlaylist } = useSongStore((state) => state);
   const {
     isSuccess,
@@ -38,14 +39,15 @@ export function ViewPlaylistItem({ playlist }: { playlist: Playlist }): JSX.Elem
   }, [isSuccess, dataDetails, setPlaylist]);
 
   return (
-    <div className="flex items-center justify-between gap-3 p-1 rounded-md cursor-pointer transition-all hover:bg-neutral-800">
+    <Link
+      href={`${Routes.Playlist}/${playlist.id}`}
+      className="flex items-center justify-between gap-3 py-1 px-2 rounded-md cursor-pointer transition-all hover:bg-neutral-800"
+    >
       <div className="flex items-center gap-3">
         <div className="w-10 h-10">
           <Image
             alt={playlist.title}
-            src={
-              playlist.songs?.[0]?.cover?.url ?? playlist.cover ?? '/images/song-default-white.png'
-            }
+            src={playlist.songs?.[0]?.cover?.url ?? playlist.cover ?? IMAGE_PLACEHOLDER}
             width={100}
             height={100}
             className="w-full h-full object-cover rounded-full"
@@ -53,9 +55,6 @@ export function ViewPlaylistItem({ playlist }: { playlist: Playlist }): JSX.Elem
         </div>
         <div className="flex flex-col">
           <span className="font-semibold">{playlist.title}</span>
-          <span className="text-xs text-[#a5a5a5]">
-            {playlist.userId === user?.id ? user.name : ''}
-          </span>
         </div>
       </div>
       <Button
@@ -73,6 +72,6 @@ export function ViewPlaylistItem({ playlist }: { playlist: Playlist }): JSX.Elem
           <PlayIcon className="fill-primary stroke-primary" />
         )}
       </Button>
-    </div>
+    </Link>
   );
 }

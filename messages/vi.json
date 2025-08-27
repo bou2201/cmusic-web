@@ -280,6 +280,14 @@
       "resultSong": "Bài hát"
     }
   },
+  "PlaylistPage": {
+    "metadata": {
+      "title": "Danh sách phát"
+    },
+    "details": {
+      "tracks": "Bản nhạc"
+    }
+  },
   "Validation": {
     "common": {
       "required": "Trường này là bắt buộc.",

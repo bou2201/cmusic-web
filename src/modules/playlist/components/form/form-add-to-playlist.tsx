@@ -14,6 +14,7 @@ import { Checkbox } from '@/components/ui';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { playlistService } from '../../service';
 import { toast } from 'sonner';
+import { IMAGE_PLACEHOLDER } from '@/constants/link';
 
 type FormAddToPlaylistProps = {
   songId: string;
@@ -111,11 +112,7 @@ export function FormAddToPlaylist({ songId, open, setOpen }: FormAddToPlaylistPr
                     <div className="w-10 h-10">
                       <Image
                         alt={playlist.title}
-                        src={
-                          playlist.songs?.[0]?.cover?.url ??
-                          playlist.cover ??
-                          '/images/song-default-white.png'
-                        }
+                        src={playlist.songs?.[0]?.cover?.url ?? playlist.cover ?? IMAGE_PLACEHOLDER}
                         width={100}
                         height={100}
                         className="w-full h-full object-cover rounded-full"

@@ -280,6 +280,14 @@
       "resultSong": "Search song result"
     }
   },
+  "PlaylistPage": {
+    "metadata": {
+      "title": "Playlist"
+    },
+    "details": {
+      "tracks": "Tracks"
+    }
+  },
   "Validation": {
     "common": {
       "required": "This field is required.",

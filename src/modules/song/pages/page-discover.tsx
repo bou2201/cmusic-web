@@ -47,7 +47,7 @@ export function PageDiscover() {
     <div>
       {recentTracks.length > 0 ? (
         <SectionBanner title={t('song.listenAgain')} isCarousel={false} isViewAll={false}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
             {recentTracks.slice(0, SHOW_LIMIT_RECENT_SONG).map((rec) => (
               <SectionSong song={rec} size="small" key={rec.id} />
             ))}

@@ -116,6 +116,29 @@ export function formatNumber(value: number | string): string {
   return number.toLocaleString('vi-VN');
 }
 
+export function formatDurationSum(durations: number[]): string {
+  const totalSeconds = durations.reduce((acc, val) => acc + val, 0);
+
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  const parts: string[] = [];
+
+  if (hours > 0) {
+    parts.push(`${hours} giờ`);
+  }
+  if (minutes > 0) {
+    parts.push(`${minutes} phút`);
+  }
+  if (seconds > 0 && parts.length === 0) {
+    // chỉ thêm giây nếu không có giờ và phút
+    parts.push(`${seconds} giây`);
+  }
+
+  return parts.join(', ');
+}
+
 /**
  * Processes lyrics to support "View More" functionality
  * @param lyrics The raw lyrics text

@@ -1,5 +1,6 @@
 'use client';
 
+import { IMAGE_PLACEHOLDER } from '@/constants/link';
 import Image from 'next/image';
 
 type SectionDetailsProps = {
@@ -23,7 +24,7 @@ export function SectionDetails({
         <div
           className="absolute inset-0 -bottom-10 z-0"
           style={{
-            backgroundImage: `url(${headerImage.url ?? '/images/song-default-white.png'})`,
+            backgroundImage: `url(${headerImage.url ?? IMAGE_PLACEHOLDER})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             filter: 'blur(40px)',
@@ -44,7 +45,7 @@ export function SectionDetails({
               width={1000}
               height={1000}
               alt={headerImage.alt}
-              src={headerImage.url ?? '/images/song-default-white.png'}
+              src={headerImage.url ?? IMAGE_PLACEHOLDER}
               className={`w-full h-full object-cover ${type === 'artist' ? 'rounded-full' : 'rounded-xl'}`}
               unoptimized
             />
@@ -54,7 +55,7 @@ export function SectionDetails({
               width={1000}
               height={1000}
               alt={headerImage.alt}
-              src={headerImage.url ?? '/images/song-default-white.png'}
+              src={headerImage.url ?? IMAGE_PLACEHOLDER}
               className={`w-full h-full object-cover ${type === 'artist' ? 'rounded-full' : 'rounded-xl'}`}
               unoptimized
             />

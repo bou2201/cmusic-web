@@ -186,7 +186,7 @@ function DispTableLoading<TData>({
 
 function DispTableLoadingProgress() {
   return (
-    <div className="absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full flex justify-center items-center bg-background/50 pointer-events-none">
+    <div className="absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full flex justify-center items-center bg-transparent pointer-events-none">
       <Loader2 className="animate-spin w-12 h-12" />
     </div>
   );

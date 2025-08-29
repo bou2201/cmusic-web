@@ -40,12 +40,15 @@ export function FormAddToPlaylist({ songId, open, setOpen }: FormAddToPlaylistPr
   const { mutate: executeAdd, isPending: isAddPending } = useMutation({
     mutationFn: ({ playlistId, songId }: { playlistId: string; songId: string }) =>
       playlistService.addSongToPlaylist(playlistId, songId),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success(t('addToPlaylistSuccess'));
       setOpen(false);
 
       queryClient.invalidateQueries({
         queryKey: ['playlist-user'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['playlist-user-details', data.id],
       });
     },
     onError: () => {
@@ -56,11 +59,14 @@ export function FormAddToPlaylist({ songId, open, setOpen }: FormAddToPlaylistPr
   const { mutate: executeRemove, isPending: isRemovePending } = useMutation({
     mutationFn: ({ playlistId, songId }: { playlistId: string; songId: string }) =>
       playlistService.removeSongFromPlaylist(playlistId, songId),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success(t('removeFromPlaylistSuccess'));
 
       queryClient.invalidateQueries({
         queryKey: ['playlist-user'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['playlist-user-details', data.id],
       });
     },
     onError: () => {

@@ -26,10 +26,13 @@
     "name": "Họ tên",
     "email": "Email",
     "password": "Mật khẩu",
+    "currentPassword": "Mật khẩu hiện tại",
+    "newPassword": "Mật khẩu mới",
     "confirmPassword": "Xác nhận mật khẩu",
     "forgotPassword": "Quên mật khẩu?",
     "submitLogin": "Đăng nhập",
     "submitRegister": "Đăng ký",
+    "changePassword": "Đổi mật khẩu",
     "cancel": "Huỷ",
     "alert": {
       "loginSuccess": "Đăng nhập thành công.",
@@ -359,6 +362,7 @@
       "updateSuccess": "Cập nhật playlist thành công.",
       "updateFailed": "Cập nhật playlist thất bại.",
       "delete": "Xóa playlist",
+      "deleteDesc": "Xác nhận xoá playlist",
       "deleteSuccess": "Xóa playlist thành công.",
       "deleteFailed": "Xóa playlist thất bại.",
       "addToPlaylist": "Thêm vào playlist",
@@ -367,6 +371,10 @@
       "removeFromPlaylist": "Xóa khỏi playlist",
       "removeFromPlaylistSuccess": "Xóa khỏi playlist thành công.",
       "removeFromPlaylistFailed": "Xóa khỏi playlist thất bại."
+    },
+    "alertDialog": {
+      "confirm": "Xác nhận",
+      "cancel": "Hủy"
     }
   }
 }

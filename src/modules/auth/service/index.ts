@@ -24,7 +24,10 @@ export const authService = {
     api.post<Omit<AuthResponse, 'user'>>(`${API_TAG_BASE}/refresh`, { refreshToken }),
 
   changePassword: (payload: AuthReqChangePasswordType) =>
-    api.post(`${API_TAG_BASE}/change-password`, payload),
+    api.post(`${API_TAG_BASE}/change-password`, {
+      currentPassword: payload.currentPassword,
+      newPassword: payload.newPassword,
+    }),
 
   forgotPassword: (email: string) => api.post(`${API_TAG_BASE}/forgot-password`, { email }),
 

@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { DispDropdown, DispDropdownMenuProps } from '../common';
-import { AuthLogin, AuthRegister, useAuthStore } from '@/modules/auth';
+import { AuthChangePw, AuthLogin, AuthRegister, useAuthStore } from '@/modules/auth';
 import { useMutation } from '@tanstack/react-query';
 import { authService } from '@/modules/auth/service';
 import { toast } from 'sonner';
@@ -27,6 +27,7 @@ import { Routes } from '@/constants/routes';
 function UserButton() {
   const [openLogin, setOpenLogin] = useState<boolean>(false);
   const [openRegister, setOpenRegister] = useState<boolean>(false);
+  const [openChangePassword, setOpenChangePassword] = useState<boolean>(false);
 
   const { user, isAuthenticated, clearAuth } = useAuthStore((state) => state);
   const router = useRouter();
@@ -58,6 +59,9 @@ function UserButton() {
           label: t('user.changePassword'),
           key: 'changePassword',
           shortcut: <RotateCcw />,
+          onClick: () => {
+            setOpenChangePassword(true);
+          },
         },
         {
           label: t('user.logout'),
@@ -112,6 +116,9 @@ function UserButton() {
 
       {openLogin ? <AuthLogin open={openLogin} setOpen={setOpenLogin} /> : null}
       {openRegister ? <AuthRegister open={openRegister} setOpen={setOpenRegister} /> : null}
+      {openChangePassword ? (
+        <AuthChangePw open={openChangePassword} setOpen={setOpenChangePassword} />
+      ) : null}
     </>
   );
 }

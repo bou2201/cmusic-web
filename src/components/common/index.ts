@@ -1,3 +1,4 @@
+export * from './data-display/disp-alert-dialog';
 export * from './data-display/disp-animation';
 export * from './data-display/disp-avatar';
 export * from './data-display/disp-dialog';

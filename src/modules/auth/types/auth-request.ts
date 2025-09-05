@@ -35,7 +35,7 @@ const useAuthRegisterSchema = () => {
   return schema;
 };
 
-const useAuthChangePasswordSchema = () => {
+const useAuthChangePwSchema = () => {
   const t = useTranslations<NextIntl.Namespace<'Validation'>>('Validation');
   const zPassword = usePasswordSchema();
 
@@ -43,10 +43,11 @@ const useAuthChangePasswordSchema = () => {
     .object({
       currentPassword: zPassword,
       newPassword: zPassword,
+      confirmPassword: zPassword,
     })
-    .refine((data) => data.currentPassword === data.newPassword, {
+    .refine((data) => data.newPassword === data.confirmPassword, {
       message: t('common.confirmPassword'),
-      path: ['newPassword'],
+      path: ['confirmPassword'],
     });
 
   return schema;
@@ -65,13 +66,13 @@ const useAuthResetPasswordSchema = () => {
 
 type AuthReqLoginType = z.infer<ReturnType<typeof useAuthLoginSchema>>;
 type AuthReqRegisterType = z.infer<ReturnType<typeof useAuthRegisterSchema>>;
-type AuthReqChangePasswordType = z.infer<ReturnType<typeof useAuthChangePasswordSchema>>;
+type AuthReqChangePasswordType = z.infer<ReturnType<typeof useAuthChangePwSchema>>;
 type AuthReqResetPasswordType = z.infer<ReturnType<typeof useAuthResetPasswordSchema>>;
 
 export {
   useAuthLoginSchema,
   useAuthRegisterSchema,
-  useAuthChangePasswordSchema,
+  useAuthChangePwSchema,
   useAuthResetPasswordSchema,
 };
 export type {

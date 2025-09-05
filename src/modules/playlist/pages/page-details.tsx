@@ -3,7 +3,7 @@
 import { IMAGE_PLACEHOLDER } from '@/constants/link';
 import { usePlaylistDetails } from '../hooks';
 import Image from 'next/image';
-import { DispAvatar, DispTable } from '@/components/common';
+import { DispAlertDialog, DispAvatar, DispTable } from '@/components/common';
 import {
   DropdownHelper,
   formatDurationSum,
@@ -25,9 +25,12 @@ import { ColumnDef } from '@tanstack/react-table';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { ViewRedirectArtist } from '@/modules/artist';
+import { FormCouPlaylist } from '../components';
 
 export function PageDetails({ id }: { id: string }) {
   const [hoveredRowIndex, setHoveredRowIndex] = useState<number | null>(null);
+  const [openUpdatePlaylist, setOpenUpdatePlaylist] = useState<boolean>(false);
+  const [openRemovePlaylist, setOpenRemovePlaylist] = useState<boolean>(false);
 
   const { user } = useAuthStore((state) => state);
   const { setPlaylist, currentTrackIndex, isPlaying, playlist, track, pauseAudio, playAudio } =
@@ -35,6 +38,7 @@ export function PageDetails({ id }: { id: string }) {
 
   const { isSuccess, data: dataDetails, isLoading: isLoadingDetails } = usePlaylistDetails(id);
   const t = useTranslations<NextIntl.Namespace<'PlaylistPage.details'>>('PlaylistPage.details');
+  const tPlaylist = useTranslations<NextIntl.Namespace<'Component.playlist'>>('Component.playlist');
 
   const columns: ColumnDef<Song>[] = [
     {
@@ -143,89 +147,125 @@ export function PageDetails({ id }: { id: string }) {
   ];
 
   return (
-    <section className="h-full rounded-xl bg-sidebar overflow-x-hidden overflow-y-auto pt-16 relative">
-      <div
-        className="absolute inset-0 z-0 h-80"
-        style={{
-          backgroundImage: `url(${dataDetails?.cover ?? IMAGE_PLACEHOLDER})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          filter: 'blur(50px)',
-          opacity: 0.4,
-        }}
-      />
+    <>
+      <section className="h-full rounded-xl bg-sidebar overflow-x-hidden overflow-y-auto pt-16 relative">
+        <div
+          className="absolute inset-0 z-0 h-80"
+          style={{
+            backgroundImage: `url(${dataDetails?.cover ?? IMAGE_PLACEHOLDER})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'blur(50px)',
+            opacity: 0.4,
+          }}
+        />
 
-      <div className="grid grid-cols-6 justify-center items-start gap-2 max-lg:gap-10 lg:px-16 p-4">
-        <div className="lg:col-span-2 col-span-6 flex flex-col justify-center items-center max-lg:px-10 lg:max-w-72 ww-full">
-          <div className="w-full h-full aspect-square shadow-2xl">
-            <Image
-              width={1000}
-              height={1000}
-              alt={dataDetails?.title ?? 'cover-playlist'}
-              src={dataDetails?.cover ?? IMAGE_PLACEHOLDER}
-              className="w-full h-full object-cover rounded-lg"
-              unoptimized
+        <div className="grid grid-cols-6 justify-center items-start gap-2 max-lg:gap-10 lg:px-16 p-4">
+          <div className="lg:col-span-2 col-span-6 flex flex-col justify-center items-center max-lg:px-10 lg:max-w-72 ww-full">
+            <div className="w-full h-full aspect-square shadow-2xl">
+              <Image
+                width={1000}
+                height={1000}
+                alt={dataDetails?.title ?? 'cover-playlist'}
+                src={dataDetails?.cover ?? IMAGE_PLACEHOLDER}
+                className="w-full h-full object-cover rounded-lg"
+                unoptimized
+              />
+            </div>
+            <h3
+              className="text-2xl text-center font-bold line-clamp-3 truncate whitespace-normal mt-6"
+              title={dataDetails?.title}
+            >
+              {dataDetails?.title}
+            </h3>
+
+            <div className="flex items-center gap-2 text-sm mt-4">
+              <DispAvatar
+                src={user?.avatar?.url ?? ''}
+                alt={user?.name ?? ''}
+                fallback={getShortName(user?.name ?? '')}
+                className="object-cover"
+              />
+              <Link
+                href={`${Routes.Artists}/${dataDetails?.userId}`}
+                className="font-medium opacity-80 hover:underline"
+              >
+                {dataDetails?.userId === user?.id ? user?.name : 'Hệ thống'}
+              </Link>
+            </div>
+
+            <p className="mt-5 text-muted-foreground font-semibold">
+              {dataDetails?.songs.length} {t('tracks').toLocaleLowerCase()} •{' '}
+              {formatDurationSum(dataDetails?.songs.map((song) => song.duration) ?? [])}
+            </p>
+
+            <div className="mt-5 flex justify-center items-center gap-6">
+              <Button
+                variant="secondary"
+                size="icon"
+                className="rounded-full w-10 h-10"
+                onClick={() => {
+                  setOpenUpdatePlaylist(true);
+                }}
+              >
+                <PencilIcon />
+              </Button>
+              <Button
+                onClick={() => {
+                  setPlaylist(dataDetails?.songs ?? []);
+                }}
+                size="icon"
+                className="h-16 w-16 rounded-full bg-primary hover:bg-primary-pink group"
+                variant="outline"
+              >
+                <PlayIcon className="fill-background stroke-background group-hover:fill-primary group-hover:stroke-primary !w-6 !h-6" />
+              </Button>
+              <Button
+                variant="secondary"
+                size="icon"
+                className="rounded-full w-10 h-10"
+                onClick={() => {
+                  setOpenRemovePlaylist(true);
+                }}
+              >
+                <XIcon />
+              </Button>
+            </div>
+          </div>
+
+          <div className="lg:col-span-4 col-span-6">
+            <DispTable
+              columns={columns}
+              data={(dataDetails?.songs as Song[]) ?? []}
+              isLoading={isLoadingDetails}
+              showHeader={false}
+              cnTableRow="border-0 rounded-md"
+              onRowMouseEnter={(rowIndex) => setHoveredRowIndex(rowIndex)}
+              onRowMouseLeave={() => setHoveredRowIndex(null)}
             />
           </div>
-          <h3
-            className="text-2xl text-center font-bold line-clamp-3 truncate whitespace-normal mt-6"
-            title={dataDetails?.title}
-          >
-            {dataDetails?.title}
-          </h3>
-
-          <div className="flex items-center gap-2 text-sm mt-4">
-            <DispAvatar
-              src={user?.avatar?.url ?? ''}
-              alt={user?.name ?? ''}
-              fallback={getShortName(user?.name ?? '')}
-              className="object-cover"
-            />
-            <Link
-              href={`${Routes.Artists}/${dataDetails?.userId}`}
-              className="font-medium opacity-80 hover:underline"
-            >
-              {dataDetails?.userId === user?.id ? user?.name : 'Hệ thống'}
-            </Link>
-          </div>
-
-          <p className="mt-5 text-muted-foreground font-semibold">
-            {dataDetails?.songs.length} {t('tracks').toLocaleLowerCase()} •{' '}
-            {formatDurationSum(dataDetails?.songs.map((song) => song.duration) ?? [])}
-          </p>
-
-          <div className="mt-5 flex justify-center items-center gap-6">
-            <Button variant="secondary" size="icon" className="rounded-full w-10 h-10">
-              <PencilIcon />
-            </Button>
-            <Button
-              onClick={() => {
-                setPlaylist(dataDetails?.songs ?? []);
-              }}
-              size="icon"
-              className="h-16 w-16 rounded-full bg-primary hover:bg-primary-pink group"
-              variant="outline"
-            >
-              <PlayIcon className="fill-background stroke-background group-hover:fill-primary group-hover:stroke-primary !w-6 !h-6" />
-            </Button>
-            <Button variant="secondary" size="icon" className="rounded-full w-10 h-10">
-              <XIcon />
-            </Button>
-          </div>
         </div>
+      </section>
 
-        <div className="lg:col-span-4 col-span-6">
-          <DispTable
-            columns={columns}
-            data={(dataDetails?.songs as Song[]) ?? []}
-            isLoading={isLoadingDetails}
-            showHeader={false}
-            cnTableRow="border-0 rounded-md"
-            onRowMouseEnter={(rowIndex) => setHoveredRowIndex(rowIndex)}
-            onRowMouseLeave={() => setHoveredRowIndex(null)}
-          />
-        </div>
-      </div>
-    </section>
+      {openUpdatePlaylist ? (
+        <FormCouPlaylist
+          open={openUpdatePlaylist}
+          setOpen={setOpenUpdatePlaylist}
+          playlist={dataDetails}
+        />
+      ) : null}
+
+      {openRemovePlaylist ? (
+        <DispAlertDialog
+          open={openRemovePlaylist}
+          setOpen={setOpenRemovePlaylist}
+          title={tPlaylist('delete')}
+          description={`'${dataDetails?.title}' ` + tPlaylist('deleteDesc').toLowerCase()}
+          onConfirm={() => {
+            setOpenRemovePlaylist(false);
+          }}
+        />
+      ) : null}
+    </>
   );
 }

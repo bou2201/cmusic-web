@@ -43,6 +43,10 @@ export function FormCouPlaylist({ open, setOpen, playlist, setPlaylist }: FormCo
       }
 
       queryClient.invalidateQueries({ queryKey: ['playlist-user'] });
+      if (playlist) {
+        queryClient.invalidateQueries({ queryKey: ['playlist-user-details', playlist.id] });
+      }
+
       setOpen(false);
       if (playlist && setPlaylist) setPlaylist(undefined);
     },
@@ -71,7 +75,11 @@ export function FormCouPlaylist({ open, setOpen, playlist, setPlaylist }: FormCo
         <form
           id={playlist ? `form-playlist-cou-update-${playlist.id}` : 'form-playlist-cou-create'}
           onSubmit={form.handleSubmit((data) => {
-            return executeSubmit(data);
+            const submitData = {
+              ...data,
+              cover: form.watch('cover') ? data.cover?.url : undefined,
+            };
+            return executeSubmit(submitData);
           })}
           className="flex flex-col gap-5 mt-2"
         >
@@ -93,7 +101,6 @@ export function FormCouPlaylist({ open, setOpen, playlist, setPlaylist }: FormCo
               className="font-semibold text-base"
               type="submit"
               isLoading={isLoadingSubmit}
-              disabled={!form.formState.isDirty}
             >
               {t('save')}
             </Button>

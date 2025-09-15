@@ -36,7 +36,7 @@ export function AuthRegister({ open, setOpen }: DialogState) {
       if (data) {
         setAuth(data.user, data.accessToken, data.refreshToken);
       }
-      toast(t('alert.registerSuccess'), { position: 'top-right' });
+      toast(t('alert.registerSuccess'));
       setOpen(false);
 
       window.location.reload();
@@ -48,9 +48,7 @@ export function AuthRegister({ open, setOpen }: DialogState) {
       if (error.status === HttpStatusCode.InternalServerError) {
         toast.error(t('alert.systemError'));
       }
-      toast.error(t('alert.registerFailed'), {
-        position: 'top-right',
-      });
+      toast.error(t('alert.registerFailed'));
     },
   });
 

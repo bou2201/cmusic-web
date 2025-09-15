@@ -6,17 +6,16 @@ import { SectionDetails } from '@/components/common';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { Button } from '@/components/ui';
-import { Play, Plus } from 'lucide-react';
-import { TablePopularTrack } from '../components';
+import { Play } from 'lucide-react';
+import { ButtonFollow, TablePopularTrack } from '../components';
 import { Song, songService, useSongStore } from '@/modules/song';
 import { useState } from 'react';
-import { AuthLogin, useAuthStore } from '@/modules/auth';
+import { AuthLogin } from '@/modules/auth';
 import Image from 'next/image';
 
 export function PageDetails({ id }: { id: string }) {
   const [openLogin, setOpenLogin] = useState<boolean>(false);
 
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const tSectionArt = useTranslations<NextIntl.Namespace<'Section.artist'>>('Section.artist');
   const tSectionSong = useTranslations<NextIntl.Namespace<'Section.song'>>('Section.song');
 
@@ -41,15 +40,7 @@ export function PageDetails({ id }: { id: string }) {
         </h1>
         <div className="mt-4 text-sm flex items-center gap-10">
           <span className="font-semibold opacity-80">{`${artist?._count.followers} ${tSectionArt('followers').toLowerCase()}`}</span>
-          <Button
-            variant="primary"
-            className="font-bold"
-            onClick={() => {
-              setOpenLogin(true);
-            }}
-          >
-            <Plus /> {tSectionArt('follow')}
-          </Button>
+          <ButtonFollow artistId={id} />
         </div>
       </div>
     );

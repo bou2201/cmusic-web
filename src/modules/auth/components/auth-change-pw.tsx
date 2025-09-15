@@ -48,9 +48,7 @@ export function AuthChangePw({ open, setOpen }: DialogState) {
       if (error.status === HttpStatusCode.InternalServerError) {
         toast.error(t('alert.systemError'));
       }
-      toast.error(t('alert.changePasswordFailed'), {
-        position: 'top-right',
-      });
+      toast.error(t('alert.changePasswordFailed'));
     },
   });
 

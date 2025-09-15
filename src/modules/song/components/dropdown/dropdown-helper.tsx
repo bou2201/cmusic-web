@@ -5,6 +5,7 @@ import { Song } from '../../types';
 import {
   CirclePlusIcon,
   CopyIcon,
+  // DownloadCloudIcon,
   EllipsisIcon,
   ListPlusIcon,
   SquareChevronRightIcon,
@@ -21,6 +22,7 @@ import { useSongStore } from '../../store';
 import { useRouter } from '@/i18n/navigation';
 import { useState } from 'react';
 import { FormAddToPlaylist } from '@/modules/playlist';
+// import { downloadTrack } from '@/modules/download';
 
 export function DropdownHelper({ song }: { song: Song }) {
   const [openPlaylist, setOpenPlaylist] = useState<boolean>(false);
@@ -78,6 +80,15 @@ export function DropdownHelper({ song }: { song: Song }) {
               }
             },
           },
+          // {
+          //   shortcut: <DownloadCloudIcon />,
+          //   key: 'action-download',
+          //   label: t('download'),
+          //   onClick: (e) => {
+          //     e.stopPropagation();
+          //     downloadTrack(song.audioUrl, song.title);
+          //   },
+          // },
           {
             shortcut: <UserSearchIcon />,
             key: 'action-search-artist',

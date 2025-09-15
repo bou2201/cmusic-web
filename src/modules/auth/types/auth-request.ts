@@ -53,13 +53,30 @@ const useAuthChangePwSchema = () => {
   return schema;
 };
 
-const useAuthResetPasswordSchema = () => {
-  const zPassword = usePasswordSchema();
+const useAuthForgotPwSchema = () => {
+  const zEmail = useEmailSchema();
 
   const schema = z.object({
-    token: z.string().uuid(),
-    newPassword: zPassword,
+    email: zEmail,
   });
+
+  return schema;
+};
+
+const useAuthResetPwSchema = () => {
+  const t = useTranslations<NextIntl.Namespace<'Validation'>>('Validation');
+  const zPassword = usePasswordSchema();
+
+  const schema = z
+    .object({
+      token: z.string().uuid(),
+      newPassword: zPassword,
+      confirmNewPassword: zPassword,
+    })
+    .refine((data) => data.newPassword === data.confirmNewPassword, {
+      message: t('common.confirmPassword'),
+      path: ['confirmNewPassword'],
+    });
 
   return schema;
 };
@@ -67,17 +84,20 @@ const useAuthResetPasswordSchema = () => {
 type AuthReqLoginType = z.infer<ReturnType<typeof useAuthLoginSchema>>;
 type AuthReqRegisterType = z.infer<ReturnType<typeof useAuthRegisterSchema>>;
 type AuthReqChangePasswordType = z.infer<ReturnType<typeof useAuthChangePwSchema>>;
-type AuthReqResetPasswordType = z.infer<ReturnType<typeof useAuthResetPasswordSchema>>;
+type AuthReqForgotPasswordType = z.infer<ReturnType<typeof useAuthForgotPwSchema>>;
+type AuthReqResetPasswordType = z.infer<ReturnType<typeof useAuthResetPwSchema>>;
 
 export {
   useAuthLoginSchema,
   useAuthRegisterSchema,
   useAuthChangePwSchema,
-  useAuthResetPasswordSchema,
+  useAuthForgotPwSchema,
+  useAuthResetPwSchema,
 };
 export type {
   AuthReqLoginType,
   AuthReqRegisterType,
   AuthReqChangePasswordType,
+  AuthReqForgotPasswordType,
   AuthReqResetPasswordType,
 };

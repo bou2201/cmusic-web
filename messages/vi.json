@@ -34,7 +34,15 @@
     "submitRegister": "Đăng ký",
     "changePassword": "Đổi mật khẩu",
     "cancel": "Huỷ",
+    "submit": "Gửi",
+    "forgotPasswordDescription": "Vui lòng nhập email của bạn để lấy lại mật khẩu.",
+    "resetPassword": "Đặt lại mật khẩu",
+    "resetPasswordDescription": "Vui lòng nhập mật khẩu mới.",
+    "resetPasswordConfirm": "Xác nhận mật khẩu mới.",
+    "resetPasswordSuccessDecs": "Mật khẩu của bạn đã được đặt lại. Vui lòng đăng nhập lại.",
+    "backToHome": "Quay lại trang chủ",
     "alert": {
+      "success": "Thành công",
       "loginSuccess": "Đăng nhập thành công.",
       "loginFailed": "Đăng nhập thất bại.",
       "loginUnauthorized": "Email hoặc mật khẩu không đúng.",
@@ -45,9 +53,12 @@
       "changePasswordFailed": "Đổi mật khẩu thất bại.",
       "changePasswordIncorrect": "Mật khẩu hiện tại không đúng.",
       "forgotPasswordSuccess": "Vui lòng kiểm tra email của bạn để lấy lại mật khẩu.",
+      "emailNoExist": "Email không tồn tại trên hệ thống.",
       "logoutSuccess": "Bạn đã đăng xuất.",
       "logoutFailed": "Đăng xuất thất bại.",
-      "systemError": "Đã xảy ra lỗi hệ thống. Vui lòng thử lại sau."
+      "systemError": "Đã xảy ra lỗi hệ thống. Vui lòng thử lại sau.",
+      "resetPasswordSuccess": "Đặt lại mật khẩu thành công.",
+      "resetPasswordFailed": "Đặt lại mật khẩu thất bại."
     }
   },
   "Navigation": {
@@ -319,7 +330,12 @@
     "artist": {
       "role": "Nghệ sĩ",
       "followers": "Người theo dõi",
-      "follow": "Theo dõi"
+      "follow": "Theo dõi",
+      "unfollow": "Đã theo dõi",
+      "followSuccess": "Theo dõi thành công",
+      "unfollowSuccess": "Bỏ theo dõi thành công",
+      "followFailed": "Theo dõi thất bại",
+      "unfollowFailed": "Bỏ theo dõi thất bại"
     }
   },
   "Component": {
@@ -348,7 +364,8 @@
       "playOnNext": "Phát tiếp theo",
       "addToPlaylist": "Thêm vào danh sách phát",
       "addToUserPlaylist": "Thêm vào playlist",
-      "goToArtist": "Đi đến ca sĩ"
+      "goToArtist": "Đi đến ca sĩ",
+      "download": "Tải xuống nhạc"
     },
     "playlist": {
       "cover": "Ảnh playlist",

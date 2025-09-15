@@ -50,11 +50,11 @@ function UserButton() {
   const getMenuDropdown = (): DispDropdownMenuProps[] => {
     if (isAuthenticated && user) {
       return [
-        {
-          label: t('user.profile'),
-          key: 'profile',
-          shortcut: <UserRoundPen />,
-        },
+        // {
+        //   label: t('user.profile'),
+        //   key: 'profile',
+        //   shortcut: <UserRoundPen />,
+        // },
         {
           label: t('user.changePassword'),
           key: 'changePassword',

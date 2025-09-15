@@ -13,9 +13,12 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useAuthStore } from '../store';
 import { HttpStatusCode } from '@/constants/http-status-code';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { AuthForgotPw } from './auth-forgot-pw';
 
 export function AuthLogin({ open, setOpen }: DialogState) {
+  const [openForgot, setOpenForgot] = useState<boolean>(false);
+
   const setAuth = useAuthStore((state) => state.setAuth);
   const t = useTranslations<NextIntl.Namespace<'Auth'>>('Auth');
   const loginSchema = useAuthLoginSchema();
@@ -34,7 +37,7 @@ export function AuthLogin({ open, setOpen }: DialogState) {
       if (data) {
         setAuth(data.user, data.accessToken, data.refreshToken);
       }
-      toast(t('alert.loginSuccess'), { position: 'top-right' });
+      toast(t('alert.loginSuccess'));
       setOpen(false);
 
       window.location.reload();
@@ -46,9 +49,7 @@ export function AuthLogin({ open, setOpen }: DialogState) {
       if (error.status === HttpStatusCode.InternalServerError) {
         toast.error(t('alert.systemError'));
       }
-      toast.error(t('alert.loginFailed'), {
-        position: 'top-right',
-      });
+      toast.error(t('alert.loginFailed'));
     },
   });
 
@@ -60,47 +61,58 @@ export function AuthLogin({ open, setOpen }: DialogState) {
   }, []);
 
   return (
-    <DispDialog open={open} setOpen={setOpen} title={t('submitLogin')}>
-      <Form {...form}>
-        <form
-          id="form-login"
-          onSubmit={form.handleSubmit((data) => {
-            execute(data);
-          })}
-          className="mt-3"
-        >
-          <InputText<AuthReqLoginType>
-            name="email"
-            label={t('email')}
-            className="mb-4"
-            inputProps={{
-              placeholder: t('email'),
-            }}
-          />
-          <InputTextPassword<AuthReqLoginType>
-            name="password"
-            label={t('password')}
-            inputProps={{
-              placeholder: t('password'),
-            }}
-          />
-
-          <div className="flex justify-end gap-2 mt-6">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => {
-                setOpen(false);
+    <>
+      <DispDialog open={open} setOpen={setOpen} title={t('submitLogin')}>
+        <Form {...form}>
+          <form
+            id="form-login"
+            onSubmit={form.handleSubmit((data) => {
+              execute(data);
+            })}
+            className="mt-3"
+          >
+            <InputText<AuthReqLoginType>
+              name="email"
+              label={t('email')}
+              className="mb-4"
+              inputProps={{
+                placeholder: t('email'),
               }}
+            />
+            <InputTextPassword<AuthReqLoginType>
+              name="password"
+              label={t('password')}
+              inputProps={{
+                placeholder: t('password'),
+              }}
+            />
+
+            <p
+              className="text-right mt-5 text-sm opacity-80 hover:underline cursor-pointer"
+              onClick={() => setOpenForgot(true)}
             >
-              {t('cancel')}
-            </Button>
-            <Button type="submit" variant="default" isLoading={isPending}>
-              {t('submitLogin')}
-            </Button>
-          </div>
-        </form>
-      </Form>
-    </DispDialog>
+              {t('forgotPassword')}
+            </p>
+
+            <div className="flex justify-end gap-2 mt-6">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  setOpen(false);
+                }}
+              >
+                {t('cancel')}
+              </Button>
+              <Button type="submit" variant="default" isLoading={isPending}>
+                {t('submitLogin')}
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </DispDialog>
+
+      {openForgot && <AuthForgotPw open={openForgot} setOpen={setOpenForgot} />}
+    </>
   );
 }

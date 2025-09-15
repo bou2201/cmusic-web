@@ -34,7 +34,15 @@
     "submitRegister": "Register",
     "changePassword": "Change Password",
     "cancel": "Cancel",
+    "submit": "Submit",
+    "forgotPasswordDescription": "Fill in your email for reset password.",
+    "resetPassword": "Reset Password",
+    "resetPasswordDescription": "Fill in your new password.",
+    "resetPasswordConfirm": "Confirm New Password",
+    "resetPasswordSuccessDecs": "Your password has been reset. Please log in again.",
+    "backToHome": "Back to home page",
     "alert": {
+      "success": "Success",
       "loginSuccess": "Login successful.",
       "loginFailed": "Login failed.",
       "loginUnauthorized": "Email or password is incorrect.",
@@ -45,9 +53,12 @@
       "changePasswordFailed": "Password change failed.",
       "changePasswordIncorrect": "Current password is incorrect.",
       "forgotPasswordSuccess": "Please check your email to reset your password.",
+      "emailNoExist": "Email not exist on system.",
       "logoutSuccess": "Logout successful.",
       "logoutFailed": "Logout failed.",
-      "systemError": "A system error occurred. Please try again later."
+      "systemError": "A system error occurred. Please try again later.",
+      "resetPasswordSuccess": "Password reset successful.",
+      "resetPasswordFailed": "Password reset failed."
     }
   },
   "Navigation": {
@@ -319,7 +330,12 @@
     "artist": {
       "role": "Artist",
       "followers": "Followers",
-      "follow": "Follow"
+      "follow": "Follow",
+      "unfollow": "Followed",
+      "followSuccess": "Follow artist successfully.",
+      "unfollowSuccess": "Unfollow artist successfully.",
+      "followFailed": "Follow artist failed.",
+      "unfollowFailed": "Unfollow artist failed."
     }
   },
   "Component": {
@@ -348,7 +364,8 @@
       "playOnNext": "Play next",
       "addToPlaylist": "Add to playlist",
       "addToUserPlaylist": "Add to your playlist",
-      "goToArtist": "Go to artist"
+      "goToArtist": "Go to artist",
+      "download": "Download track"
     },
     "playlist": {
       "cover": "Cover",

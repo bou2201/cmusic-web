@@ -25,5 +25,5 @@ export const artistService = {
 
   followOrUnfollow: (id: string) => api.post<Artist>(`${API_TAG_BASE}/${id}/follow`, {}),
 
-  getArtistsFollowed: () => api.get<Artist>(`${API_TAG_BASE}/followed/me`),
+  getArtistsFollowed: () => api.get<Artist[]>(`${API_TAG_BASE}/followed/me`),
 };

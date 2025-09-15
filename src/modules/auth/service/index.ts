@@ -3,6 +3,7 @@ import {
   AuthReqChangePasswordType,
   AuthReqLoginType,
   AuthReqRegisterType,
+  AuthReqResetPasswordType,
   AuthResponse,
 } from '../types';
 
@@ -31,6 +32,9 @@ export const authService = {
 
   forgotPassword: (email: string) => api.post(`${API_TAG_BASE}/forgot-password`, { email }),
 
-  resetPassword: (payload: { token: string; password: string }) =>
-    api.post(`${API_TAG_BASE}/reset-password`, payload),
+  resetPassword: (payload: AuthReqResetPasswordType) =>
+    api.post(`${API_TAG_BASE}/reset-password`, {
+      token: payload.token,
+      newPassword: payload.newPassword,
+    }),
 };

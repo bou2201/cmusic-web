@@ -186,12 +186,9 @@ export function PageDetails({ id }: { id: string }) {
                 fallback={getShortName(user?.name ?? '')}
                 className="object-cover"
               />
-              <Link
-                href={`${Routes.Artists}/${dataDetails?.userId}`}
-                className="font-medium opacity-80 hover:underline"
-              >
+              <p className="font-medium opacity-80">
                 {dataDetails?.userId === user?.id ? user?.name : 'Hệ thống'}
-              </Link>
+              </p>
             </div>
 
             <p className="mt-5 text-muted-foreground font-semibold">

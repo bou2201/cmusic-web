@@ -1,3 +1,5 @@
+export * from './button/button-follow';
+
 export * from './form/form-cou-mnt';
 export * from './form/form-filters-mnt';
 

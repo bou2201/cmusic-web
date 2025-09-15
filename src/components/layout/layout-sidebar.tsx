@@ -111,8 +111,8 @@ function LayoutSidebarContent() {
 
         {!isPermissionAdmin ? (
           <>
-            <SidebarSeparator />
-            <SidebarGroup>
+            {/* <SidebarSeparator /> */}
+            <SidebarGroup className='pt-0'>
               <SidebarGroupContent>
                 <SidebarMenu>
                   <SidebarMenuItem className="flex justify-center">

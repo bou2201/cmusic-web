@@ -64,11 +64,6 @@ export function NavigationWeb(): NavigationType[] {
           url: Routes.Genres,
           icon: <PanelLeftDashedIcon />,
         },
-      ],
-    },
-    {
-      groupTitle: t('playlist.title'),
-      groupItems: [
         {
           key: 'recently-played',
           title: t('playlist.items.recently-played'),
@@ -81,6 +76,23 @@ export function NavigationWeb(): NavigationType[] {
           url: Routes.FavoriteSongs,
           icon: <HeartIcon />,
         },
+      ],
+    },
+    {
+      groupTitle: t('playlist.title'),
+      groupItems: [
+        // {
+        //   key: 'recently-played',
+        //   title: t('playlist.items.recently-played'),
+        //   url: Routes.RecentlyPlayed,
+        //   icon: <Clock9Icon />,
+        // },
+        // {
+        //   key: 'favorite',
+        //   title: t('playlist.items.favorite'),
+        //   url: Routes.FavoriteSongs,
+        //   icon: <HeartIcon />,
+        // },
       ],
     },
   ];

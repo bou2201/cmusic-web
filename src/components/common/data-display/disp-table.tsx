@@ -148,7 +148,7 @@ export function DispTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  <DispEmpty title={titleNoResult} />
+                  {!isLoading && <DispEmpty title={titleNoResult} />}
                 </TableCell>
               </TableRow>
             )}

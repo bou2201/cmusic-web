@@ -23,6 +23,7 @@ export type DispAlertDialogProps = {
   open?: boolean;
   setOpen?: (open: boolean) => void;
   onConfirm?: () => void;
+  isPending?: boolean;
 } & ComponentProps<typeof AlertDialogContent>;
 
 export function DispAlertDialog({
@@ -32,6 +33,7 @@ export function DispAlertDialog({
   open,
   setOpen,
   onConfirm,
+  isPending,
   ...props
 }: DispAlertDialogProps) {
   const t = useTranslations<NextIntl.Namespace<'Component.alertDialog'>>('Component.alertDialog');
@@ -52,7 +54,9 @@ export function DispAlertDialog({
           >
             {t('cancel')}
           </AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm}>{t('confirm')}</AlertDialogAction>
+          <AlertDialogAction onClick={onConfirm} disabled={isPending}>
+            {t('confirm')}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

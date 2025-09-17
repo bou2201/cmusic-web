@@ -25,7 +25,8 @@ import { ColumnDef } from '@tanstack/react-table';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { ViewRedirectArtist } from '@/modules/artist';
-import { FormCouPlaylist } from '../components';
+import { FormCouPlaylist, FormDialogRemove } from '../components';
+import { Playlist } from '../types';
 
 export function PageDetails({ id }: { id: string }) {
   const [hoveredRowIndex, setHoveredRowIndex] = useState<number | null>(null);
@@ -253,14 +254,10 @@ export function PageDetails({ id }: { id: string }) {
       ) : null}
 
       {openRemovePlaylist ? (
-        <DispAlertDialog
+        <FormDialogRemove
           open={openRemovePlaylist}
           setOpen={setOpenRemovePlaylist}
-          title={tPlaylist('delete')}
-          description={`'${dataDetails?.title}' ` + tPlaylist('deleteDesc').toLowerCase()}
-          onConfirm={() => {
-            setOpenRemovePlaylist(false);
-          }}
+          playlist={dataDetails as Playlist}
         />
       ) : null}
     </>

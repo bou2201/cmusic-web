@@ -155,6 +155,9 @@
     "metadata": {
       "title": "Genres"
     },
+    "genre": {
+      "title": "Genres"
+    },
     "genreMnt": {
       "title": "Genre Management",
       "table": {

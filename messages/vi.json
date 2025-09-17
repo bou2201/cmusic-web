@@ -155,6 +155,9 @@
     "metadata": {
       "title": "Thể loại"
     },
+    "genre": {
+      "title": "Thể loại"
+    },
     "genreMnt": {
       "title": "Quản lý thể loại",
       "table": {

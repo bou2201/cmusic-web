@@ -18,7 +18,7 @@ export const genreService = {
   createGenre: (payload: UseGenreCouMntSchemaType) => api.post<Genre>(`${API_TAG_BASE}`, payload),
 
   updateGenre: (id: string, payload: Partial<UseGenreCouMntSchemaType>) =>
-    api.put<Genre>(`${API_TAG_BASE}/${id}`, payload),
+    api.patch<Genre>(`${API_TAG_BASE}/${id}`, payload),
 
   deleteGenre: (id: string) => api.delete<Genre>(`${API_TAG_BASE}/${id}`),
 

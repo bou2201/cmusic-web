@@ -29,7 +29,7 @@ import { ApiReturnList } from '~types/common';
 import { DispEmpty } from './disp-empty';
 import { DispDropdown, DispDropdownMenuProps } from './disp-dropdown';
 import { useMemo } from 'react';
-import { ChevronsUpDown, Loader2, MoveLeft, MoveRight } from 'lucide-react';
+import { ChevronsUpDown, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 
@@ -107,6 +107,8 @@ export function DispTable<TData, TValue>({
                         style={{
                           minWidth: header.column.columnDef.size,
                           maxWidth: header.column.columnDef.size,
+                          textAlign:
+                            (header.column.columnDef.meta as any)?.style?.textAlign ?? 'left',
                         }}
                         className="font-bold"
                       >

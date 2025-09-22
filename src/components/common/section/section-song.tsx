@@ -111,7 +111,7 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
 
   if (size === 'small') {
     return (
-      <div className="group flex gap-3 p-3 rounded-md hover:bg-neutral-800 transition cursor-pointer relative">
+      <div className="group flex gap-3 p-2 rounded-md hover:bg-neutral-800 transition cursor-pointer relative">
         <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-md shrink-0 relative">
           <Image
             src={song.cover?.url ?? IMAGE_PLACEHOLDER}
@@ -186,7 +186,7 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
   }
 
   return (
-    <div className="group flex flex-col gap-2 p-4 rounded-md hover:bg-neutral-800 transition cursor-pointer w-auto">
+    <div className="group flex flex-col gap-2 p-3 rounded-md hover:bg-neutral-800 transition cursor-pointer w-auto">
       <div
         className="relative aspect-square w-full rounded-md overflow-hidden"
         onClick={() => {

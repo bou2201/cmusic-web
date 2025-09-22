@@ -4,7 +4,6 @@ import { ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { Routes } from '@/constants/routes';
 import {
-  AlbumIcon,
   ChartBarStackedIcon,
   Clock9Icon,
   ComponentIcon,
@@ -14,7 +13,6 @@ import {
   ListMusicIcon,
   MusicIcon,
   PanelLeftDashedIcon,
-  UserIcon,
   UserRoundCheckIcon,
 } from 'lucide-react';
 import { NextIntl } from '~types/next-intl';

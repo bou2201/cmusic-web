@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { NextIntl } from '~types/next-intl';
@@ -8,7 +8,7 @@ import { artistService } from '../service';
 import { ColumnDef } from '@tanstack/react-table';
 import { Artist } from '../types';
 import Image from 'next/image';
-import { Button } from '@/components/ui';
+import { Button, LoadingSwitch } from '@/components/ui';
 import { EllipsisIcon } from 'lucide-react';
 import { DispDropdown, DispTable, SectionMnt } from '@/components/common';
 import { FormCouMnt, FormFiltersMnt } from '../components';
@@ -22,6 +22,7 @@ export function PageArtistsMnt() {
 
   const t = useTranslations<NextIntl.Namespace<'ArtistPage.artistMnt'>>('ArtistPage.artistMnt');
   const filters = useArtistStore((state) => state.filters);
+  const queryClient = useQueryClient();
 
   const { data: dataArtists, isLoading } = useQuery({
     queryKey: ['artists-mnt', page, limit, filters],
@@ -80,9 +81,20 @@ export function PageArtistsMnt() {
       accessorKey: 'isPopular',
       header: t('table.popular'),
       size: 60,
+      meta: {
+        style: {
+          textAlign: 'center',
+        },
+      },
       cell: ({ row }) => {
         return (
-          <span className="font-semibold opacity-80">{row.original.isPopular ? '✔' : '-'}</span>
+          <LoadingSwitch
+            checked={row.original.isPopular}
+            onCheckedChange={async () => {
+              await artistService.togglePopular(row.original.id);
+              queryClient.invalidateQueries({ queryKey: ['artists-mnt'] });
+            }}
+          />
         );
       },
     },

@@ -5,10 +5,10 @@ import { Genre } from '../types';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { useGenreStore } from '../store';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { genreService } from '../service';
 import { DispDropdown, DispTable, SectionMnt } from '@/components/common';
-import { Button } from '@/components/ui';
+import { Button, LoadingSwitch, Switch } from '@/components/ui';
 import { EllipsisIcon } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { FormCouMnt, FormFiltersMnt } from '../components';
@@ -21,6 +21,7 @@ export function PageGenresMnt() {
 
   const t = useTranslations<NextIntl.Namespace<'GenrePage.genreMnt'>>('GenrePage.genreMnt');
   const filters = useGenreStore((state) => state.filters);
+  const queryClient = useQueryClient();
 
   const { data: dataGenres, isLoading } = useQuery({
     queryKey: ['genres-mnt', page, limit, filters],
@@ -51,6 +52,13 @@ export function PageGenresMnt() {
       accessorKey: 'slug',
       header: t('table.slug'),
       size: 150,
+      cell: ({ row }) => {
+        return (
+          <span className="whitespace-break-spaces line-clamp-2" title={row.original.slug}>
+            {row.original.slug}
+          </span>
+        );
+      },
     },
     {
       accessorKey: 'description',
@@ -68,9 +76,20 @@ export function PageGenresMnt() {
       accessorKey: 'isFeatured',
       header: t('table.featured'),
       size: 60,
+      meta: {
+        style: {
+          textAlign: 'center',
+        },
+      },
       cell: ({ row }) => {
         return (
-          <span className="font-semibold opacity-80">{row.original.isFeatured ? '✔' : '-'}</span>
+          <LoadingSwitch
+            checked={row.original.isFeatured}
+            onCheckedChange={async () => {
+              await genreService.toggleGenreFeatured(row.original.id);
+              queryClient.invalidateQueries({ queryKey: ['genres-mnt'] });
+            }}
+          />
         );
       },
     },

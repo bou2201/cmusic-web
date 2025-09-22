@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { songService } from '../service';
 import { DispDropdown, DispTable, SectionMnt } from '@/components/common';
@@ -12,7 +12,7 @@ import { formatDuration } from '@/utiils/function';
 import { ViewRedirectArtist } from '@/modules/artist';
 import Image from 'next/image';
 import { formatNumber } from '../utils/function';
-import { Button } from '@/components/ui';
+import { Button, LoadingSwitch, Switch } from '@/components/ui';
 import { EllipsisIcon } from 'lucide-react';
 import { useSongStore } from '../store';
 import { FormFiltersMnt } from '../components';
@@ -27,6 +27,7 @@ export function PageSongsMnt() {
   const t = useTranslations<NextIntl.Namespace<'SongsPage.songMnt'>>('SongsPage.songMnt');
   const filters = useSongStore((state) => state.filters);
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { data: dataSongs, isLoading } = useQuery({
     queryKey: ['songs-mnt', page, limit, filters],
@@ -55,12 +56,12 @@ export function PageSongsMnt() {
     {
       accessorKey: 'title',
       header: t('table.title'),
-      size: 280,
+      size: 220,
       cell: ({ row }) => {
         return (
           <Link
             href={`${Routes.AdminSongs}/update?id=${row.original.id}`}
-            className="font-semibold truncate line-clamp-1 hover:underline"
+            className="font-semibold truncate line-clamp-2 hover:underline"
             title={row.original.title}
           >
             {row.original.title}
@@ -110,6 +111,27 @@ export function PageSongsMnt() {
       cell: ({ row }) => {
         return (
           <span className="font-semibold opacity-80">{row.original.isPublic ? '✔' : '-'}</span>
+        );
+      },
+    },
+    {
+      accessorKey: 'isTrending',
+      header: 'Trending',
+      size: 60,
+      meta: {
+        style: {
+          textAlign: 'center',
+        },
+      },
+      cell: ({ row }) => {
+        return (
+          <LoadingSwitch
+            checked={row.original.isTrending}
+            onCheckedChange={async () => {
+              await songService.toggleTrending(row.original.id);
+              queryClient.invalidateQueries({ queryKey: ['songs-mnt'] });
+            }}
+          />
         );
       },
     },

@@ -10,7 +10,7 @@ export function SectionGenre({ genre }: { genre: Genre }) {
   return (
     <Link
       href={Routes.Genres + '/' + genre.id}
-      className="group flex flex-col items-center gap-4 p-4 rounded-md hover:bg-neutral-800 transition cursor-pointer w-auto"
+      className="group flex flex-col items-center gap-4 p-3 rounded-md hover:bg-neutral-800 transition cursor-pointer w-auto"
     >
       <div className="relative aspect-square w-full rounded-md overflow-hidden">
         <Image src={IMAGE_PLACEHOLDER} alt={genre.name} fill className="object-cover" />

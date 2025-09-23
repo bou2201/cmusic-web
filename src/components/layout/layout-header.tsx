@@ -17,7 +17,7 @@ import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { DispDropdown, DispDropdownMenuProps } from '../common';
 import { AuthChangePw, AuthLogin, AuthRegister, useAuthStore } from '@/modules/auth';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { authService } from '@/modules/auth/service';
 import { toast } from 'sonner';
 import { LayoutSearchDialog } from './layout-dialog';
@@ -30,6 +30,7 @@ function UserButton() {
   const [openChangePassword, setOpenChangePassword] = useState<boolean>(false);
 
   const { user, isAuthenticated, clearAuth } = useAuthStore((state) => state);
+  const queryClient = useQueryClient();
   const router = useRouter();
   const t = useTranslations<NextIntl.Namespace<'Header'>>('Header');
   const tAuth = useTranslations<NextIntl.Namespace<'Auth'>>('Auth');
@@ -39,8 +40,9 @@ function UserButton() {
     onSuccess: () => {
       clearAuth();
       toast(tAuth('alert.logoutSuccess'));
-      router.push(Routes.Discover);
-      window.location.reload();
+      queryClient.removeQueries({ queryKey: ['playlist-user'] });
+      // router.push(Routes.Discover);
+      // window.location.reload();
     },
     onError: () => {
       toast.error(tAuth('alert.logoutFailed'));

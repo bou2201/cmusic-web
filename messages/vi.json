@@ -110,6 +110,39 @@
   "AlbumsPage": {
     "metadata": {
       "title": "Albums"
+    },
+    "albumMnt": {
+      "title": "Quản lý album",
+      "table": {
+        "name": "Album",
+        "artist": "Ca sĩ",
+        "songs": "Số bài hát",
+        "createdAt": "Ngày tạo",
+        "releaseDate": "Ngày phát hành",
+        "updatedAt": "Ngày cập nhật",
+        "public": "Public",
+        "featured": "Nổi bật",
+        "description": "Mô tả"
+      },
+      "action": {
+        "create": "Thêm mới",
+        "edit": "Sửa"
+      },
+      "createOrUpdate": {
+        "save": "Lưu",
+        "add": "Thêm mới album",
+        "update": "Cập nhật album",
+        "addSuccess": "Thêm mới album thành công.",
+        "updateSuccess": "Cập nhật album thành công.",
+        "addFailed": "Thêm mới album thất bại.",
+        "updateFailed": "Cập nhật album thất bại.",
+        "name": "Tên album",
+        "artist": "Ca sĩ",
+        "songs": "Số bài hát",
+        "createdAt": "Ngày tạo",
+        "updatedAt": "Ngày cập nhật",
+        "popular": "Nổi bật"
+      }
     }
   },
   "ArtistPage": {
@@ -165,7 +198,7 @@
         "createdAt": "Ngày tạo",
         "updatedAt": "Ngày cập nhật",
         "slug": "Slug",
-        "desciption": "Mô tả",
+        "description": "Mô tả",
         "featured": "Nổi bật"
       },
       "action": {

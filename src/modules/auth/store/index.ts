@@ -7,6 +7,7 @@ type AuthState = {
   accessToken: string | null;
   refreshToken: string | null;
   isAuthenticated: boolean;
+  hydrated: boolean;
 };
 
 type AuthAction = {
@@ -20,6 +21,7 @@ const initialValues: AuthState = {
   refreshToken: null,
   user: null,
   isAuthenticated: false,
+  hydrated: false,
 };
 
 export const useAuthStore = create<AuthState & AuthAction>((set) => ({
@@ -30,7 +32,7 @@ export const useAuthStore = create<AuthState & AuthAction>((set) => ({
     setCookie('refreshToken', refreshToken, { days: 7, secure: true, sameSite: 'strict' });
     setCookie('user', JSON.stringify(user), { days: 7, secure: true, sameSite: 'strict' });
 
-    set({ accessToken, refreshToken, user, isAuthenticated: true });
+    set({ accessToken, refreshToken, user, isAuthenticated: true, hydrated: true });
   },
   clearAuth: () => {
     // Xóa cookie
@@ -38,7 +40,7 @@ export const useAuthStore = create<AuthState & AuthAction>((set) => ({
     removeCookie('refreshToken');
     removeCookie('user');
 
-    set(initialValues);
+    set({ ...initialValues, hydrated: true });
   },
   loadFromCookies: () => {
     const accessToken = getCookie('accessToken');
@@ -49,7 +51,7 @@ export const useAuthStore = create<AuthState & AuthAction>((set) => ({
       try {
         const decodedUser = decodeURIComponent(userCookie);
         const userParsed: User = JSON.parse(decodedUser);
-        set({ user: userParsed, accessToken, refreshToken, isAuthenticated: true });
+        set({ user: userParsed, accessToken, refreshToken, isAuthenticated: true, hydrated: true });
       } catch (e) {
         console.error('Failed to parse user data from cookie', e);
         set({
@@ -57,10 +59,11 @@ export const useAuthStore = create<AuthState & AuthAction>((set) => ({
           accessToken,
           refreshToken,
           isAuthenticated: !!accessToken,
+          hydrated: true,
         });
       }
     } else {
-      set(initialValues);
+      set({ ...initialValues, hydrated: true });
     }
   },
 }));

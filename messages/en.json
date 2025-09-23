@@ -110,6 +110,39 @@
   "AlbumsPage": {
     "metadata": {
       "title": "Albums"
+    },
+    "albumMnt": {
+      "title": "Albums Management",
+      "table": {
+        "name": "Album",
+        "artist": "Artist",
+        "songs": "Number of Songs",
+        "createdAt": "Created At",
+        "releaseDate": "Release Date",
+        "updatedAt": "Updated At",
+        "public": "Public",
+        "featured": "Featured",
+        "description": "Description"
+      },
+      "action": {
+        "create": "Add new",
+        "edit": "Edit"
+      },
+      "createOrUpdate": {
+        "save": "Save",
+        "add": "Add new album",
+        "update": "Update album",
+        "addSuccess": "Add new album successfully.",
+        "updateSuccess": "Update album successfully.",
+        "addFailed": "Add new album failed.",
+        "updateFailed": "Update album failed.",
+        "name": "Album name",
+        "artist": "Artist",
+        "songs": "Number of songs",
+        "createdAt": "Created at",
+        "updatedAt": "Updated at",
+        "popular": "Featured"
+      }
     }
   },
   "ArtistPage": {
@@ -165,7 +198,7 @@
         "createdAt": "Created At",
         "updatedAt": "Updated At",
         "slug": "Slug",
-        "desciption": "Description",
+        "description": "Description",
         "featured": "Featured"
       },
       "action": {

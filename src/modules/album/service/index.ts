@@ -15,7 +15,7 @@ export const albumService = {
 
   createAlbum: (payload: UseAlbumCouMntSchemaType) => api.post<Album>(`${API_TAG_BASE}`, payload),
 
-  updateAlbum: (id: string, payload: UseAlbumCouMntSchemaType) =>
+  updateAlbum: (id: string, payload: Partial<UseAlbumCouMntSchemaType>) =>
     api.patch<Album>(`${API_TAG_BASE}/${id}`, payload),
 
   deleteAlbum: (id: string) => api.delete<Album>(`${API_TAG_BASE}/${id}`),

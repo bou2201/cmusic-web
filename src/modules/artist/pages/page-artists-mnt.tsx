@@ -1,8 +1,8 @@
 'use client';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { NextIntl } from '~types/next-intl';
 import { artistService } from '../service';
 import { ColumnDef } from '@tanstack/react-table';
@@ -24,108 +24,116 @@ export function PageArtistsMnt() {
   const filters = useArtistStore((state) => state.filters);
   const queryClient = useQueryClient();
 
-  const { data: dataArtists, isLoading } = useQuery({
+  const {
+    data: dataArtists,
+    isLoading,
+    isFetching,
+  } = useQuery({
     queryKey: ['artists-mnt', page, limit, filters],
     queryFn: () => artistService.getListArtist({ page, limit, ...filters }),
+    placeholderData: keepPreviousData,
   });
 
-  const columns: ColumnDef<Artist>[] = [
-    {
-      accessorKey: 'avatar',
-      header: t('table.avatar'),
-      size: 60,
-      cell: ({ row }) => {
-        return (
-          <div className="w-12 h-12 shrink-0">
-            <Image
-              src={row.original.avatar?.url ?? '/images/song-default-white.png'}
-              alt={row.original.name}
-              width={200}
-              height={200}
-              className="w-full h-full object-cover rounded-full"
-            />
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: 'name',
-      header: t('table.name'),
-      size: 200,
-      cell: ({ row }) => {
-        return (
-          <span
-            className="font-semibold truncate line-clamp-1 hover:underline"
-            title={row.original.name}
-            onClick={() => {
-              setOpenCou(true);
-              setCurrentAritst(row.original);
-            }}
-          >
-            {row.original.name}
-          </span>
-        );
-      },
-    },
-    {
-      accessorKey: '_count.songs',
-      header: t('table.songs'),
-      size: 80,
-    },
-    {
-      accessorKey: '_count.followers',
-      header: t('table.followers'),
-      size: 100,
-    },
-    {
-      accessorKey: 'isPopular',
-      header: t('table.popular'),
-      size: 60,
-      meta: {
-        style: {
-          textAlign: 'center',
+  const columns: ColumnDef<Artist>[] = useMemo(
+    () => [
+      {
+        accessorKey: 'avatar',
+        header: t('table.avatar'),
+        size: 60,
+        cell: ({ row }) => {
+          return (
+            <div className="w-12 h-12 shrink-0">
+              <Image
+                src={row.original.avatar?.url ?? '/images/song-default-white.png'}
+                alt={row.original.name}
+                width={200}
+                height={200}
+                className="w-full h-full object-cover rounded-full"
+              />
+            </div>
+          );
         },
       },
-      cell: ({ row }) => {
-        return (
-          <LoadingSwitch
-            checked={row.original.isPopular}
-            onCheckedChange={async () => {
-              await artistService.togglePopular(row.original.id);
-              queryClient.invalidateQueries({ queryKey: ['artists-mnt'] });
-            }}
-          />
-        );
+      {
+        accessorKey: 'name',
+        header: t('table.name'),
+        size: 200,
+        cell: ({ row }) => {
+          return (
+            <span
+              className="font-semibold truncate line-clamp-1 hover:underline"
+              title={row.original.name}
+              onClick={() => {
+                setOpenCou(true);
+                setCurrentAritst(row.original);
+              }}
+            >
+              {row.original.name}
+            </span>
+          );
+        },
       },
-    },
-    {
-      id: 'action',
-      size: 60,
-      cell: ({ row }) => {
-        return (
-          <DispDropdown
-            menu={[
-              {
-                key: 'action-edit',
-                label: t('action.edit'),
-                onClick: () => {
-                  setOpenCou(true);
-                  setCurrentAritst(row.original);
+      {
+        accessorKey: '_count.songs',
+        header: t('table.songs'),
+        size: 80,
+      },
+      {
+        accessorKey: '_count.followers',
+        header: t('table.followers'),
+        size: 100,
+      },
+      {
+        accessorKey: 'isPopular',
+        header: t('table.popular'),
+        size: 60,
+        meta: {
+          style: {
+            textAlign: 'center',
+          },
+        },
+        cell: ({ row }) => {
+          return (
+            <LoadingSwitch
+              checked={row.original.isPopular}
+              onCheckedChange={async () => {
+                await artistService.togglePopular(row.original.id);
+                queryClient.invalidateQueries({ queryKey: ['artists-mnt'] });
+              }}
+            />
+          );
+        },
+      },
+      {
+        id: 'action',
+        size: 60,
+        cell: ({ row }) => {
+          return (
+            <DispDropdown
+              menu={[
+                {
+                  key: 'action-edit',
+                  label: t('action.edit'),
+                  onClick: () => {
+                    setOpenCou(true);
+                    setCurrentAritst(row.original);
+                  },
                 },
-              },
-            ]}
-            modal={false}
-          >
-            <div className="flex justify-center text-center">
-              <Button size="icon" variant="ghost">
-                <EllipsisIcon />
-              </Button>
-            </div>
-          </DispDropdown>
-        );
+              ]}
+              modal={false}
+            >
+              <div className="flex justify-center text-center">
+                <Button size="icon" variant="ghost">
+                  <EllipsisIcon />
+                </Button>
+              </div>
+            </DispDropdown>
+          );
+        },
       },
-    },
-  ];
+    ],
+    [queryClient, t],
+  );
 
   return (
     <>
@@ -140,7 +148,7 @@ export function PageArtistsMnt() {
         <DispTable
           columns={columns}
           data={dataArtists?.data ?? []}
-          isLoading={isLoading}
+          isLoading={isLoading || isFetching}
           pagination={{
             limit,
             page,

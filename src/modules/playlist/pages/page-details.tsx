@@ -3,17 +3,16 @@
 import { IMAGE_PLACEHOLDER } from '@/constants/link';
 import { usePlaylistDetails } from '../hooks';
 import Image from 'next/image';
-import { DispAlertDialog, DispAvatar, DispTable } from '@/components/common';
+import { DispAvatar, DispTable } from '@/components/common';
 import {
   DropdownHelper,
   formatDurationSum,
-  formatNumber,
   getShortName,
   isCurrentlyPlaying,
   Song,
   useSongStore,
 } from '@/modules/song';
-import { Link } from '@/i18n/navigation';
+import { Link, useRouter } from '@/i18n/navigation';
 import { Routes } from '@/constants/routes';
 import { useAuthStore } from '@/modules/auth';
 import { useTranslations } from 'next-intl';
@@ -22,7 +21,7 @@ import { Button } from '@/components/ui';
 import { AudioLinesIcon, PauseIcon, PencilIcon, PlayIcon, XIcon } from 'lucide-react';
 import { formatDuration } from '@/utiils/function';
 import { ColumnDef } from '@tanstack/react-table';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { ViewRedirectArtist } from '@/modules/artist';
 import { FormCouPlaylist, FormDialogRemove } from '../components';
@@ -33,119 +32,140 @@ export function PageDetails({ id }: { id: string }) {
   const [openUpdatePlaylist, setOpenUpdatePlaylist] = useState<boolean>(false);
   const [openRemovePlaylist, setOpenRemovePlaylist] = useState<boolean>(false);
 
-  const { user } = useAuthStore((state) => state);
+  const { user, isAuthenticated } = useAuthStore((state) => state);
   const { setPlaylist, currentTrackIndex, isPlaying, playlist, track, pauseAudio, playAudio } =
     useSongStore((state) => state);
 
-  const { isSuccess, data: dataDetails, isLoading: isLoadingDetails } = usePlaylistDetails(id);
+  const { data: dataDetails, isLoading: isLoadingDetails } = usePlaylistDetails(id);
   const t = useTranslations<NextIntl.Namespace<'PlaylistPage.details'>>('PlaylistPage.details');
-  const tPlaylist = useTranslations<NextIntl.Namespace<'Component.playlist'>>('Component.playlist');
+  const router = useRouter();
 
-  const columns: ColumnDef<Song>[] = [
-    {
-      id: 'index',
-      cell: ({ row }) => {
-        const hovered = hoveredRowIndex === row.index;
-        const isRowPlaying = isCurrentlyPlaying(row.original, {
-          currentTrackIndex,
-          isPlaying,
-          playlist,
-          track,
-        });
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push(Routes.Discover);
+    }
+  }, [isAuthenticated, router]);
 
-        return (
-          <div className="text-center flex justify-center">
-            {hovered ? (
-              <Button
-                size="icon"
-                variant="ghost"
-                onClick={() => {
-                  const isCurrent = track?.id === row.original.id;
+  const columns: ColumnDef<Song>[] = useMemo(
+    () => [
+      {
+        id: 'index',
+        cell: ({ row }) => {
+          const hovered = hoveredRowIndex === row.index;
+          const isRowPlaying = isCurrentlyPlaying(row.original, {
+            currentTrackIndex,
+            isPlaying,
+            playlist,
+            track,
+          });
 
-                  if (isCurrent) {
-                    if (isPlaying) {
-                      pauseAudio();
+          return (
+            <div className="text-center flex justify-center">
+              {hovered ? (
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={() => {
+                    const isCurrent = track?.id === row.original.id;
+
+                    if (isCurrent) {
+                      if (isPlaying) {
+                        pauseAudio();
+                      } else {
+                        playAudio();
+                      }
                     } else {
+                      setPlaylist(dataDetails?.songs as Song[], row.index);
                       playAudio();
                     }
-                  } else {
-                    setPlaylist(dataDetails?.songs as Song[], row.index);
-                    playAudio();
-                  }
-                }}
-              >
-                {track?.id === row.original.id && isPlaying ? (
-                  <PauseIcon className="fill-primary" />
-                ) : (
-                  <PlayIcon className="fill-primary" />
-                )}
-              </Button>
-            ) : isRowPlaying ? (
-              <AudioLinesIcon className="fill-primary-pink stroke-primary-pink w-5" />
-            ) : (
-              <div className="font-bold opacity-80">{row.index + 1}</div>
-            )}
-          </div>
-        );
-      },
-      size: 5,
-    },
-    {
-      id: 'title',
-      cell: ({ row }) => {
-        const isRowPlaying = isCurrentlyPlaying(row.original, {
-          currentTrackIndex,
-          isPlaying,
-          playlist,
-          track,
-        });
-
-        return (
-          <div className="flex items-center gap-5 truncate">
-            <div className="w-12 h-12 shrink-0 relative">
-              <Image
-                src={row.original.cover?.url ?? '/images/song-default-white.png'}
-                alt={row.original.title}
-                width={200}
-                height={200}
-                className="w-full h-full object-cover rounded-md"
-              />
+                  }}
+                >
+                  {track?.id === row.original.id && isPlaying ? (
+                    <PauseIcon className="fill-primary" />
+                  ) : (
+                    <PlayIcon className="fill-primary" />
+                  )}
+                </Button>
+              ) : isRowPlaying ? (
+                <AudioLinesIcon className="fill-primary-pink stroke-primary-pink w-5" />
+              ) : (
+                <div className="font-bold opacity-80">{row.index + 1}</div>
+              )}
             </div>
-            <div className="flex flex-col gap-1">
-              <Link
-                href={`${Routes.Songs}/${row.original.id}`}
-                className={cn(
-                  'truncate font-bold hover:underline',
-                  isRowPlaying && 'text-primary-pink',
-                )}
-                title={row.original.title}
-              >
-                {row.original.title}
-              </Link>
+          );
+        },
+        size: 5,
+      },
+      {
+        id: 'title',
+        cell: ({ row }) => {
+          const isRowPlaying = isCurrentlyPlaying(row.original, {
+            currentTrackIndex,
+            isPlaying,
+            playlist,
+            track,
+          });
 
-              <div>
-                <ViewRedirectArtist
-                  artist={row.original.artist}
-                  artists={row.original.artists}
-                  className="text-[13px] font-bold"
+          return (
+            <div className="flex items-center gap-5 truncate">
+              <div className="w-12 h-12 shrink-0 relative">
+                <Image
+                  src={row.original.cover?.url ?? '/images/song-default-white.png'}
+                  alt={row.original.title}
+                  width={200}
+                  height={200}
+                  className="w-full h-full object-cover rounded-md"
                 />
               </div>
+              <div className="flex flex-col gap-1">
+                <Link
+                  href={`${Routes.Songs}/${row.original.id}`}
+                  className={cn(
+                    'truncate font-bold hover:underline',
+                    isRowPlaying && 'text-primary-pink',
+                  )}
+                  title={row.original.title}
+                >
+                  {row.original.title}
+                </Link>
+
+                <div>
+                  <ViewRedirectArtist
+                    artist={row.original.artist}
+                    artists={row.original.artists}
+                    className="text-[13px] font-bold"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        );
+          );
+        },
       },
-    },
-    {
-      id: 'duration',
-      cell: ({ row }) => (
-        <div className="flex items-center justify-center gap-4">
-          <span className="font-semibold opacity-80">{formatDuration(row.original.duration)}</span>
-          <DropdownHelper song={row.original} />
-        </div>
-      ),
-      size: 50,
-    },
-  ];
+      {
+        id: 'duration',
+        cell: ({ row }) => (
+          <div className="flex items-center justify-center gap-4">
+            <span className="font-semibold opacity-80">
+              {formatDuration(row.original.duration)}
+            </span>
+            <DropdownHelper song={row.original} />
+          </div>
+        ),
+        size: 50,
+      },
+    ],
+    [
+      currentTrackIndex,
+      dataDetails?.songs,
+      hoveredRowIndex,
+      isPlaying,
+      pauseAudio,
+      playAudio,
+      playlist,
+      setPlaylist,
+      track,
+    ],
+  );
 
   return (
     <>

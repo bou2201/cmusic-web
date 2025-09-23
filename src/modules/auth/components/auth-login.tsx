@@ -39,15 +39,15 @@ export function AuthLogin({ open, setOpen }: DialogState) {
       }
       toast(t('alert.loginSuccess'));
       setOpen(false);
-
-      window.location.reload();
     },
     onError: (error: ApiReturn<any>) => {
       if (error.status === HttpStatusCode.Unauthorized) {
         toast.error(t('alert.loginUnauthorized'));
+        return;
       }
       if (error.status === HttpStatusCode.InternalServerError) {
         toast.error(t('alert.systemError'));
+        return;
       }
       toast.error(t('alert.loginFailed'));
     },

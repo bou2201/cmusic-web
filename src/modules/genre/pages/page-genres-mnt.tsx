@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Genre } from '../types';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { useGenreStore } from '../store';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
 import { genreService } from '../service';
 import { DispDropdown, DispTable, SectionMnt } from '@/components/common';
 import { Button, LoadingSwitch, Switch } from '@/components/ui';
@@ -23,104 +23,112 @@ export function PageGenresMnt() {
   const filters = useGenreStore((state) => state.filters);
   const queryClient = useQueryClient();
 
-  const { data: dataGenres, isLoading } = useQuery({
+  const {
+    data: dataGenres,
+    isLoading,
+    isFetching,
+  } = useQuery({
     queryKey: ['genres-mnt', page, limit, filters],
     queryFn: () => genreService.getListGenre({ page, limit, ...filters }),
+    placeholderData: keepPreviousData,
   });
 
-  const columns: ColumnDef<Genre>[] = [
-    {
-      accessorKey: 'name',
-      header: t('table.name'),
-      size: 150,
-      cell: ({ row }) => {
-        return (
-          <span
-            className="font-semibold truncate line-clamp-1 hover:underline cursor-pointer"
-            title={row.original.name}
-            onClick={() => {
-              setOpenCou(true);
-              setCurrentGenre(row.original);
-            }}
-          >
-            {row.original.name}
-          </span>
-        );
-      },
-    },
-    {
-      accessorKey: 'slug',
-      header: t('table.slug'),
-      size: 150,
-      cell: ({ row }) => {
-        return (
-          <span className="whitespace-break-spaces line-clamp-2" title={row.original.slug}>
-            {row.original.slug}
-          </span>
-        );
-      },
-    },
-    {
-      accessorKey: 'description',
-      header: t('table.desciption'),
-      size: 250,
-      cell: ({ row }) => {
-        return (
-          <span className="whitespace-break-spaces line-clamp-2" title={row.original.description}>
-            {row.original.description}
-          </span>
-        );
-      },
-    },
-    {
-      accessorKey: 'isFeatured',
-      header: t('table.featured'),
-      size: 60,
-      meta: {
-        style: {
-          textAlign: 'center',
+  const columns: ColumnDef<Genre>[] = useMemo(
+    () => [
+      {
+        accessorKey: 'name',
+        header: t('table.name'),
+        size: 150,
+        cell: ({ row }) => {
+          return (
+            <span
+              className="font-semibold truncate line-clamp-1 hover:underline cursor-pointer"
+              title={row.original.name}
+              onClick={() => {
+                setOpenCou(true);
+                setCurrentGenre(row.original);
+              }}
+            >
+              {row.original.name}
+            </span>
+          );
         },
       },
-      cell: ({ row }) => {
-        return (
-          <LoadingSwitch
-            checked={row.original.isFeatured}
-            onCheckedChange={async () => {
-              await genreService.toggleGenreFeatured(row.original.id);
-              queryClient.invalidateQueries({ queryKey: ['genres-mnt'] });
-            }}
-          />
-        );
+      {
+        accessorKey: 'slug',
+        header: t('table.slug'),
+        size: 150,
+        cell: ({ row }) => {
+          return (
+            <span className="whitespace-break-spaces line-clamp-2" title={row.original.slug}>
+              {row.original.slug}
+            </span>
+          );
+        },
       },
-    },
-    {
-      id: 'action',
-      size: 60,
-      cell: ({ row }) => {
-        return (
-          <DispDropdown
-            menu={[
-              {
-                key: 'action-edit',
-                label: t('action.edit'),
-                onClick: () => {
-                  setOpenCou(true);
-                  setCurrentGenre(row.original);
+      {
+        accessorKey: 'description',
+        header: t('table.description'),
+        size: 250,
+        cell: ({ row }) => {
+          return (
+            <span className="whitespace-break-spaces line-clamp-2" title={row.original.description}>
+              {row.original.description}
+            </span>
+          );
+        },
+      },
+      {
+        accessorKey: 'isFeatured',
+        header: t('table.featured'),
+        size: 60,
+        meta: {
+          style: {
+            textAlign: 'center',
+          },
+        },
+        cell: ({ row }) => {
+          return (
+            <LoadingSwitch
+              checked={row.original.isFeatured}
+              onCheckedChange={async () => {
+                await genreService.toggleGenreFeatured(row.original.id);
+                queryClient.invalidateQueries({ queryKey: ['genres-mnt'] });
+              }}
+            />
+          );
+        },
+      },
+      {
+        id: 'action',
+        size: 60,
+        cell: ({ row }) => {
+          return (
+            <DispDropdown
+              menu={[
+                {
+                  key: 'action-edit',
+                  label: t('action.edit'),
+                  onClick: () => {
+                    setOpenCou(true);
+                    setCurrentGenre(row.original);
+                  },
                 },
-              },
-            ]}
-            modal={false}
-          >
-            <div className="flex justify-center text-center">
-              <Button size="icon" variant="ghost">
-                <EllipsisIcon />
-              </Button>
-            </div>
-          </DispDropdown>
-        );
+              ]}
+              modal={false}
+            >
+              <div className="flex justify-center text-center">
+                <Button size="icon" variant="ghost">
+                  <EllipsisIcon />
+                </Button>
+              </div>
+            </DispDropdown>
+          );
+        },
       },
-    },
-  ];
+    ],
+    [queryClient, t],
+  );
 
   return (
     <>
@@ -135,7 +143,7 @@ export function PageGenresMnt() {
         <DispTable
           columns={columns}
           data={dataGenres?.data ?? []}
-          isLoading={isLoading}
+          isLoading={isLoading || isFetching}
           pagination={{
             limit,
             page,

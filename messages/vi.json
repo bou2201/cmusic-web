@@ -138,10 +138,15 @@
         "updateFailed": "Cập nhật album thất bại.",
         "name": "Tên album",
         "artist": "Ca sĩ",
-        "songs": "Số bài hát",
+        "songs": "Bài hát",
         "createdAt": "Ngày tạo",
         "updatedAt": "Ngày cập nhật",
-        "popular": "Nổi bật"
+        "popular": "Nổi bật",
+        "cover": "Ảnh bìa",
+        "releaseDate": "Ngày phát hành",
+        "description": "Mô tả",
+        "featured": "Nổi bật",
+        "isPublic": "Public"
       }
     }
   },
@@ -428,6 +433,9 @@
     "alertDialog": {
       "confirm": "Xác nhận",
       "cancel": "Hủy"
+    },
+    "datePicker": {
+      "placeholder": "Chọn ngày"
     }
   }
 }

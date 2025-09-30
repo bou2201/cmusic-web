@@ -138,7 +138,7 @@ export function UploadImage<T extends FieldValues>({
                   }
                 }}
                 dropZoneClassName="text-center w-full h-full"
-                containerClassName="w-48 h-48 rounded-lg border-2 border-dashed border-gray-900/10 bg-gray-900/5"
+                containerClassName="w-40 h-40 rounded-lg border-2 border-dashed border-gray-900/10 bg-gray-900/5"
                 accept={{
                   'image/*': ['.jpeg', '.jpg', '.png', '.webp'],
                 }}

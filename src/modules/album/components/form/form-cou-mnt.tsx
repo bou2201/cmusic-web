@@ -1,17 +1,27 @@
 'use client';
 
-import { DialogState } from '~types/common';
+import { ApiReturnList, DialogState } from '~types/common';
 import { Album, useAlbumCouMntSchema, UseAlbumCouMntSchemaType } from '../../types';
-import { DispDialog, InputCheckbox, InputText, InputTextarea } from '@/components/common';
+import {
+  Combobox,
+  DatePicker,
+  DispDialog,
+  InputCheckbox,
+  InputText,
+  InputTextarea,
+  UploadImage,
+} from '@/components/common';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { Button, Form } from '@/components/ui';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { albumService } from '../../service';
 import { toast } from 'sonner';
 import { getChangedFields } from '@/utiils/function';
+import { useFetchArtist } from '@/modules/song/hooks';
+import { songService } from '@/modules/song';
 
 type FormCouMntProps = DialogState & {
   album?: Album;
@@ -25,6 +35,8 @@ export function FormCouMnt({ open, setOpen, album, setAlbum }: FormCouMntProps) 
   const schema = useAlbumCouMntSchema();
   const queryClient = useQueryClient();
 
+  const { data: dataArtist, isLoading: isLoadingArtist } = useFetchArtist();
+
   const form = useForm<UseAlbumCouMntSchemaType>({
     resolver: zodResolver(schema),
     values: {
@@ -33,9 +45,21 @@ export function FormCouMnt({ open, setOpen, album, setAlbum }: FormCouMntProps) 
       description: album?.description ?? undefined,
       releaseDate: album?.releaseDate ?? undefined,
       cover: album?.cover ?? undefined,
-      isPublic: album?.isPublic ?? false,
+      isPublic: album?.isPublic ?? true,
       artistId: album?.artistId ?? '',
+      songIds: album?.songIds ?? [],
     },
+  });
+
+  const watchArtistId = form.watch('artistId');
+
+  console.log(form.watch());
+
+  const { data: songs, isLoading: isLoadingSongs } = useQuery({
+    queryKey: ['albums-songs', watchArtistId ?? album?.artistId],
+    queryFn: () =>
+      songService.getListSong({ page: 1, limit: 100, artistId: watchArtistId ?? album?.artistId }),
+    enabled: !!(watchArtistId || album?.artistId),
   });
 
   const { mutate: executeSubmit, isPending: isLoadingSubmit } = useMutation({
@@ -74,7 +98,7 @@ export function FormCouMnt({ open, setOpen, album, setAlbum }: FormCouMntProps) 
         }
       }}
       title={album ? t('update') : t('add')}
-      className="sm:max-w-2xl"
+      className="sm:max-w-3xl"
     >
       <Form {...form}>
         <form
@@ -91,6 +115,7 @@ export function FormCouMnt({ open, setOpen, album, setAlbum }: FormCouMntProps) 
                 cover: album.cover,
                 isPublic: album.isPublic,
                 artistId: album.artistId,
+                songIds: album.songIds,
               };
               payload = getChangedFields(original, data);
             }
@@ -98,6 +123,86 @@ export function FormCouMnt({ open, setOpen, album, setAlbum }: FormCouMntProps) 
           })}
           className="flex flex-col gap-5 mt-2"
         >
+          <div className="grid grid-cols-2 gap-6 items-baseline">
+            <UploadImage<UseAlbumCouMntSchemaType>
+              className="col-span-2"
+              name="cover"
+              label={t('cover')}
+            />
+
+            <InputText<UseAlbumCouMntSchemaType>
+              className="col-span-1"
+              label={t('name')}
+              name="title"
+              inputProps={{
+                placeholder: t('name'),
+              }}
+              required
+              isDebounce
+              debounceDelay={300}
+            />
+
+            <Combobox<UseAlbumCouMntSchemaType>
+              name="artistId"
+              label={t('artist')}
+              className="col-span-1"
+              options={dataArtist?.data ?? []}
+              optionLabel="name"
+              optionValue="id"
+              isLoading={isLoadingArtist}
+              placeholder={t('artist')}
+              required
+            />
+
+            <DatePicker<UseAlbumCouMntSchemaType>
+              name="releaseDate"
+              label={t('releaseDate')}
+              className="col-span-1"
+            />
+
+            <Combobox<UseAlbumCouMntSchemaType>
+              name="songIds"
+              label={t('songs')}
+              isLoading={isLoadingSongs}
+              className="col-span-1"
+              options={songs?.data ?? []}
+              optionLabel="title"
+              optionValue="id"
+              placeholder={t('songs')}
+              mode="multiple"
+            />
+
+            {/* {album ? (
+              <>
+                <DatePicker name="createdAt" label={t('createdAt')} className="col-span-1"  />
+                <DatePicker name="updatedAt" label={t('updatedAt')} className="col-span-1" />
+              </>
+            ) : null} */}
+
+            <InputTextarea<UseAlbumCouMntSchemaType>
+              className="col-span-2"
+              label={t('description')}
+              name="description"
+              isDebounce
+              debounceDelay={500}
+              textareaProps={{
+                placeholder: t('description'),
+              }}
+            />
+
+            <InputCheckbox<UseAlbumCouMntSchemaType>
+              label={t('featured')}
+              name="isFeatured"
+              className="col-span-1"
+            />
+
+            <InputCheckbox<UseAlbumCouMntSchemaType>
+              label={t('isPublic')}
+              name="isPublic"
+              className="col-span-1"
+            />
+          </div>
+
           <div className="flex justify-end mt-5">
             <Button
               variant="primary"
@@ -105,7 +210,7 @@ export function FormCouMnt({ open, setOpen, album, setAlbum }: FormCouMntProps) 
               className="font-semibold text-base"
               type="submit"
               isLoading={isLoadingSubmit}
-              disabled={!form.formState.isDirty}
+              // disabled={!form.formState.isDirty}
             >
               {t('save')}
             </Button>

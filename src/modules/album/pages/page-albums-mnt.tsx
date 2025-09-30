@@ -42,6 +42,7 @@ export function PageAlbumsMnt() {
         header: t('table.name'),
         size: 150,
         cell: ({ row }) => {
+          console.log(row.original)
           return (
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 shrink-0">
@@ -70,7 +71,7 @@ export function PageAlbumsMnt() {
         cell: ({ row }) => {
           return (
             <span className="font-semibold opacity-80">
-              {new Date(row.original.releaseDate).toISOString()}
+              {new Date(row.original.releaseDate).toLocaleDateString()}
             </span>
           );
         },

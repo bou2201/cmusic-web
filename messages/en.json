@@ -138,10 +138,15 @@
         "updateFailed": "Update album failed.",
         "name": "Album name",
         "artist": "Artist",
-        "songs": "Number of songs",
+        "songs": "Songs",
         "createdAt": "Created at",
         "updatedAt": "Updated at",
-        "popular": "Featured"
+        "popular": "Featured",
+        "cover": "Cover",
+        "releaseDate": "Release Date",
+        "description": "Description",
+        "featured": "Featured",
+        "isPublic": "Public"
       }
     }
   },
@@ -428,6 +433,9 @@
     "alertDialog": {
       "confirm": "Confirm",
       "cancel": "Cancel"
+    },
+    "datePicker": {
+      "placeholder": "Select date"
     }
   }
 }

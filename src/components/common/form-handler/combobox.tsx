@@ -40,6 +40,7 @@ type ComboboxProps<T extends FieldValues> = {
   /** Field name inside option to use as label */
   optionLabel?: string;
   mode?: 'single' | 'multiple';
+  onChange?: (value: string | string[]) => void;
 };
 
 export const Combobox = <T extends FieldValues>({
@@ -55,6 +56,7 @@ export const Combobox = <T extends FieldValues>({
   optionValue = 'value',
   optionLabel = 'label',
   mode = 'single',
+  onChange,
 }: ComboboxProps<T>) => {
   const [open, setOpen] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -83,9 +85,12 @@ export const Combobox = <T extends FieldValues>({
             } else {
               current.add(val);
             }
-            setValue(name, Array.from(current) as PathValue<T, Path<T>>, { shouldValidate: true });
+            const newValue = Array.from(current);
+            setValue(name, newValue as PathValue<T, Path<T>>, { shouldValidate: true });
+            onChange?.(newValue);
           } else {
             setValue(name, val as PathValue<T, Path<T>>, { shouldValidate: true });
+            onChange?.(val);
             setOpen(false); // close on single select
           }
         };
@@ -98,7 +103,7 @@ export const Combobox = <T extends FieldValues>({
                 {label}
               </FormLabel>
             )}
-            <Popover open={open} onOpenChange={setOpen}>
+            <Popover open={open} onOpenChange={setOpen} modal>
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
@@ -129,7 +134,10 @@ export const Combobox = <T extends FieldValues>({
                   </Button>
                 </FormControl>
               </PopoverTrigger>
-              <PopoverContent className="w-72 p-0">
+              <PopoverContent
+                className="w-full min-w-[var(--radix-popper-anchor-width)] max-w-[var(--radix-popper-content-width)] p-0"
+                align="start"
+              >
                 <Command>
                   <CommandInput
                     placeholder={t('search')}

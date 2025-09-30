@@ -12,6 +12,7 @@ export * from './data-display/disp-tabs';
 export * from './data-display/disp-tooltip';
 
 export * from './form-handler/combobox';
+export * from './form-handler/date-picker';
 export * from './form-handler/input-checkbox';
 export * from './form-handler/input-text';
 export * from './form-handler/input-textarea';

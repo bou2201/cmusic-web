@@ -12,6 +12,7 @@ export const useAlbumCouMntSchema = () => {
     releaseDate: z.string().optional(),
     artistId: z.string({ message: t('common.required') }).min(1, { message: t('common.required') }),
     isFeatured: z.boolean().default(false).optional(),
+    songIds: z.array(z.string()).default([]).optional(),
     isPublic: z.boolean().default(true).optional(),
   });
 

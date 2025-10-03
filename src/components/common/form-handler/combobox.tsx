@@ -152,7 +152,12 @@ export const Combobox = <T extends FieldValues>({
                         const label = opt[optionLabel];
 
                         return (
-                          <CommandItem key={val} value={label} onSelect={() => toggleValue(val)}>
+                          <CommandItem
+                            key={val}
+                            value={label}
+                            onSelect={() => toggleValue(val)}
+                            className="max-w-96"
+                          >
                             {label}
                             <CheckIcon
                               className={cn(

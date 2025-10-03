@@ -6,6 +6,7 @@ import {
   AuthReqResetPasswordType,
   AuthResponse,
 } from '../types';
+import { User } from '@/modules/user';
 
 const API_TAG_BASE = '/auth';
 
@@ -18,6 +19,8 @@ export const authService = {
       email: payload.email,
       password: payload.password,
     }),
+
+  google: () => api.get(`${API_TAG_BASE}/google`),
 
   logout: () => api.post(`${API_TAG_BASE}/logout`, {}),
 
@@ -36,5 +39,12 @@ export const authService = {
     api.post(`${API_TAG_BASE}/reset-password`, {
       token: payload.token,
       newPassword: payload.newPassword,
+    }),
+
+  me: (accessToken: string) =>
+    api.get<User>(`${API_TAG_BASE}/me`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     }),
 };

@@ -47,7 +47,7 @@ export function FormCouMnt({ open, setOpen, album, setAlbum }: FormCouMntProps) 
       cover: album?.cover ?? undefined,
       isPublic: album?.isPublic ?? true,
       artistId: album?.artistId ?? '',
-      songIds: album?.songIds ?? [],
+      songIds: album?.songs?.map((song) => song.id) ?? [],
     },
   });
 
@@ -115,7 +115,7 @@ export function FormCouMnt({ open, setOpen, album, setAlbum }: FormCouMntProps) 
                 cover: album.cover,
                 isPublic: album.isPublic,
                 artistId: album.artistId,
-                songIds: album.songIds,
+                songIds: album.songs?.map((song) => song.id) ?? [],
               };
               payload = getChangedFields(original, data);
             }

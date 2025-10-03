@@ -4,7 +4,10 @@ export type Album = {
   id: string;
   title: string;
   description: string;
-  songIds: string[];
+  // songIds: string[];
+  songs: {
+    id: string;
+  }[];
   cover: Image | null;
   artistId: string;
   releaseDate: string;

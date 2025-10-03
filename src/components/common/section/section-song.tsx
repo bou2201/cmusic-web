@@ -210,8 +210,8 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
               if (isPlaying && isCurrentSong) {
                 pauseAudio();
               } else {
-                setTrack(song); // tự xử lý nhảy/replace playlist
-                playAudio(); // luôn play
+                setTrack(song);
+                playAudio();
               }
             }}
             size="icon"
@@ -243,7 +243,7 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
 export function SectionSongSkeleton({ quantity }: { quantity: number }) {
   return Array.from({ length: quantity }).map((_, i) => (
     <div className="group flex flex-col gap-2 p-4" key={i}>
-      <Skeleton className="md:w-44 md:h-44 lg:w-60 lg:h-60 rounded-md" />
+      <Skeleton className="md:w-44 md:h-44 lg:w-56 lg:h-56 rounded-md" />
       <Skeleton className="md:w-20 lg:w-24 h-6" />
       <Skeleton className="md:w-28 lg:w-36 h-5" />
     </div>

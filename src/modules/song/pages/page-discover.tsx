@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { songService } from '../service';
 import { CarouselItem } from '@/components/ui';
 import {
+  SectionAlbum,
   SectionArtist,
   SectionArtistSkeleton,
   SectionBanner,
@@ -16,10 +17,13 @@ import { NextIntl } from '~types/next-intl';
 import { artistService } from '@/modules/artist';
 import { useSongStore } from '../store';
 import { genreService } from '@/modules/genre';
+import { albumService } from '@/modules/album';
+import { LayoutFooter } from '@/components/layout/layout-footer';
 
-const GET_LIMIT_SONG = 10;
+const GET_LIMIT_SONG = 20;
 const GET_LIMIT_ARTIST = 20;
-const GET_LIMIT_GENRE = 6;
+const GET_LIMIT_ALBUM = 10;
+const GET_LIMIT_GENRE = 10;
 const SHOW_LIMIT_RECENT_SONG = 9;
 
 export function PageDiscover() {
@@ -36,6 +40,11 @@ export function PageDiscover() {
     queryKey: ['artist', 'discover', GET_LIMIT_ARTIST],
     queryFn: () =>
       artistService.getListArtist({ page: 1, limit: GET_LIMIT_ARTIST, isPopular: true }),
+  });
+
+  const { data: albumResults, isLoading: albumLoading } = useQuery({
+    queryKey: ['album', 'discover', GET_LIMIT_ALBUM],
+    queryFn: () => albumService.getListAlbum({ page: 1, limit: GET_LIMIT_ALBUM }),
   });
 
   const { data: genreResults, isLoading: genreLoading } = useQuery({
@@ -60,8 +69,20 @@ export function PageDiscover() {
           <SectionSongSkeleton quantity={6} />
         ) : (
           songResults?.data?.map((song) => (
-            <CarouselItem className="basis-52 md:basis-60 lg:basis-72" key={song.id}>
+            <CarouselItem className="basis-44 md:basis-52 lg:basis-60" key={song.id}>
               <SectionSong song={song} size="large" />
+            </CarouselItem>
+          ))
+        )}
+      </SectionBanner>
+
+      <SectionBanner title={t('song.featuredAlbum')} isViewAll={false}>
+        {albumLoading ? (
+          <SectionSongSkeleton quantity={4} />
+        ) : (
+          albumResults?.data?.map((album) => (
+            <CarouselItem className="basis-44 md:basis-52 lg:basis-60" key={album.id}>
+              <SectionAlbum album={album} />
             </CarouselItem>
           ))
         )}
@@ -84,12 +105,14 @@ export function PageDiscover() {
           <SectionSongSkeleton quantity={4} />
         ) : (
           genreResults?.data?.map((genre) => (
-            <CarouselItem className="basis-52 md:basis-60 lg:basis-72" key={genre.id}>
+            <CarouselItem className="basis-44 md:basis-52 lg:basis-60" key={genre.id}>
               <SectionGenre genre={genre} />
             </CarouselItem>
           ))
         )}
       </SectionBanner>
+      
+      <LayoutFooter />
     </div>
   );
 }

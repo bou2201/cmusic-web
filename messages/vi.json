@@ -41,6 +41,8 @@
     "resetPasswordConfirm": "Xác nhận mật khẩu mới.",
     "resetPasswordSuccessDecs": "Mật khẩu của bạn đã được đặt lại. Vui lòng đăng nhập lại.",
     "backToHome": "Quay lại trang chủ",
+    "or": "Hoặc",
+    "signinWithGoogle": "Đăng nhập với Google",
     "alert": {
       "success": "Thành công",
       "loginSuccess": "Đăng nhập thành công.",

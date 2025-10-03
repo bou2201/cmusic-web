@@ -19,6 +19,7 @@ export * from './form-handler/input-textarea';
 export * from './form-handler/upload-audio';
 export * from './form-handler/upload-image';
 
+export * from './section/section-album';
 export * from './section/section-artist';
 export * from './section/section-banner';
 export * from './section/section-details';

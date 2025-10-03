@@ -41,6 +41,8 @@
     "resetPasswordConfirm": "Confirm New Password",
     "resetPasswordSuccessDecs": "Your password has been reset. Please log in again.",
     "backToHome": "Back to home page",
+    "or": "Or",
+    "signinWithGoogle": "Sign in with Google",
     "alert": {
       "success": "Success",
       "loginSuccess": "Login successful.",

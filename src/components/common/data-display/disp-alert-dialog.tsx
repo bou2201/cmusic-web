@@ -11,7 +11,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui';
-import { X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { ComponentProps, ReactNode } from 'react';
 import { NextIntl } from '~types/next-intl';

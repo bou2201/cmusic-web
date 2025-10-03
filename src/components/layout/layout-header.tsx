@@ -8,21 +8,19 @@ import {
   LogOut,
   RotateCcw,
   User,
-  UserRoundPen,
 } from 'lucide-react';
 import { Button, InputSearch, Separator, SidebarTrigger } from '../ui';
 import { useHistoryTracker } from '@/hooks/use-history-tracker';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
-import { DispDropdown, DispDropdownMenuProps } from '../common';
+import { DispAvatar, DispDropdown, DispDropdownMenuProps } from '../common';
 import { AuthChangePw, AuthLogin, AuthRegister, useAuthStore } from '@/modules/auth';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { authService } from '@/modules/auth/service';
 import { toast } from 'sonner';
 import { LayoutSearchDialog } from './layout-dialog';
-import { useRouter } from '@/i18n/navigation';
-import { Routes } from '@/constants/routes';
+import { IMAGE_PLACEHOLDER } from '@/constants/link';
 
 function UserButton() {
   const [openLogin, setOpenLogin] = useState<boolean>(false);
@@ -31,7 +29,6 @@ function UserButton() {
 
   const { user, isAuthenticated, clearAuth } = useAuthStore((state) => state);
   const queryClient = useQueryClient();
-  const router = useRouter();
   const t = useTranslations<NextIntl.Namespace<'Header'>>('Header');
   const tAuth = useTranslations<NextIntl.Namespace<'Auth'>>('Auth');
 
@@ -40,9 +37,7 @@ function UserButton() {
     onSuccess: () => {
       clearAuth();
       toast(tAuth('alert.logoutSuccess'));
-      queryClient.removeQueries({ queryKey: ['playlist-user'] });
-      // router.push(Routes.Discover);
-      // window.location.reload();
+      queryClient.removeQueries({ queryKey: ['playlist-user'], exact: true });
     },
     onError: () => {
       toast.error(tAuth('alert.logoutFailed'));
@@ -61,6 +56,7 @@ function UserButton() {
           label: t('user.changePassword'),
           key: 'changePassword',
           shortcut: <RotateCcw />,
+          disabled: user.isGoogleAccount,
           onClick: () => {
             setOpenChangePassword(true);
           },
@@ -105,8 +101,12 @@ function UserButton() {
         modal={false}
       >
         {user ? (
-          <Button variant="ghost" className="!h-10">
-            <User className="!w-5 !h-5" />
+          <Button variant="ghost" className="!h-10 !w-fit ">
+            <DispAvatar
+              src={user?.avatar?.url ?? IMAGE_PLACEHOLDER}
+              alt={user?.name ?? ''}
+              className="object-cover"
+            />
             <span>{user.name}</span>
           </Button>
         ) : (

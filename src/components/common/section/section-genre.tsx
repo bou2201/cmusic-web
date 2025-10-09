@@ -17,7 +17,7 @@ export function SectionGenre({ genre }: { genre: Genre }) {
       </div>
       <Link
         href={Routes.Genres + '/' + genre.id}
-        className="font-semibold line-clamp-2 w-full hover:underline"
+        className="font-medium line-clamp-2 w-full hover:underline"
       >
         {genre.name}
       </Link>

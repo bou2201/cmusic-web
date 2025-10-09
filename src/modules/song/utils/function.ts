@@ -24,6 +24,13 @@ export const getInitialRepeatMode = () => {
   return 'off';
 };
 
+export const getInitialIsPlaylistOpen = () => {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem('audio-player-playlistOpen') === 'true';
+  }
+  return false;
+};
+
 export const getInitialRecentTracks = (): Song[] => {
   if (typeof window !== 'undefined') {
     try {
@@ -137,6 +144,36 @@ export function formatDurationSum(durations: number[]): string {
   }
 
   return parts.join(', ');
+}
+
+/**
+ * Format date string based on language (vi or en)
+ * @param dateString ISO date string (e.g. "2024-12-11T17:00:00.000Z")
+ * @param lang "vi" | "en" (default: "vi")
+ * @returns Formatted date string
+ *  - vi → "11 tháng 12, 2024"
+ *  - en → "December 11, 2024"
+ */
+export function formatDateByLang(dateString: string, lang: 'vi' | 'en' = 'vi'): string {
+  const date = new Date(dateString);
+
+  if (isNaN(date.getTime())) {
+    return 'Invalid date';
+  }
+
+  if (lang === 'vi') {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${day} tháng ${month}, ${year}`;
+  }
+
+  // English format using Intl API for proper month names
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  }).format(date);
 }
 
 /**

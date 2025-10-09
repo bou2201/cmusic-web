@@ -14,7 +14,7 @@ export function SectionArtist({ artist, size }: { artist: Artist; size: 'small' 
 
   return size === 'large' ? (
     <div
-      className="group flex flex-col items-center gap-4 p-4 rounded-md hover:bg-neutral-800 transition cursor-pointer w-auto"
+      className="group flex flex-col items-start gap-4 p-3 rounded-md hover:bg-neutral-800 transition cursor-pointer w-auto"
       onClick={() => {
         router.push(`${Routes.Artists}/${artist.id}`);
       }}
@@ -22,10 +22,10 @@ export function SectionArtist({ artist, size }: { artist: Artist; size: 'small' 
       <div className="relative aspect-square w-full rounded-full overflow-hidden">
         <Image src={artist.avatar.url} alt={artist.name} fill className="object-cover" />
       </div>
-      <div className="flex flex-col items-center gap-1">
+      <div className="flex flex-col items-start gap-1">
         <Link
           href={`${Routes.Artists}/${artist.id}`}
-          className="font-semibold truncate w-full text-center hover:underline"
+          className="font-medium truncate w-full hover:underline"
         >
           {artist.name}
         </Link>
@@ -43,7 +43,7 @@ export function SectionArtist({ artist, size }: { artist: Artist; size: 'small' 
         <Image src={artist.avatar.url} alt={artist.name} fill className="object-cover" />
       </div>
       <div>
-        <p className="text-sm font-semibold opacity-70 mb-1">{t('artist.role')}</p>
+        <p className="text-sm font-medium opacity-70">{t('artist.role')}</p>
         <Link
           href={`${Routes.Artists}/${artist.id}`}
           className="font-semibold truncate w-full text-center hover:underline"

@@ -165,7 +165,8 @@
         "followers": "Người theo dõi",
         "createdAt": "Ngày tạo",
         "updatedAt": "Ngày cập nhật",
-        "popular": "Nổi bật"
+        "popular": "Nổi bật",
+        "description": "Mô tả"
       },
       "action": {
         "create": "Thêm mới",
@@ -379,6 +380,10 @@
       "unfollowSuccess": "Bỏ theo dõi thành công",
       "followFailed": "Theo dõi thất bại",
       "unfollowFailed": "Bỏ theo dõi thất bại"
+    },
+    "album": {
+      "title": "Album",
+      "tracks": "Bài hát"
     }
   },
   "Component": {
@@ -387,7 +392,9 @@
       "total": "Tổng",
       "page": "Trang",
       "previous": "Trước",
-      "next": "Tiếp"
+      "next": "Tiếp",
+      "no": "#",
+      "title": "Tiêu đề"
     },
     "formHandler": {
       "search": "Tìm kiếm",

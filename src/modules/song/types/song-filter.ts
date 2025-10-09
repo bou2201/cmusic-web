@@ -7,4 +7,5 @@ export type SongFilter = PaginationReq & {
   genreId?: string;
   isTrending?: boolean;
   isExplicit?: boolean;
+  includeLyrics?: boolean;
 };

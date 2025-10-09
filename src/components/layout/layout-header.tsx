@@ -56,7 +56,6 @@ function UserButton() {
           label: t('user.changePassword'),
           key: 'changePassword',
           shortcut: <RotateCcw />,
-          disabled: user.isGoogleAccount,
           onClick: () => {
             setOpenChangePassword(true);
           },
@@ -91,6 +90,8 @@ function UserButton() {
       },
     ];
   };
+
+  console.log(user)
 
   return (
     <>

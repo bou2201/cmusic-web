@@ -20,9 +20,9 @@ export function SectionDetails({
 }: SectionDetailsProps) {
   return (
     <section className="h-full rounded-xl bg-sidebar overflow-x-hidden overflow-y-auto">
-      <div className="w-full h-64 relative">
+      <div className="w-full h-72 relative">
         <div
-          className="absolute inset-0 -bottom-10 z-0"
+          className="absolute inset-0 -bottom-16 z-0"
           style={{
             backgroundImage: `url(${headerImage.url ?? IMAGE_PLACEHOLDER})`,
             backgroundSize: 'cover',
@@ -39,7 +39,7 @@ export function SectionDetails({
           }}
         />
 
-        <div className="relative py-5 px-7 z-10 flex max-sm:flex-col items-end max-sm:gap-3 max-sm:items-start gap-8">
+        <div className="relative py-5 px-7 z-10 flex max-sm:flex-col items-end max-sm:gap-3 max-sm:items-start gap-8 -bottom-6">
           <div className="max-sm:block hidden w-20 h-20">
             <Image
               width={1000}

@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { Button } from '@/components/ui';
-import { DispAvatar, SectionDetails } from '@/components/common';
+import { DispAvatar, DispLoading, DispSheet, SectionDetails } from '@/components/common';
 import { formatNumber, getShortName, processLyricsWithViewMore } from '../utils/function';
 import { Link, useRouter } from '@/i18n/navigation';
 import { Routes } from '@/constants/routes';
@@ -64,7 +64,7 @@ export function PageDetails({ id }: { id: string }) {
     );
   };
 
-  if (!song) return null;
+  if (!song) return <DispLoading />;
 
   return (
     <SectionDetails

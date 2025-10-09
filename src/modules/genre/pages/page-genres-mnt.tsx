@@ -8,7 +8,7 @@ import { useGenreStore } from '../store';
 import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
 import { genreService } from '../service';
 import { DispDropdown, DispTable, SectionMnt } from '@/components/common';
-import { Button, LoadingSwitch, Switch } from '@/components/ui';
+import { Button, LoadingSwitch } from '@/components/ui';
 import { EllipsisIcon } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { FormCouMnt, FormFiltersMnt } from '../components';
@@ -91,9 +91,26 @@ export function PageGenresMnt() {
           return (
             <LoadingSwitch
               checked={row.original.isFeatured}
-              onCheckedChange={async () => {
-                await genreService.toggleGenreFeatured(row.original.id);
-                queryClient.invalidateQueries({ queryKey: ['genres-mnt'] });
+              onCheckedChange={async (checked) => {
+                try {
+                  // Optimistic update
+                  queryClient.setQueryData(['genres-mnt', page, limit, filters], (oldData: any) => {
+                    if (!oldData) return oldData;
+                    return {
+                      ...oldData,
+                      data: oldData.data.map((genre: Genre) =>
+                        genre.id === row.original.id ? { ...genre, isTrending: checked } : genre,
+                      ),
+                    };
+                  });
+
+                  await genreService.toggleGenreFeatured(row.original.id);
+                } catch (error) {
+                  // Revert if failed
+                  queryClient.invalidateQueries({ queryKey: ['genres-mnt'] });
+                }
+                // await genreService.toggleGenreFeatured(row.original.id);
+                // queryClient.invalidateQueries({ queryKey: ['genres-mnt'] });
               }}
             />
           );

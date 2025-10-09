@@ -2,24 +2,32 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { artistService } from '../service';
-import { SectionDetails } from '@/components/common';
+import {
+  DispLoading,
+  SectionAlbum,
+  SectionBanner,
+  SectionDetails,
+  SectionSongSkeleton,
+} from '@/components/common';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
-import { Button } from '@/components/ui';
+import { Button, CarouselItem } from '@/components/ui';
 import { Play } from 'lucide-react';
 import { ButtonFollow, TablePopularTrack } from '../components';
 import { Song, songService, useSongStore } from '@/modules/song';
 import { useState } from 'react';
 import { AuthLogin } from '@/modules/auth';
 import Image from 'next/image';
+import { albumService } from '@/modules/album';
 
 export function PageDetails({ id }: { id: string }) {
   const [openLogin, setOpenLogin] = useState<boolean>(false);
 
   const tSectionArt = useTranslations<NextIntl.Namespace<'Section.artist'>>('Section.artist');
   const tSectionSong = useTranslations<NextIntl.Namespace<'Section.song'>>('Section.song');
+  const tSectionAlbum = useTranslations<NextIntl.Namespace<'Section.album'>>('Section.album');
 
-  const setPlayList = useSongStore((state) => state.setPlaylist);
+  const setPlaylist = useSongStore((state) => state.setPlaylist);
 
   const { data: artist } = useQuery({
     queryKey: ['artist-details', id],
@@ -29,6 +37,11 @@ export function PageDetails({ id }: { id: string }) {
   const { data: songResults, isLoading: songLoading } = useQuery({
     queryKey: ['song', 'artist-details', id],
     queryFn: () => songService.getListSong({ page: 1, limit: 10, artistId: id }),
+  });
+
+  const { data: albumResults, isLoading: albumLoading } = useQuery({
+    queryKey: ['album', 'artist-details', id],
+    queryFn: () => albumService.getListAlbum({ page: 1, limit: 10, artistId: id }),
   });
 
   const renderHeaderContent = () => {
@@ -46,7 +59,7 @@ export function PageDetails({ id }: { id: string }) {
     );
   };
 
-  if (!artist) return null;
+  if (!artist) return <DispLoading />;
 
   return (
     <>
@@ -62,7 +75,7 @@ export function PageDetails({ id }: { id: string }) {
           <Button
             variant="primary"
             onClick={() => {
-              setPlayList(songResults?.data as Song[]);
+              setPlaylist(songResults?.data as Song[]);
             }}
             size="icon"
             className="rounded-full w-14 h-14 group"
@@ -76,6 +89,20 @@ export function PageDetails({ id }: { id: string }) {
           <h3 className="font-bold mb-6 text-2xl">{tSectionSong('featuredSong')}</h3>
           <TablePopularTrack songLoading={songLoading} songResults={songResults} />
         </div>
+
+        {albumResults?.data && albumResults?.data?.length > 0 ? (
+          <SectionBanner title={tSectionAlbum('title')} isViewAll={false}>
+            {albumLoading ? (
+              <SectionSongSkeleton quantity={4} />
+            ) : (
+              albumResults?.data?.map((album) => (
+                <CarouselItem className="basis-44 md:basis-52 lg:basis-56" key={album.id}>
+                  <SectionAlbum album={album} />
+                </CarouselItem>
+              ))
+            )}
+          </SectionBanner>
+        ) : null}
 
         <div className="mt-10">
           <h3 className="font-bold mb-6 text-2xl">

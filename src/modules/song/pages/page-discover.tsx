@@ -53,7 +53,7 @@ export function PageDiscover() {
   });
 
   return (
-    <div>
+    <div className="h-full rounded-xl bg-sidebar overflow-x-hidden overflow-y-auto lg:px-5">
       {recentTracks.length > 0 ? (
         <SectionBanner title={t('song.listenAgain')} isCarousel={false} isViewAll={false}>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
@@ -69,7 +69,7 @@ export function PageDiscover() {
           <SectionSongSkeleton quantity={6} />
         ) : (
           songResults?.data?.map((song) => (
-            <CarouselItem className="basis-44 md:basis-52 lg:basis-60" key={song.id}>
+            <CarouselItem className="basis-44 md:basis-52 lg:basis-56" key={song.id}>
               <SectionSong song={song} size="large" />
             </CarouselItem>
           ))
@@ -81,7 +81,7 @@ export function PageDiscover() {
           <SectionSongSkeleton quantity={4} />
         ) : (
           albumResults?.data?.map((album) => (
-            <CarouselItem className="basis-44 md:basis-52 lg:basis-60" key={album.id}>
+            <CarouselItem className="basis-44 md:basis-52 lg:basis-56" key={album.id}>
               <SectionAlbum album={album} />
             </CarouselItem>
           ))
@@ -93,7 +93,7 @@ export function PageDiscover() {
           <SectionArtistSkeleton quantity={10} />
         ) : (
           artistResults?.data?.map((artist) => (
-            <CarouselItem className="basis-44 md:basis-48 lg:basis-52" key={artist.id}>
+            <CarouselItem className="basis-44 md:basis-52 lg:basis-56" key={artist.id}>
               <SectionArtist artist={artist} size="large" />
             </CarouselItem>
           ))
@@ -105,13 +105,13 @@ export function PageDiscover() {
           <SectionSongSkeleton quantity={4} />
         ) : (
           genreResults?.data?.map((genre) => (
-            <CarouselItem className="basis-44 md:basis-52 lg:basis-60" key={genre.id}>
+            <CarouselItem className="basis-44 md:basis-52 lg:basis-56" key={genre.id}>
               <SectionGenre genre={genre} />
             </CarouselItem>
           ))
         )}
       </SectionBanner>
-      
+
       <LayoutFooter />
     </div>
   );

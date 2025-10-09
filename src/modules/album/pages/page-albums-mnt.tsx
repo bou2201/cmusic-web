@@ -42,7 +42,7 @@ export function PageAlbumsMnt() {
         header: t('table.name'),
         size: 150,
         cell: ({ row }) => {
-          console.log(row.original)
+          console.log(row.original);
           return (
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 shrink-0">
@@ -81,10 +81,12 @@ export function PageAlbumsMnt() {
         header: t('table.description'),
         size: 250,
         cell: ({ row }) => {
-          return (
+          return row.original.description ? (
             <span className="whitespace-break-spaces line-clamp-2" title={row.original.description}>
               {row.original.description}
             </span>
+          ) : (
+            '-'
           );
         },
       },

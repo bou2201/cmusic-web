@@ -22,7 +22,7 @@ export function SectionAlbum({ album }: { album: Album }) {
       </div>
       <Link
         href={Routes.Albums + '/' + album.id}
-        className="font-semibold line-clamp-2 w-full hover:underline"
+        className="font-medium line-clamp-2 w-full hover:underline"
       >
         {album.title}
       </Link>

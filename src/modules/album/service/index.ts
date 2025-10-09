@@ -1,12 +1,12 @@
 import api from '@/lib/api';
-import { ApiReturnList, PaginationReq } from '~types/common';
+import { ApiReturnList } from '~types/common';
 import { objectToQueryString } from '@/utiils/function';
-import { Album, AlbumAddOrRemoveSong, UseAlbumCouMntSchemaType } from '../types';
+import { Album, AlbumAddOrRemoveSong, AlbumFilter, UseAlbumCouMntSchemaType } from '../types';
 
 const API_TAG_BASE = '/album';
 
 export const albumService = {
-  getListAlbum: (params: PaginationReq) => {
+  getListAlbum: (params: AlbumFilter) => {
     const queryParams = objectToQueryString(params);
     return api.get<ApiReturnList<Album>>(`${API_TAG_BASE}?${queryParams}`);
   },

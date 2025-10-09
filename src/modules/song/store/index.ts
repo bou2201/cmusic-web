@@ -3,6 +3,7 @@ import { Song, SongFilter } from '../types';
 import {
   addTrackToRecent,
   getInitialCurrentTrackIndex,
+  getInitialIsPlaylistOpen,
   getInitialPlaylist,
   getInitialRecentTracks,
   getInitialRepeatMode,
@@ -59,7 +60,7 @@ const initialValues: SongState = {
   volume: getInitialVolume(),
   isShuffle: getInitialShuffle(),
   repeatMode: getInitialRepeatMode(),
-  openPlayList: true,
+  openPlayList: getInitialIsPlaylistOpen(),
   filters: {
     search: undefined,
     artistId: undefined,
@@ -241,7 +242,10 @@ export const useSongStore = create<SongState & SongAction>((set, get) => ({
   setVolume: (volume: number) => set({ volume }),
   setIsShuffle: (isShuffle: boolean) => set({ isShuffle }),
   setRepeatMode: (repeatMode: 'off' | 'all' | 'one') => set({ repeatMode }),
-  setOpenPlayList: (openPlayList: boolean) => set({ openPlayList }),
+  setOpenPlayList: (openPlayList: boolean) => {
+    localStorage.setItem('audio-player-playlistOpen', openPlayList.toString());
+    set({ openPlayList });
+  },
   setFilters: (filters: Omit<SongFilter, 'page' | 'limit'>) => set({ filters }),
   setAudioElement: (element) => set({ audioElement: element }),
 

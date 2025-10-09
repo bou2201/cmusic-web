@@ -14,24 +14,39 @@ import {
 } from '@/modules/song';
 import { formatDuration } from '@/utiils/function';
 import { ColumnDef } from '@tanstack/react-table';
-import { AudioLinesIcon, PauseIcon, PlayIcon } from 'lucide-react';
+import { AudioLinesIcon, Clock10, PauseIcon, PlayIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 import { ApiReturnList } from '~types/common';
+import { ViewRedirectArtist } from '../view/view-redirect';
+import { useTranslations } from 'next-intl';
+import { NextIntl } from '~types/next-intl';
 
 type TablePopularTrackProps = {
   songResults?: ApiReturnList<Song>;
   songLoading?: boolean;
+  showArtistRedirect?: boolean;
 };
 
-export function TablePopularTrack({ songLoading, songResults }: TablePopularTrackProps) {
+export function TablePopularTrack({
+  songLoading,
+  songResults,
+  showArtistRedirect = false,
+}: TablePopularTrackProps) {
   const [hoveredRowIndex, setHoveredRowIndex] = useState<number | null>(null);
   const { setPlaylist, track, playlist, currentTrackIndex, isPlaying, playAudio, pauseAudio } =
     useSongStore((state) => state);
+  const t = useTranslations<NextIntl.Namespace<'Component.table'>>('Component.table');
 
   const columns: ColumnDef<Song>[] = [
     {
       id: 'index',
+      header: t('no'),
+      meta: {
+        style: {
+          textAlign: 'center',
+        },
+      },
       cell: ({ row }) => {
         const hovered = hoveredRowIndex === row.index;
         const isRowPlaying = isCurrentlyPlaying(row.original, {
@@ -80,6 +95,7 @@ export function TablePopularTrack({ songLoading, songResults }: TablePopularTrac
     },
     {
       id: 'title',
+      header: t('title'),
       cell: ({ row }) => {
         const isRowPlaying = isCurrentlyPlaying(row.original, {
           currentTrackIndex,
@@ -99,16 +115,22 @@ export function TablePopularTrack({ songLoading, songResults }: TablePopularTrac
                 className="w-full h-full object-cover rounded-md"
               />
             </div>
-            <Link
-              href={`${Routes.Songs}/${row.original.id}`}
-              className={cn(
-                'truncate font-bold hover:underline',
-                isRowPlaying && 'text-primary-pink',
+            <div className="flex flex-col items-start truncate">
+              <Link
+                href={`${Routes.Songs}/${row.original.id}`}
+                className={cn(
+                  'font-semibold hover:underline',
+                  isRowPlaying && 'text-primary-pink',
+                )}
+                title={row.original.title}
+              >
+                {row.original.title}
+              </Link>
+
+              {showArtistRedirect && (
+                <ViewRedirectArtist artist={row.original.artist} artists={row.original.artists} />
               )}
-              title={row.original.title}
-            >
-              {row.original.title}
-            </Link>
+            </div>
           </div>
         );
       },
@@ -124,6 +146,11 @@ export function TablePopularTrack({ songLoading, songResults }: TablePopularTrac
     },
     {
       id: 'duration',
+      header: () => (
+        <div className="flex justify-center">
+          <Clock10 size={18} />
+        </div>
+      ),
       cell: ({ row }) => (
         <div className="flex items-center justify-center gap-4">
           <span className="font-semibold opacity-80">{formatDuration(row.original.duration)}</span>
@@ -140,7 +167,6 @@ export function TablePopularTrack({ songLoading, songResults }: TablePopularTrac
       columns={columns}
       data={(songResults?.data as Song[]) ?? []}
       isLoading={songLoading}
-      showHeader={false}
       cnTableRow="border-0 rounded-md"
       onRowMouseEnter={(rowIndex) => setHoveredRowIndex(rowIndex)}
       onRowMouseLeave={() => setHoveredRowIndex(null)}

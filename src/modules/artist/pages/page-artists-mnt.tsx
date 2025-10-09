@@ -57,7 +57,7 @@ export function PageArtistsMnt() {
       {
         accessorKey: 'name',
         header: t('table.name'),
-        size: 200,
+        size: 100,
         cell: ({ row }) => {
           return (
             <span
@@ -74,15 +74,28 @@ export function PageArtistsMnt() {
         },
       },
       {
-        accessorKey: '_count.songs',
-        header: t('table.songs'),
-        size: 80,
+        accessorKey: 'bio',
+        header: t('table.description'),
+        cell: ({ row }) => {
+          return row.original.bio ? (
+            <span className="line-clamp-2 whitespace-break-spaces" title={row.original.bio}>
+              {row.original.bio}
+            </span>
+          ) : (
+            '-'
+          );
+        },
       },
-      {
-        accessorKey: '_count.followers',
-        header: t('table.followers'),
-        size: 100,
-      },
+      // {
+      //   accessorKey: '_count.songs',
+      //   header: t('table.songs'),
+      //   size: 80,
+      // },
+      // {
+      //   accessorKey: '_count.followers',
+      //   header: t('table.followers'),
+      //   size: 100,
+      // },
       {
         accessorKey: 'isPopular',
         header: t('table.popular'),
@@ -96,9 +109,29 @@ export function PageArtistsMnt() {
           return (
             <LoadingSwitch
               checked={row.original.isPopular}
-              onCheckedChange={async () => {
-                await artistService.togglePopular(row.original.id);
-                queryClient.invalidateQueries({ queryKey: ['artists-mnt'] });
+              onCheckedChange={async (checked) => {
+                try {
+                  // Optimistic update
+                  queryClient.setQueryData(
+                    ['artists-mnt', page, limit, filters],
+                    (oldData: any) => {
+                      if (!oldData) return oldData;
+                      return {
+                        ...oldData,
+                        data: oldData.data.map((artist: Artist) =>
+                          artist.id === row.original.id
+                            ? { ...artist, isPopular: checked }
+                            : artist,
+                        ),
+                      };
+                    },
+                  );
+
+                  await artistService.togglePopular(row.original.id);
+                } catch (error) {
+                  // Revert if failed
+                  queryClient.invalidateQueries({ queryKey: ['artists-mnt'] });
+                }
               }}
             />
           );
@@ -132,6 +165,7 @@ export function PageArtistsMnt() {
         },
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [queryClient, t],
   );
 

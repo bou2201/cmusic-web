@@ -3,3 +3,8 @@ export type SongToggleLikeResponse = {
   isLiked: boolean;
   title: string;
 };
+
+export type SongLyricsResponse = {
+  id: string;
+  lyrics: string;
+};

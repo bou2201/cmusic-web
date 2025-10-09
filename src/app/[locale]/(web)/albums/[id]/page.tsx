@@ -1,4 +1,4 @@
-import { albumService } from '@/modules/album';
+import { albumService, PageDetails } from '@/modules/album';
 import { Metadata } from 'next';
 
 type Params = {
@@ -10,10 +10,10 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const album = await albumService.getAlbumById(id);
 
   return {
-    title: `${album.title} - ${album.description}`,
+    title: `${album.title} - ${album.description ?? ''}`,
     description: album.title,
     openGraph: {
-      title: `${album.title} - ${album.description}`,
+      title: `${album.title} - ${album.description ?? ''}`,
       description: album.title,
       images: [
         {
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${album.title} - ${album.description}`,
+      title: `${album.title} - ${album.description ?? ''}`,
       description: album.title,
       images: [album.cover?.url ?? ''],
     },
@@ -36,5 +36,5 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function Page({ params }: Params) {
   const { id } = await params;
 
-  return <>{id}</>;
+  return <PageDetails id={id} />;
 }

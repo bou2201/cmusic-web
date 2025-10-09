@@ -67,7 +67,7 @@ export function PageSongsMnt() {
           return (
             <Link
               href={`${Routes.AdminSongs}/update?id=${row.original.id}`}
-              className="font-semibold truncate line-clamp-2 hover:underline"
+              className="font-semibold line-clamp-2 whitespace-break-spaces hover:underline"
               title={row.original.title}
             >
               {row.original.title}
@@ -84,7 +84,7 @@ export function PageSongsMnt() {
           const artists = row.original.artists;
 
           return (
-            <div className="line-clamp-1 truncate">
+            <div className="line-clamp-2 whitespace-break-spaces">
               <ViewRedirectArtist artist={artist} artists={artists} admin />
             </div>
           );
@@ -135,9 +135,24 @@ export function PageSongsMnt() {
           return (
             <LoadingSwitch
               checked={row.original.isTrending}
-              onCheckedChange={async () => {
-                await songService.toggleTrending(row.original.id);
-                queryClient.invalidateQueries({ queryKey: ['songs-mnt'] });
+              onCheckedChange={async (checked) => {
+                try {
+                  // Optimistic update
+                  queryClient.setQueryData(['songs-mnt', page, limit, filters], (oldData: any) => {
+                    if (!oldData) return oldData;
+                    return {
+                      ...oldData,
+                      data: oldData.data.map((song: Song) =>
+                        song.id === row.original.id ? { ...song, isTrending: checked } : song,
+                      ),
+                    };
+                  });
+
+                  await songService.toggleTrending(row.original.id);
+                } catch (error) {
+                  // Revert if failed
+                  queryClient.invalidateQueries({ queryKey: ['songs-mnt'] });
+                }
               }}
             />
           );

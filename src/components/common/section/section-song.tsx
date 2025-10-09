@@ -10,6 +10,7 @@ import { DispAnimationWave } from '../data-display/disp-animation';
 import { ViewRedirectArtist } from '@/modules/artist';
 import { cn } from '@/lib/utils';
 import { IMAGE_PLACEHOLDER } from '@/constants/link';
+import { useMemo } from 'react';
 
 export function SectionSongInPlayListPlaying({ song }: { song: Song }) {
   const { track, playlist, isPlaying, currentTrackIndex } = useSongStore((state) => state);
@@ -37,7 +38,7 @@ export function SectionSongInPlayListPlaying({ song }: { song: Song }) {
         <div className="flex flex-col truncate">
           <Link
             href={`${Routes.Songs}/${song.id}`}
-            className="font-semibold text-sm truncate hover:underline"
+            className="font-medium text-sm truncate hover:underline"
             title={song.title}
           >
             {song.title}
@@ -58,11 +59,13 @@ export function SectionSongInPlayListPlaying({ song }: { song: Song }) {
 export function SectionSongInPlaylist({ song, indexSong }: { song: Song; indexSong: number }) {
   const { setPlaylist, playlist, currentTrackIndex } = useSongStore((state) => state);
 
+  const isPlaying = useMemo(() => currentTrackIndex === indexSong, [currentTrackIndex, indexSong]);
+
   return (
     <div
       className={cn(
         'flex gap-3 p-2 rounded-md hover:bg-neutral-800 transition cursor-pointer',
-        currentTrackIndex === indexSong && 'bg-neutral-800',
+        isPlaying && 'bg-neutral-800',
       )}
     >
       <div className="w-11 h-11 rounded-md shrink-0 relative">
@@ -78,7 +81,10 @@ export function SectionSongInPlaylist({ song, indexSong }: { song: Song; indexSo
         <div className="flex flex-col truncate">
           <Link
             href={`${Routes.Songs}/${song.id}`}
-            className="font-semibold text-sm truncate hover:underline"
+            className={cn(
+              'font-medium text-sm truncate hover:underline',
+              isPlaying && 'text-primary-pink font-semibold',
+            )}
             title={song.title}
           >
             {song.title}
@@ -143,7 +149,7 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
               <div className="flex flex-col truncate">
                 <Link
                   href={`${Routes.Songs}/${song.id}`}
-                  className="font-semibold truncate hover:underline"
+                  className="font-medium truncate hover:underline"
                   title={song.title}
                 >
                   {song.title}
@@ -224,10 +230,10 @@ export function SectionSong({ song, size }: { song: Song; size: 'small' | 'large
           </Button>
         </div>
       </div>
-      <div className="flex flex-col gap-1 truncate">
+      <div className="flex flex-col truncate">
         <Link
           href={`${Routes.Songs}/${song.id}`}
-          className="font-semibold truncate hover:underline"
+          className="font-medium truncate hover:underline"
           title={song.title}
         >
           {song.title}

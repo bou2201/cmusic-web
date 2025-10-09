@@ -165,7 +165,8 @@
         "followers": "Followers",
         "createdAt": "Created At",
         "updatedAt": "Updated At",
-        "popular": "Popular"
+        "popular": "Popular",
+        "description": "Description"
       },
       "action": {
         "create": "Add new",
@@ -379,6 +380,10 @@
       "unfollowSuccess": "Unfollow artist successfully.",
       "followFailed": "Follow artist failed.",
       "unfollowFailed": "Unfollow artist failed."
+    },
+    "album": {
+      "title": "Album",
+      "tracks": "Tracks"
     }
   },
   "Component": {
@@ -387,7 +392,9 @@
       "total": "Total",
       "page": "Page",
       "previous": "Previous",
-      "next": "Next"
+      "next": "Next",
+      "no": "#",
+      "title": "Title"
     },
     "formHandler": {
       "search": "Search",

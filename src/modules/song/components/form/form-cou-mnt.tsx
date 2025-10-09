@@ -18,7 +18,7 @@ import { useFetchArtist, useFetchGenre } from '../../hooks';
 import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { songService } from '../../service';
-import { useSongCouMntSchema, UseSongCouMntSchemaType } from '../../types';
+import { Song, useSongCouMntSchema, UseSongCouMntSchemaType } from '../../types';
 import { useRouter } from '@/i18n/navigation';
 import { toast } from 'sonner';
 import { Routes } from '@/constants/routes';
@@ -66,11 +66,33 @@ export function FormCouMnt({ id }: { id?: string }) {
     onSuccess: () => {
       if (id) {
         toast.success(t('updateSuccess'));
+
+        // ✅ Update the existing song in cache
+        queryClient.setQueryData(['songs-mnt'], (oldData: any) => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            data: oldData.data.map((item: Song) =>
+              item.id === dataDetails?.id ? { ...item, ...dataDetails } : item,
+            ),
+          };
+        });
       } else {
         toast.success(t('addSuccess'));
-      }
 
-      queryClient.invalidateQueries({ queryKey: ['songs-mnt'] });
+        // ✅ Add the new song to the beginning of the cache
+        queryClient.setQueryData(['songs-mnt'], (oldData: any) => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            data: [dataDetails!, ...oldData.data],
+            meta: {
+              ...oldData.meta,
+              total: (oldData.meta?.total ?? 0) + 1,
+            },
+          };
+        });
+      }
       router.push(Routes.AdminSongs);
     },
     onError: (error) => {

@@ -10,6 +10,8 @@ import { useSongStore } from '../../store';
 import Image from 'next/image';
 import { getArtistName } from '@/utiils/function';
 import { IMAGE_PLACEHOLDER } from '@/constants/link';
+import { useQuery } from '@tanstack/react-query';
+import { songService } from '../../service';
 
 export function BtnLyric() {
   const [openLyric, setOpenLyric] = useState<boolean>(false);
@@ -17,6 +19,11 @@ export function BtnLyric() {
   const { track, isPlaying } = useSongStore((state) => state);
   const t = useTranslations<NextIntl.Namespace<'SongsPage.audioPlayer'>>('SongsPage.audioPlayer');
   const tSection = useTranslations<NextIntl.Namespace<'Section.artist'>>('Section.artist');
+
+  const { data: lyricsResult, isLoading: isLoadingLyrics } = useQuery({
+    queryKey: ['lyrics', track?.id],
+    queryFn: () => songService.getLyricsById(track?.id ?? ''),
+  });
 
   return (
     <>
@@ -61,16 +68,18 @@ export function BtnLyric() {
                 />
               </div>
               <div className="col-span-3">
-                {track?.lyrics ? (
+                {track ? (
                   <div className="text-4xl text-primary/70 font-bold whitespace-pre-line overflow-y-auto max-h-[70vh] py-4 flex flex-col gap-8">
                     <div>{track.title}</div>
                     <div>
                       {tSection('role') + ': ' + getArtistName(track.artist, track.artists)}
                     </div>
                     <div>_</div>
-                    {track.lyrics.split('\n').map((line, index) => (
-                      <div key={index}>{line || <br />}</div>
-                    ))}
+                    {lyricsResult
+                      ? lyricsResult.lyrics
+                          .split('\n')
+                          .map((line, index) => <div key={index}>{line || <br />}</div>)
+                      : null}
                     <div>_</div>
                   </div>
                 ) : (

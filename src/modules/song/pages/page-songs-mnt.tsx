@@ -35,7 +35,7 @@ export function PageSongsMnt() {
     isFetching,
   } = useQuery({
     queryKey: ['songs-mnt', page, limit, filters],
-    queryFn: () => songService.getListSong({ page, limit, ...filters }),
+    queryFn: () => songService.getListSong({ includeHidden: true, page, limit, ...filters }),
     placeholderData: keepPreviousData,
   });
 
@@ -116,9 +116,35 @@ export function PageSongsMnt() {
         accessorKey: 'isPublic',
         header: t('table.isPublic'),
         size: 60,
+        meta: {
+          style: {
+            textAlign: 'center',
+          },
+        },
         cell: ({ row }) => {
           return (
-            <span className="font-semibold opacity-80">{row.original.isPublic ? '✔' : '-'}</span>
+            <LoadingSwitch
+              checked={row.original.isPublic}
+              onCheckedChange={async (checked) => {
+                try {
+                  // Optimistic update
+                  queryClient.setQueryData(['songs-mnt', page, limit, filters], (oldData: any) => {
+                    if (!oldData) return oldData;
+                    return {
+                      ...oldData,
+                      data: oldData.data.map((song: Song) =>
+                        song.id === row.original.id ? { ...song, isPublic: checked } : song,
+                      ),
+                    };
+                  });
+
+                  await songService.togglePublic(row.original.id);
+                } catch (error) {
+                  // Revert if failed
+                  queryClient.invalidateQueries({ queryKey: ['songs-mnt'] });
+                }
+              }}
+            />
           );
         },
       },

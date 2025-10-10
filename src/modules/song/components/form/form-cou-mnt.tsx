@@ -66,33 +66,11 @@ export function FormCouMnt({ id }: { id?: string }) {
     onSuccess: () => {
       if (id) {
         toast.success(t('updateSuccess'));
-
-        // ✅ Update the existing song in cache
-        queryClient.setQueryData(['songs-mnt'], (oldData: any) => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: oldData.data.map((item: Song) =>
-              item.id === dataDetails?.id ? { ...item, ...dataDetails } : item,
-            ),
-          };
-        });
       } else {
         toast.success(t('addSuccess'));
-
-        // ✅ Add the new song to the beginning of the cache
-        queryClient.setQueryData(['songs-mnt'], (oldData: any) => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: [dataDetails!, ...oldData.data],
-            meta: {
-              ...oldData.meta,
-              total: (oldData.meta?.total ?? 0) + 1,
-            },
-          };
-        });
       }
+
+      queryClient.invalidateQueries({ queryKey: ['songs-mnt'] });
       router.push(Routes.AdminSongs);
     },
     onError: (error) => {

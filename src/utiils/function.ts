@@ -8,6 +8,7 @@ export function objectToQueryString(params: Record<string, any>): string {
         value !== null &&
         value !== undefined &&
         value !== '' &&
+        value !== false &&
         !(Array.isArray(value) && value.length === 0),
     ),
   );

@@ -1,3 +1,4 @@
+export * from './song-audio';
 export * from './song-cou';
 export * from './song-filter';
 export * from './song-response';

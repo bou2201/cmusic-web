@@ -1,9 +1,10 @@
-import { Song } from '../types';
+import { KeySongStore } from '../constants/key-store';
+import { RepeatMode, Song } from '../types';
 
 // Get initial values player audio from localStorage if available
 export const getInitialVolume = () => {
   if (typeof window !== 'undefined') {
-    const savedVolume = localStorage.getItem('audio-player-volume');
+    const savedVolume = localStorage.getItem(KeySongStore.Volume);
     return savedVolume ? parseFloat(savedVolume) : 1;
   }
   return 1;
@@ -11,22 +12,22 @@ export const getInitialVolume = () => {
 
 export const getInitialShuffle = () => {
   if (typeof window !== 'undefined') {
-    return localStorage.getItem('audio-player-shuffle') === 'true';
+    return localStorage.getItem(KeySongStore.Shuffle) === 'true';
   }
   return false;
 };
 
 export const getInitialRepeatMode = () => {
   if (typeof window !== 'undefined') {
-    const savedMode = localStorage.getItem('audio-player-repeat') as 'off' | 'all' | 'one';
-    return savedMode || 'off';
+    const savedMode = localStorage.getItem(KeySongStore.Repeat) as RepeatMode;
+    return savedMode || 'none';
   }
-  return 'off';
+  return 'none';
 };
 
 export const getInitialIsPlaylistOpen = () => {
   if (typeof window !== 'undefined') {
-    return localStorage.getItem('audio-player-playlistOpen') === 'true';
+    return localStorage.getItem(KeySongStore.PlaylistOpen) === 'true';
   }
   return false;
 };
@@ -34,7 +35,7 @@ export const getInitialIsPlaylistOpen = () => {
 export const getInitialRecentTracks = (): Song[] => {
   if (typeof window !== 'undefined') {
     try {
-      const savedTracks = localStorage.getItem('recentTracks');
+      const savedTracks = localStorage.getItem(KeySongStore.RecentTracks);
       return savedTracks ? JSON.parse(savedTracks) : [];
     } catch (error) {
       console.error('Error loading recent tracks from localStorage:', error);
@@ -47,7 +48,7 @@ export const getInitialRecentTracks = (): Song[] => {
 export const getInitialPlaylist = (): Song[] => {
   if (typeof window !== 'undefined') {
     try {
-      const saved = localStorage.getItem('audio-player-playlist');
+      const saved = localStorage.getItem(KeySongStore.CurrentPlaylist);
       return saved ? JSON.parse(saved) : [];
     } catch (error) {
       console.error('Error loading playlist from localStorage:', error);
@@ -58,7 +59,7 @@ export const getInitialPlaylist = (): Song[] => {
 
 export const getInitialCurrentTrackIndex = (): number => {
   if (typeof window !== 'undefined') {
-    const saved = localStorage.getItem('audio-player-currentTrackIndex');
+    const saved = localStorage.getItem(KeySongStore.CurrentTrackIndex);
     return saved ? parseInt(saved, 10) : 0;
   }
   return 0;
@@ -67,7 +68,7 @@ export const getInitialCurrentTrackIndex = (): number => {
 export const getInitialTrack = (): Song | null => {
   if (typeof window !== 'undefined') {
     try {
-      const saved = localStorage.getItem('audio-player-track');
+      const saved = localStorage.getItem(KeySongStore.CurrentTrack);
       return saved ? JSON.parse(saved) : null;
     } catch (error) {
       console.error('Error loading current track from localStorage:', error);
@@ -76,10 +77,17 @@ export const getInitialTrack = (): Song | null => {
   return null;
 };
 
+export const getInitialTrackIsLiked = () => {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem(KeySongStore.CurrentTrackIsLiked) === 'true';
+  }
+  return false;
+};
+
 // Function to save recent tracks to localStorage
 export const saveRecentTracks = (tracks: Song[]) => {
   try {
-    localStorage.setItem('recentTracks', JSON.stringify(tracks));
+    localStorage.setItem(KeySongStore.RecentTracks, JSON.stringify(tracks));
   } catch (error) {
     console.error('Error saving recent tracks to localStorage:', error);
   }

@@ -7,6 +7,7 @@ export * from './data-display/disp-dropdown';
 export * from './data-display/disp-empty';
 export * from './data-display/disp-hls-audio-player';
 export * from './data-display/disp-loading';
+export * from './data-display/disp-popover';
 export * from './data-display/disp-sheet';
 export * from './data-display/disp-table';
 export * from './data-display/disp-tabs';

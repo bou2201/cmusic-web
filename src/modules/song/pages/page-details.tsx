@@ -48,14 +48,14 @@ export function PageDetails({ id }: { id: string }) {
           <DispAvatar
             src={song?.artist?.avatar.url ?? ''}
             alt={song?.artist?.name ?? ''}
-            fallback={getShortName(song?.artist.name ?? '')}
+            fallback={getShortName(song?.artist?.name ?? '')}
             className="object-cover"
           />
           <Link
-            href={`${Routes.Artists}/${song?.artist.id}`}
+            href={`${Routes.Artists}/${song?.artist?.id}`}
             className="font-bold opacity-80 hover:underline"
           >
-            {song?.artist.name}
+            {song?.artist?.name}
           </Link>
           •<span className="font-semibold opacity-80">{formatDuration(song?.duration ?? 0)}</span>•
           <span className="font-semibold opacity-80">{formatNumber(song?.playCount ?? 0)}</span>

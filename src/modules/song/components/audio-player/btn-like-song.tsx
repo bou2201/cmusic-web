@@ -18,13 +18,13 @@ export const BtnLikeSong = memo(
     const [showParticles, setShowParticles] = useState<boolean>(false);
     const [openLogin, setOpenLogin] = useState<boolean>(false);
 
-    const { track, setTrack } = useSongStore((state) => state);
+    const { track, trackIsLiked, setTrackIsLiked } = useSongStore((state) => state);
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
     const queryClient = useQueryClient();
 
     const songDetails = queryClient.getQueryData<Song>(['song-details', songId]);
-    const isLiked = songDetails?.isLiked ?? false;
+    const isLiked = songDetails?.isLiked ?? trackIsLiked ?? false;
 
     const { mutate: executeToggle, isPending } = useMutation({
       mutationFn: () => songService.toggleLike(songId as string),
@@ -53,7 +53,7 @@ export const BtnLikeSong = memo(
           queryClient.setQueryData(['song-details', songId], context.previousData);
         }
         if (track?.id === songId && context?.previousData) {
-          setTrack({ ...track, isLiked: context.previousData.isLiked });
+          setTrackIsLiked(context.previousData.isLiked);
         }
       },
       onSuccess: (data) => {
@@ -63,10 +63,7 @@ export const BtnLikeSong = memo(
         }));
 
         if (track?.id === songId) {
-          setTrack({
-            ...track,
-            isLiked: data.isLiked,
-          });
+          setTrackIsLiked(data.isLiked);
         }
       },
       onSettled: () => {

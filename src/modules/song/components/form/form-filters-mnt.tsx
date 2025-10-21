@@ -3,29 +3,41 @@
 import { useForm } from 'react-hook-form';
 import { SongFilter } from '../../types';
 import { useSongStore } from '../../store';
-import { Form } from '@/components/ui';
-import { Combobox, InputText } from '@/components/common';
+import { Button, Form } from '@/components/ui';
+import { Combobox, DispPopover, InputCheckbox, InputText } from '@/components/common';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useFetchArtist } from '../../hooks';
+import { FilterIcon } from 'lucide-react';
 
-export function FormFiltersMnt() {
+type FormFiltersMntProps = {
+  setPage: (page: number) => void;
+};
+
+export function FormFiltersMnt({ setPage }: FormFiltersMntProps) {
+  const [openMoreFilter, setOpenMoreFilter] = useState<boolean>(false);
+
   const t = useTranslations<NextIntl.Namespace<'SongsPage.songMnt'>>('SongsPage.songMnt');
   const filters = useSongStore((state) => state.filters);
   const setFilters = useSongStore((state) => state.setFilters);
 
   const filtersForm = useForm<Omit<SongFilter, 'page' | 'limit'>>({
-    values: filters,
+    values: { ...filters, includeHidden: true },
   });
 
   useEffect(() => {
-    const subscription = filtersForm.watch((values) => {
-      setFilters(values);
+    const subscription = filtersForm.watch((values, { name }) => {
+      if (name === 'artistId' || name === 'isTrending' || name === 'includeHidden') {
+        setFilters(values);
+        setPage(1);
+      } else {
+        setFilters(values);
+      }
     });
 
     return () => subscription.unsubscribe();
-  }, [filtersForm, filtersForm.watch, setFilters]);
+  }, [filtersForm, filtersForm.watch, setFilters, setPage]);
 
   const { data: dataArtist, isLoading: isLoadingArtist } = useFetchArtist();
 
@@ -58,6 +70,29 @@ export function FormFiltersMnt() {
             optionValue="id"
             isLoading={isLoadingArtist}
           />
+
+          <DispPopover
+            open={openMoreFilter}
+            setOpen={setOpenMoreFilter}
+            trigger={
+              <Button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpenMoreFilter(!openMoreFilter);
+                }}
+                variant="ghost"
+                className="w-9 h-9"
+              >
+                <FilterIcon />
+              </Button>
+            }
+          >
+            <div className="space-y-4">
+              <InputCheckbox<SongFilter> name="isTrending" label={t('filters.isTrending')} />
+              <InputCheckbox<SongFilter> name="includeHidden" label={t('filters.isPublic')} />
+            </div>
+          </DispPopover>
         </div>
       </form>
     </Form>

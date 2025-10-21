@@ -15,12 +15,12 @@ export function BtnRepeat({ audioRef }: { audioRef: React.RefObject<HTMLAudioEle
 
   const toggleRepeat = () => {
     // Cycle through repeat modes: off -> all -> one -> off
-    if (repeatMode === 'off') {
+    if (repeatMode === 'none') {
       setRepeatMode('all');
     } else if (repeatMode === 'all') {
       setRepeatMode('one');
     } else {
-      setRepeatMode('off');
+      setRepeatMode('none');
     }
 
     // Set the audio loop attribute for 'one' mode
@@ -31,7 +31,7 @@ export function BtnRepeat({ audioRef }: { audioRef: React.RefObject<HTMLAudioEle
 
   const renderContent = () => {
     let tooltipContent = '';
-    if (repeatMode === 'off') {
+    if (repeatMode === 'none') {
       tooltipContent = t('turnOnRepeat');
     } else if (repeatMode === 'all') {
       tooltipContent = t('turnOnRepeatOne');
@@ -47,7 +47,7 @@ export function BtnRepeat({ audioRef }: { audioRef: React.RefObject<HTMLAudioEle
       <Button
         onClick={toggleRepeat}
         size="icon"
-        className={`rounded-full ${repeatMode !== 'off' ? 'text-primary-pink hover:text-primary-pink/70' : 'hover:text-primary/70'}`}
+        className={`rounded-full ${repeatMode !== 'none' ? 'text-primary-pink hover:text-primary-pink/70' : 'hover:text-primary/70'}`}
         variant="ghost"
       >
         {repeatMode === 'one' ? <Repeat1 /> : <Repeat />}

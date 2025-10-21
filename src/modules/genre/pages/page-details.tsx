@@ -2,18 +2,24 @@
 
 import { DispEmpty, SectionBanner, SectionSong } from '@/components/common';
 import { Song, songService } from '@/modules/song';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { Loader2Icon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { ApiReturnList } from '~types/common';
 import { NextIntl } from '~types/next-intl';
+import { genreService } from '../service';
 
 export function PageDetails({ id }: { id: string }) {
   const t = useTranslations<NextIntl.Namespace<'GenrePage.genre'>>('GenrePage.genre');
 
   const { ref, inView } = useInView();
+
+  const { data: genre } = useQuery({
+    queryKey: ['genre', id],
+    queryFn: () => genreService.getGenreById(id),
+  });
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error, isSuccess } =
     useInfiniteQuery({
@@ -34,7 +40,7 @@ export function PageDetails({ id }: { id: string }) {
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
-    <SectionBanner isViewAll={false} isCarousel={false} title={t('title')}>
+    <SectionBanner isViewAll={false} isCarousel={false} title={genre?.name ?? t('title')}>
       {isLoading ? (
         <div className="flex items-center justify-center py-10 gap-4">
           <Loader2Icon className="animate-spin w-14 h-14" />

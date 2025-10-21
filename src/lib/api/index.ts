@@ -3,6 +3,8 @@ import { getCookie, setCookie } from '../cookie';
 import { ApiReturn } from '~types/common';
 import { HttpStatusCode } from '@/constants/http-status-code';
 import { Routes } from '@/constants/routes';
+import { toast } from 'sonner';
+import { getTranslations } from 'next-intl/server';
 
 type RequestInterceptor = (config: RequestInit) => RequestInit | Promise<RequestInit>;
 type ResponseInterceptor<T = any> = (response: Response) => T | Promise<T>;
@@ -118,6 +120,14 @@ class CustomFetch {
       return data;
     } catch (error) {
       console.error('Fetch error:', error);
+
+      if ((error as any).status === HttpStatusCode.Unauthorized) {
+        const t = await getTranslations('Auth.alert');
+        toast.error(t('expired'));
+
+        useAuthStore.getState().clearAuth();
+        window.location.href = Routes.Discover;
+      }
       throw error;
     }
   }

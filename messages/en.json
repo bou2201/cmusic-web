@@ -60,7 +60,8 @@
       "logoutFailed": "Logout failed.",
       "systemError": "A system error occurred. Please try again later.",
       "resetPasswordSuccess": "Password reset successful.",
-      "resetPasswordFailed": "Password reset failed."
+      "resetPasswordFailed": "Password reset failed.",
+      "expired": "Session expired. Please log in again."
     }
   },
   "Navigation": {
@@ -302,6 +303,7 @@
         "album": "Album",
         "genre": "Genre",
         "isTrending": "Trending",
+        "isPublic": "Show Hidden Songs",
         "all": "All"
       },
       "createOrUpdate": {
@@ -323,7 +325,11 @@
         "cover": "Cover",
         "audio": "File Audio",
         "duration": "Duration",
-        "descAudio": "Please do not reload the page or exit the browser to avoid errors."
+        "descAudio": "Please do not reload the page or exit the browser to avoid errors.",
+        "trendingUpdateFailed": "Trending update failed.",
+        "hiddenUpdateFailed": "Hidden update failed.",
+        "trendingUpdateSuccess": "Trending update success.",
+        "hiddenUpdateSuccess": "Hidden update success."
       }
     }
   },

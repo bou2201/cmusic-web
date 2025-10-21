@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Song, SongFilter } from '../types';
+import { RepeatMode, Song, SongFilter } from '../types';
 import {
   addTrackToRecent,
   getInitialCurrentTrackIndex,
@@ -9,12 +9,15 @@ import {
   getInitialRepeatMode,
   getInitialShuffle,
   getInitialTrack,
+  getInitialTrackIsLiked,
   getInitialVolume,
 } from '../utils/function';
+import { KeySongStore } from '../constants/key-store';
 
 type SongState = {
   audioElement: HTMLAudioElement | null;
   track: Song | null;
+  trackIsLiked: boolean;
   playlist: Song[];
   currentTrackIndex: number;
   isLoading: boolean;
@@ -22,7 +25,7 @@ type SongState = {
   isPlaying: boolean;
   volume: number;
   isShuffle: boolean;
-  repeatMode: 'off' | 'all' | 'one';
+  repeatMode: RepeatMode;
   openPlayList: boolean;
   filters: Omit<SongFilter, 'page' | 'limit'>;
 };
@@ -32,6 +35,7 @@ type SongAction = {
   playAudio: () => void;
   pauseAudio: () => void;
   setTrack: (track: Song) => void;
+  setTrackIsLiked: (isLiked: boolean) => void;
   clearTrack: () => void;
   setPlaylist: (playlist: Song[], startIndex?: number) => void;
   addToPlaylist: (track: Song) => void;
@@ -44,7 +48,7 @@ type SongAction = {
   setIsPlaying: (isPlaying: boolean) => void;
   setVolume: (volume: number) => void;
   setIsShuffle: (isShuffle: boolean) => void;
-  setRepeatMode: (repeatMode: 'off' | 'all' | 'one') => void;
+  setRepeatMode: (repeatMode: RepeatMode) => void;
   setOpenPlayList: (openPlayList: boolean) => void;
   setFilters: (filters: Omit<SongFilter, 'page' | 'limit'>) => void;
 };
@@ -52,6 +56,7 @@ type SongAction = {
 const initialValues: SongState = {
   audioElement: null,
   track: getInitialTrack(),
+  trackIsLiked: getInitialTrackIsLiked(),
   playlist: getInitialPlaylist(),
   currentTrackIndex: getInitialCurrentTrackIndex(),
   isLoading: false,
@@ -79,12 +84,18 @@ export const useSongStore = create<SongState & SongAction>((set, get) => ({
 
     if (index !== -1) {
       // ✅ đã có trong playlist → nhảy tới bài đó
-      set({ currentTrackIndex: index, track });
+      set({ currentTrackIndex: index, track, trackIsLiked: track.isLiked ?? false });
     } else {
       // ❌ chưa có trong playlist → reset playlist
-      set({ track, playlist: [], currentTrackIndex: -1 });
+      set({ track, playlist: [], currentTrackIndex: -1, trackIsLiked: track.isLiked ?? false });
     }
   },
+  setTrackIsLiked: (isLiked: boolean) =>
+    set((state) => ({
+      trackIsLiked: isLiked,
+      track: state.track ? { ...state.track, isLiked } : state.track,
+    })),
+
   clearTrack: () => set(initialValues),
   setPlaylist: (playlist: Song[], startIndex = 0) => {
     if (playlist.length === 0) return;
@@ -94,6 +105,7 @@ export const useSongStore = create<SongState & SongAction>((set, get) => ({
       playlist,
       currentTrackIndex: validIndex,
       track: playlist[validIndex],
+      trackIsLiked: playlist[validIndex]?.isLiked ?? false,
     });
   },
   addToPlaylist: (track: Song) => {
@@ -107,6 +119,7 @@ export const useSongStore = create<SongState & SongAction>((set, get) => ({
         playlist: [track],
         track,
         currentTrackIndex: 0,
+        trackIsLiked: track.isLiked ?? false,
       });
       return;
     }
@@ -157,6 +170,7 @@ export const useSongStore = create<SongState & SongAction>((set, get) => ({
         playlist: [track],
         track,
         currentTrackIndex: 0,
+        trackIsLiked: track.isLiked ?? false,
       });
       return;
     }
@@ -195,12 +209,11 @@ export const useSongStore = create<SongState & SongAction>((set, get) => ({
       nextIndex = specificIndex;
     } else {
       nextIndex = currentTrackIndex + 1;
-      // If we're at the end and repeat all is on, go back to the beginning
       if (nextIndex >= playlist.length) {
         if (repeatMode === 'all') {
           nextIndex = 0;
         } else {
-          return; // End of playlist with no repeat
+          return;
         }
       }
     }
@@ -208,6 +221,7 @@ export const useSongStore = create<SongState & SongAction>((set, get) => ({
     set({
       currentTrackIndex: nextIndex,
       track: playlist[nextIndex],
+      trackIsLiked: playlist[nextIndex]?.isLiked ?? false,
     });
   },
   previousTrack: () => {
@@ -216,7 +230,6 @@ export const useSongStore = create<SongState & SongAction>((set, get) => ({
     if (!playlist || playlist.length === 0) return;
 
     let prevIndex = currentTrackIndex - 1;
-    // If we're at the beginning, go to the end
     if (prevIndex < 0) {
       prevIndex = playlist.length - 1;
     }
@@ -224,6 +237,7 @@ export const useSongStore = create<SongState & SongAction>((set, get) => ({
     set({
       currentTrackIndex: prevIndex,
       track: playlist[prevIndex],
+      trackIsLiked: playlist[prevIndex]?.isLiked ?? false,
     });
   },
   addToRecentTracks: (track: Song) => {
@@ -241,9 +255,9 @@ export const useSongStore = create<SongState & SongAction>((set, get) => ({
   setIsPlaying: (isPlaying: boolean) => set({ isPlaying }),
   setVolume: (volume: number) => set({ volume }),
   setIsShuffle: (isShuffle: boolean) => set({ isShuffle }),
-  setRepeatMode: (repeatMode: 'off' | 'all' | 'one') => set({ repeatMode }),
+  setRepeatMode: (repeatMode: RepeatMode) => set({ repeatMode }),
   setOpenPlayList: (openPlayList: boolean) => {
-    localStorage.setItem('audio-player-playlistOpen', openPlayList.toString());
+    localStorage.setItem(KeySongStore.PlaylistOpen, openPlayList.toString());
     set({ openPlayList });
   },
   setFilters: (filters: Omit<SongFilter, 'page' | 'limit'>) => set({ filters }),

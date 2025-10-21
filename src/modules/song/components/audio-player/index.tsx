@@ -8,6 +8,7 @@ import { AudioPlayerMobile } from './audio-player-mobile';
 import { AudioPlayerDesktop } from './audio-player-desktop';
 import { songService } from '../../service';
 import { Song } from '../../types';
+import { KeySongStore } from '../../constants/key-store';
 
 export function AudioPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -46,15 +47,19 @@ export function AudioPlayer() {
   // ✅ Save player settings and state
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('audio-player-volume', volume.toString());
-      localStorage.setItem('audio-player-shuffle', isShuffle.toString());
-      localStorage.setItem('audio-player-repeat', repeatMode);
+      localStorage.setItem(KeySongStore.Volume, volume.toString());
+      localStorage.setItem(KeySongStore.Shuffle, isShuffle.toString());
+      localStorage.setItem(KeySongStore.Repeat, repeatMode);
       if (track) {
-        localStorage.setItem('audio-player-track', JSON.stringify(track));
+        localStorage.setItem(KeySongStore.CurrentTrack, JSON.stringify(track));
+        localStorage.setItem(
+          KeySongStore.CurrentTrackIsLiked,
+          track?.isLiked?.toString() ?? 'false',
+        );
       }
       if (playlist.length > 0) {
-        localStorage.setItem('audio-player-playlist', JSON.stringify(playlist));
-        localStorage.setItem('audio-player-currentTrackIndex', currentTrackIndex.toString());
+        localStorage.setItem(KeySongStore.CurrentPlaylist, JSON.stringify(playlist));
+        localStorage.setItem(KeySongStore.CurrentTrackIndex, currentTrackIndex.toString());
       }
     }
   }, [volume, isShuffle, repeatMode, track, playlist, currentTrackIndex]);
@@ -63,9 +68,9 @@ export function AudioPlayer() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       try {
-        const savedTrack = localStorage.getItem('audio-player-track');
-        const savedPlaylist = localStorage.getItem('audio-player-playlist');
-        const savedIndex = localStorage.getItem('audio-player-currentTrackIndex');
+        const savedTrack = localStorage.getItem(KeySongStore.CurrentTrack);
+        const savedPlaylist = localStorage.getItem(KeySongStore.CurrentPlaylist);
+        const savedIndex = localStorage.getItem(KeySongStore.CurrentTrackIndex);
 
         if (savedPlaylist) {
           const parsedPlaylist: Song[] = JSON.parse(savedPlaylist);
@@ -104,7 +109,7 @@ export function AudioPlayer() {
     const audio = audioRef.current;
     if (!audio || !track) return;
 
-    setAudioElement(audio); // <-- Gắn ref vào store
+    setAudioElement(audio);
 
     audio.volume = volume;
     audio.loop = repeatMode === 'one';

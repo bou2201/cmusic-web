@@ -91,8 +91,6 @@ function UserButton() {
     ];
   };
 
-  console.log(user)
-
   return (
     <>
       <DispDropdown

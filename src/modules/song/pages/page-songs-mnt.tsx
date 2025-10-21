@@ -9,16 +9,16 @@ import { Song } from '../types';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { formatDuration } from '@/utiils/function';
-import { ViewRedirectArtist } from '@/modules/artist';
 import Image from 'next/image';
 import { formatNumber } from '../utils/function';
-import { Button, LoadingSwitch, Switch } from '@/components/ui';
+import { Button, LoadingSwitch } from '@/components/ui';
 import { EllipsisIcon } from 'lucide-react';
 import { useSongStore } from '../store';
 import { FormFiltersMnt } from '../components';
 import { Link, useRouter } from '@/i18n/navigation';
 import { Routes } from '@/constants/routes';
 import { IMAGE_PLACEHOLDER } from '@/constants/link';
+import { toast } from 'sonner';
 
 export function PageSongsMnt() {
   const [page, setPage] = useState<number>(1);
@@ -35,7 +35,7 @@ export function PageSongsMnt() {
     isFetching,
   } = useQuery({
     queryKey: ['songs-mnt', page, limit, filters],
-    queryFn: () => songService.getListSong({ includeHidden: true, page, limit, ...filters }),
+    queryFn: () => songService.getListSong({ page, limit, ...filters }),
     placeholderData: keepPreviousData,
   });
 
@@ -85,7 +85,10 @@ export function PageSongsMnt() {
 
           return (
             <div className="line-clamp-2 whitespace-break-spaces">
-              <ViewRedirectArtist artist={artist} artists={artists} admin />
+              <span className="font-medium text-sm text-zinc-400">
+                {artist.name}
+                {artists.length > 1 && ` (${[...artists.map((art) => art.name)].join(', ')})`}
+              </span>
             </div>
           );
         },
@@ -139,9 +142,11 @@ export function PageSongsMnt() {
                   });
 
                   await songService.togglePublic(row.original.id);
+                  toast.success(t('createOrUpdate.hiddenUpdateSuccess'));
                 } catch (error) {
                   // Revert if failed
                   queryClient.invalidateQueries({ queryKey: ['songs-mnt'] });
+                  toast.error(t('createOrUpdate.hiddenUpdateFailed'));
                 }
               }}
             />
@@ -175,9 +180,11 @@ export function PageSongsMnt() {
                   });
 
                   await songService.toggleTrending(row.original.id);
+                  toast.success(t('createOrUpdate.trendingUpdateSuccess'));
                 } catch (error) {
                   // Revert if failed
                   queryClient.invalidateQueries({ queryKey: ['songs-mnt'] });
+                  toast.error(t('createOrUpdate.trendingUpdateFailed'));
                 }
               }}
             />
@@ -198,10 +205,10 @@ export function PageSongsMnt() {
                     router.push(Routes.AdminSongs + '/update?id=' + row.original.id);
                   },
                 },
-                {
-                  key: 'action-edit-public',
-                  label: row.original.isPublic ? t('action.hidden') : t('action.unHidden'),
-                },
+                // {
+                //   key: 'action-edit-public',
+                //   label: row.original.isPublic ? t('action.hidden') : t('action.unHidden'),
+                // },
               ]}
               modal={false}
             >
@@ -226,7 +233,7 @@ export function PageSongsMnt() {
         router.push(Routes.AdminSongs + '/create');
       }}
     >
-      <FormFiltersMnt />
+      <FormFiltersMnt setPage={setPage} />
       <DispTable
         columns={columns}
         data={dataSongs?.data ?? []}

@@ -5,7 +5,7 @@ export type User = {
   id: string;
   email: string;
   name: string;
-  password?: string;
+  // password?: string;
   avatar: Image;
   artistApproved: boolean;
   artistRequest: boolean;

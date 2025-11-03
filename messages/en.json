@@ -100,7 +100,8 @@
         "songPage": "Songs Management",
         "artistPage": "Artists Management",
         "albumPage": "Albums Management",
-        "genrePage": "Genre Management"
+        "genrePage": "Genre Management",
+        "userPage": "Users Management"
       }
     }
   },
@@ -350,6 +351,21 @@
     },
     "details": {
       "tracks": "Tracks"
+    }
+  },
+  "UserPage": {
+    "metadata": {
+      "title": "User Management"
+    },
+    "userMnt": {
+      "table": {
+        "id": "ID",
+        "username": "Username",
+        "email": "Email",
+        "role": "Role",
+        "createdAt": "Created At",
+        "updatedAt": "Updated At"
+      }
     }
   },
   "Validation": {

@@ -100,7 +100,8 @@
         "songPage": "Quản lý bài hát",
         "artistPage": "Quản lý ca sĩ",
         "albumPage": "Quản lý album",
-        "genrePage": "Quản lý thể loại"
+        "genrePage": "Quản lý thể loại",
+        "userPage": "Quản lý người dùng"
       }
     }
   },
@@ -350,6 +351,21 @@
     },
     "details": {
       "tracks": "Bản nhạc"
+    }
+  },
+  "UserPage": {
+    "metadata": {
+      "title": "Quản lý người dùng"
+    },
+    "userMnt": {
+      "table": {
+        "id": "ID",
+        "username": "Tên người dùng",
+        "email": "Email",
+        "role": "Vai trò",
+        "createdAt": "Ngày tạo",
+        "updatedAt": "Ngày cập nhật"
+      }
     }
   },
   "Validation": {

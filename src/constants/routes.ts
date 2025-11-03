@@ -13,4 +13,5 @@ export enum Routes {
   AdminArtists = '/admin/artists',
   AdminAlbums = '/admin/albums',
   AdminGenres = '/admin/genres',
+  AdminUsers = '/admin/users',
 }

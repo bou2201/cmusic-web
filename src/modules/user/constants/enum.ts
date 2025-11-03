@@ -3,3 +3,8 @@ export enum Role {
   Artist = 'ARTIST',
   Admin = 'ADMIN',
 }
+
+export enum UserStatus {
+  Active = 'ACTIVE',
+  Blocked = 'BLOCKED',
+}

@@ -12,7 +12,7 @@ import { DispDropdown, DispTable, SectionMnt } from '@/components/common';
 import { Badge, Button } from '@/components/ui';
 import { EllipsisIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { FormFiltersMnt } from '../components';
+import { FormBlockUser, FormFiltersMnt } from '../components';
 import { useAuthStore } from '@/modules/auth';
 
 export function PageUsersMnt() {
@@ -125,30 +125,26 @@ export function PageUsersMnt() {
 
   return (
     <>
-    <SectionMnt title={t('metadata.title')}>
-      <FormFiltersMnt setPage={setPage} />
-      <DispTable
-        columns={columns}
-        data={dataUsers?.data ?? []}
-        isLoading={isLoading || isFetching}
-        pagination={{
-          limit,
-          page,
-          setLimit,
-          setPage,
-          total: dataUsers?.meta.total ?? 0,
-          totalPages: dataUsers?.meta.totalPages ?? 0,
-        }}
-      />
-    </SectionMnt>
-    
-        {openBlock && (
-          <ModalBlockUser
-            isOpen={openBlock}
-            onClose={() => setOpenBlock(false)}
-            user={currentUser}
-          />
-        )}
+      <SectionMnt title={t('metadata.title')}>
+        <FormFiltersMnt setPage={setPage} />
+        <DispTable
+          columns={columns}
+          data={dataUsers?.data ?? []}
+          isLoading={isLoading || isFetching}
+          pagination={{
+            limit,
+            page,
+            setLimit,
+            setPage,
+            total: dataUsers?.meta.total ?? 0,
+            totalPages: dataUsers?.meta.totalPages ?? 0,
+          }}
+        />
+      </SectionMnt>
+
+      {openBlock && (
+        <FormBlockUser open={openBlock} setOpen={setOpenBlock} user={currentUser as User} />
+      )}
     </>
   );
 }

@@ -99,6 +99,7 @@ export function FormCouMnt({ open, setOpen, album, setAlbum }: FormCouMntProps) 
       }}
       title={album ? t('update') : t('add')}
       className="sm:max-w-3xl"
+      modal={false}
     >
       <Form {...form}>
         <form

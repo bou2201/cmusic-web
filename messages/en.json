@@ -363,8 +363,21 @@
         "username": "Username",
         "email": "Email",
         "role": "Role",
+        "status": "Status",
+        "isBlocked": "Is Blocked",
+        "active": "Active",
         "createdAt": "Created At",
         "updatedAt": "Updated At"
+      },
+      "action": {
+        "block": "Block user",
+        "unblock": "Unblock user"
+      },
+      "filters": {
+        "search": "Search by username, email",
+        "role": "Role",
+        "isBlocked": "Is Blocked",
+        "all": "All"
       }
     }
   },

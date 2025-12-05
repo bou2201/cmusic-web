@@ -19,12 +19,13 @@ export const BtnLikeSong = memo(
     const [openLogin, setOpenLogin] = useState<boolean>(false);
 
     const { track, trackIsLiked, setTrackIsLiked } = useSongStore((state) => state);
+    const { user } = useAuthStore((state) => state);
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
     const queryClient = useQueryClient();
 
     const songDetails = queryClient.getQueryData<Song>(['song-details', songId]);
-    const isLiked = songDetails?.isLiked ?? trackIsLiked ?? false;
+    const isLiked = user ? (songDetails?.isLiked ?? trackIsLiked ?? false) : false;
 
     const { mutate: executeToggle, isPending } = useMutation({
       mutationFn: () => songService.toggleLike(songId as string),

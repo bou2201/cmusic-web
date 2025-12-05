@@ -363,8 +363,21 @@
         "username": "Tên người dùng",
         "email": "Email",
         "role": "Vai trò",
+        "status": "Trạng thái",
+        "isBlocked": "Bị chặn",
+        "active": "Hoạt động",
         "createdAt": "Ngày tạo",
         "updatedAt": "Ngày cập nhật"
+      },
+      "action": {
+        "block": "Chặn người dùng",
+        "unblock": "Bỏ chặn người dùng"
+      },
+      "filters": {
+        "search": "Tìm kiếm theo tên người dùng, email",
+        "role": "Vai trò",
+        "isBlocked": "Trạng thái bị chặn",
+        "all": "Tất cả"
       }
     }
   },

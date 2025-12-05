@@ -118,18 +118,17 @@ export function TablePopularTrack({
             <div className="flex flex-col items-start truncate">
               <Link
                 href={`${Routes.Songs}/${row.original.id}`}
-                className={cn(
-                  'font-semibold hover:underline',
-                  isRowPlaying && 'text-primary-pink',
-                )}
+                className={cn('font-semibold hover:underline', isRowPlaying && 'text-primary-pink')}
                 title={row.original.title}
               >
                 {row.original.title}
               </Link>
 
-              {showArtistRedirect && (
-                <ViewRedirectArtist artist={row.original.artist} artists={row.original.artists} />
-              )}
+              <div>
+                {showArtistRedirect && (
+                  <ViewRedirectArtist artist={row.original.artist} artists={row.original.artists} />
+                )}
+              </div>
             </div>
           </div>
         );

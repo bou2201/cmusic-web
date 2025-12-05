@@ -8,14 +8,22 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { userService } from '../service';
 import { User } from '../types';
-import { DispTable, SectionMnt } from '@/components/common';
+import { DispDropdown, DispTable, SectionMnt } from '@/components/common';
+import { Badge, Button } from '@/components/ui';
+import { EllipsisIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { FormFiltersMnt } from '../components';
+import { useAuthStore } from '@/modules/auth';
 
 export function PageUsersMnt() {
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
+  const [openBlock, setOpenBlock] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
 
   const t = useTranslations<NextIntl.Namespace<'UserPage'>>('UserPage');
   const filters = useUserStore((state) => state.filters);
+  const { user } = useAuthStore((state) => state);
 
   const {
     data: dataUsers,
@@ -36,7 +44,7 @@ export function PageUsersMnt() {
         cell: ({ row }) => {
           return (
             <span
-              className="font-semibold truncate line-clamp-1 hover:underline"
+              className="font-semibold truncate line-clamp-1 hover:underline py-2"
               title={row.original.name}
             >
               {row.original.name}
@@ -55,22 +63,70 @@ export function PageUsersMnt() {
         size: 100,
         cell: ({ row }) => {
           return (
-            <span
-              className="font-semibold text-muted-foreground"
-              title={row.original.role}
-            >
+            <span className="font-semibold text-muted-foreground" title={row.original.role}>
               {row.original.role}
             </span>
           );
         },
-      }
+      },
+      {
+        accessorKey: 'status',
+        header: t('userMnt.table.status'),
+        size: 100,
+        cell: ({ row }) => {
+          const isBlocked = row.original.isBlocked;
+          return (
+            <Badge
+              variant={isBlocked ? 'destructive' : 'outline'}
+              className={cn('font-bold', !isBlocked && 'text-chart-2')}
+            >
+              <span
+                className={cn('size-1.5 rounded-full', isBlocked ? 'bg-primary' : 'bg-chart-2')}
+                aria-hidden="true"
+              />
+              {isBlocked ? t('userMnt.table.isBlocked') : t('userMnt.table.active')}
+            </Badge>
+          );
+        },
+      },
+      {
+        id: 'action',
+        size: 60,
+        cell: ({ row }) => {
+          const id = row.original.id;
+          const isBlocked = row.original.isBlocked;
+
+          return user?.id === id ? null : (
+            <DispDropdown
+              menu={[
+                {
+                  key: isBlocked ? 'action-unblock' : 'action-block',
+                  label: isBlocked ? t('userMnt.action.unblock') : t('userMnt.action.block'),
+                  onClick: () => {
+                    setCurrentUser(row.original);
+                    setOpenBlock(true);
+                  },
+                },
+              ]}
+              modal={false}
+            >
+              <div className="flex justify-center text-center">
+                <Button size="icon" variant="ghost">
+                  <EllipsisIcon />
+                </Button>
+              </div>
+            </DispDropdown>
+          );
+        },
+      },
     ],
     [t],
   );
 
   return (
+    <>
     <SectionMnt title={t('metadata.title')}>
-      {/* <FormFiltersMnt /> */}
+      <FormFiltersMnt setPage={setPage} />
       <DispTable
         columns={columns}
         data={dataUsers?.data ?? []}
@@ -85,5 +141,14 @@ export function PageUsersMnt() {
         }}
       />
     </SectionMnt>
+    
+        {openBlock && (
+          <ModalBlockUser
+            isOpen={openBlock}
+            onClose={() => setOpenBlock(false)}
+            user={currentUser}
+          />
+        )}
+    </>
   );
 }

@@ -378,6 +378,14 @@
         "role": "Role",
         "isBlocked": "Is Blocked",
         "all": "All"
+      },
+      "changeStatus": {
+        "description": "Description",
+        "submit": "Submit",
+        "blockSuccess": "Block user successfully.",
+        "unblockSuccess": "Unblock user successfully.",
+        "blockFailed": "Block user failed.",
+        "unblockFailed": "Unblock user failed."
       }
     }
   },

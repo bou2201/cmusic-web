@@ -12,7 +12,7 @@ import { DispDropdown, DispTable, SectionMnt } from '@/components/common';
 import { Badge, Button } from '@/components/ui';
 import { EllipsisIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { FormBlockUser, FormFiltersMnt } from '../components';
+import { FormChangeStatus, FormFiltersMnt } from '../components';
 import { useAuthStore } from '@/modules/auth';
 
 export function PageUsersMnt() {
@@ -120,7 +120,7 @@ export function PageUsersMnt() {
         },
       },
     ],
-    [t],
+    [t, user?.id],
   );
 
   return (
@@ -143,7 +143,7 @@ export function PageUsersMnt() {
       </SectionMnt>
 
       {openBlock && (
-        <FormBlockUser open={openBlock} setOpen={setOpenBlock} user={currentUser as User} />
+        <FormChangeStatus open={openBlock} setOpen={setOpenBlock} user={currentUser as User} />
       )}
     </>
   );

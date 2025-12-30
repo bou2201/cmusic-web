@@ -144,7 +144,7 @@ export function PageGenresMnt() {
         },
       },
     ],
-    [queryClient, t],
+    [filters, limit, page, queryClient, t],
   );
 
   return (

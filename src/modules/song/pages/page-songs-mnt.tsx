@@ -222,7 +222,7 @@ export function PageSongsMnt() {
         },
       },
     ],
-    [queryClient, router, t],
+    [filters, limit, page, queryClient, router, t],
   );
 
   return (

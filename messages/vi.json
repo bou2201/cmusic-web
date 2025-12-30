@@ -378,6 +378,14 @@
         "role": "Vai trò",
         "isBlocked": "Trạng thái bị chặn",
         "all": "Tất cả"
+      },
+      "changeStatus": {
+        "description": "Lý do",
+        "submit": "Lưu",
+        "blockSuccess": "Chặn người dùng thành công.",
+        "unblockSuccess": "Bỏ chặn người dùng thành công.",
+        "blockFailed": "Chặn người dùng thất bại.",
+        "unblockFailed": "Bỏ chặn người dùng thất bại."
       }
     }
   },
@@ -448,7 +456,7 @@
       "copyLinkSuccess": "Link đã được sao chép vào clipboard",
       "playOnNext": "Phát tiếp theo",
       "addToPlaylist": "Thêm vào danh sách phát",
-      "addToUserPlaylist": "Thêm vào playlist",
+      "addToUserPlaylist": "Thêm vào danh sách phát cá nhân",
       "goToArtist": "Đi đến ca sĩ",
       "download": "Tải xuống nhạc"
     },

@@ -11,7 +11,7 @@ import { albumService } from '../service';
 import Image from 'next/image';
 import { IMAGE_PLACEHOLDER } from '@/constants/link';
 import { DispDropdown, DispTable, SectionMnt } from '@/components/common';
-import { FormCouMnt, FormFiltersMnt } from '../components';
+import { FormCouMnt, FormFiltersMnt, FormAlertDelete } from '../components';
 import { Button, LoadingSwitch } from '@/components/ui';
 import { EllipsisIcon } from 'lucide-react';
 
@@ -19,6 +19,7 @@ export function PageAlbumsMnt() {
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
   const [openCou, setOpenCou] = useState<boolean>(false);
+  const [openDelete, setOpenDelete] = useState<string | undefined>(undefined);
   const [currentAlbum, setCurrentAlbum] = useState<Album | undefined>(undefined);
 
   const t = useTranslations<NextIntl.Namespace<'AlbumsPage.albumMnt'>>('AlbumsPage.albumMnt');
@@ -42,7 +43,6 @@ export function PageAlbumsMnt() {
         header: t('table.name'),
         size: 150,
         cell: ({ row }) => {
-          console.log(row.original);
           return (
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 shrink-0">
@@ -90,27 +90,6 @@ export function PageAlbumsMnt() {
           );
         },
       },
-      // {
-      //   accessorKey: 'isFeatured',
-      //   header: t('table.featured'),
-      //   size: 60,
-      //   meta: {
-      //     style: {
-      //       textAlign: 'center',
-      //     },
-      //   },
-      //   cell: ({ row }) => {
-      //     return (
-      //       <LoadingSwitch
-      //         checked={row.original.isFeatured}
-      //         onCheckedChange={async () => {
-      //           await albumService.toggleAlbumFeatured(row.original.id);
-      //           queryClient.invalidateQueries({ queryKey: ['albums-mnt'] });
-      //         }}
-      //       />
-      //     );
-      //   },
-      // },
       {
         id: 'action',
         size: 60,
@@ -124,6 +103,13 @@ export function PageAlbumsMnt() {
                   onClick: () => {
                     setOpenCou(true);
                     setCurrentAlbum(row.original);
+                  },
+                },
+                {
+                  key: 'action-delete',
+                  label: t('action.delete'),
+                  onClick: () => {
+                    setOpenDelete(row.original.id);
                   },
                 },
               ]}
@@ -173,6 +159,17 @@ export function PageAlbumsMnt() {
           setOpen={setOpenCou}
           album={currentAlbum}
           setAlbum={setCurrentAlbum}
+        />
+      ) : null}
+
+      {openDelete ? (
+        <FormAlertDelete
+          open={Boolean(openDelete)}
+          setOpen={(value: boolean | ((prev: boolean) => boolean)) => {
+            const next = typeof value === 'function' ? value(Boolean(openDelete)) : value;
+            if (!next) setOpenDelete(undefined);
+          }}
+          id={openDelete}
         />
       ) : null}
     </>

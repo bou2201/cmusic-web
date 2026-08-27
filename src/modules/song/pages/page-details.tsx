@@ -5,8 +5,16 @@ import { songService } from '../service';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
-import { Button } from '@/components/ui';
-import { DispAvatar, DispLoading, DispSheet, SectionDetails } from '@/components/common';
+import { Button, CarouselItem } from '@/components/ui';
+import {
+  DispAvatar,
+  DispLoading,
+  DispSheet,
+  SectionBanner,
+  SectionDetails,
+  SectionSong,
+  SectionSongSkeleton,
+} from '@/components/common';
 import { formatNumber, getShortName, processLyricsWithViewMore } from '../utils/function';
 import { Link, useRouter } from '@/i18n/navigation';
 import { Routes } from '@/constants/routes';
@@ -29,6 +37,11 @@ export function PageDetails({ id }: { id: string }) {
   const { data: song, isLoading } = useQuery({
     queryKey: ['song-details', id],
     queryFn: () => songService.getSongById(id),
+  });
+
+  const { data: relatedSongs, isLoading: relatedSongsLoading } = useQuery({
+    queryKey: ['song-details', 'related', 10],
+    queryFn: () => songService.getListSong({ page: 1, limit: 10, isTrending: true }),
   });
 
   const { html: lyricsHtml, hasMoreLines } = processLyricsWithViewMore(
@@ -157,6 +170,22 @@ export function PageDetails({ id }: { id: string }) {
           ))}
         </div>
       </div>
+
+      {relatedSongs?.data && relatedSongs?.data?.length > 0 ? (
+        <SectionBanner title={t('related')} isViewAll={false}>
+          {relatedSongsLoading ? (
+            <SectionSongSkeleton quantity={4} />
+          ) : (
+            relatedSongs?.data?.map((song) =>
+              id === song.id ? null : (
+                <CarouselItem className="basis-44 md:basis-52 lg:basis-56" key={song.id}>
+                  <SectionSong song={song} size="large" />
+                </CarouselItem>
+              ),
+            )
+          )}
+        </SectionBanner>
+      ) : null}
     </SectionDetails>
   );
 }

@@ -13,7 +13,7 @@ import {
   ListMusicIcon,
   MusicIcon,
   PanelLeftDashedIcon,
-  User2Icon,
+  // User2Icon,
   UserRoundCheckIcon,
 } from 'lucide-react';
 import { NextIntl } from '~types/next-intl';
@@ -159,12 +159,12 @@ export function NavigationDashboard(): NavigationType[] {
           url: Routes.AdminGenres,
           icon: <ChartBarStackedIcon />,
         },
-        {
-          key: 'admin-users',
-          title: t('admin.items.userPage'),
-          url: Routes.AdminUsers,
-          icon: <User2Icon />,
-        },
+        // {
+        //   key: 'admin-users',
+        //   title: t('admin.items.userPage'),
+        //   url: Routes.AdminUsers,
+        //   icon: <User2Icon />,
+        // },
       ],
     },
   ];

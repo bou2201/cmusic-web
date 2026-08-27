@@ -68,7 +68,7 @@
     "home": "Home",
     "language": {
       "key": "en",
-      "keyChange": "vi",
+      "keyChange": "zh",
       "label": "English"
     },
     "library": {
@@ -130,7 +130,8 @@
       },
       "action": {
         "create": "Add new",
-        "edit": "Edit"
+        "edit": "Edit",
+        "delete": "Delete"
       },
       "createOrUpdate": {
         "save": "Save",
@@ -151,6 +152,12 @@
         "description": "Description",
         "featured": "Featured",
         "isPublic": "Public"
+      },
+      "delete": {
+        "titleDelete": "Delete album",
+        "confirmDelete": "Are you sure about to delete this ablum",
+        "successDelete": "Deleted album sucessful",
+        "failureDelete": "Deleted album failed"
       }
     }
   },
@@ -277,7 +284,8 @@
       "title": "Track",
       "lyrics": "Lyric",
       "showLess": "Show less",
-      "showMore": "View more"
+      "showMore": "View more",
+      "related": "Related Songs"
     },
     "songMnt": {
       "title": "Songs Management",

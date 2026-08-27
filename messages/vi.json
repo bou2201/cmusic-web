@@ -130,7 +130,8 @@
       },
       "action": {
         "create": "Thêm mới",
-        "edit": "Sửa"
+        "edit": "Sửa",
+        "delete": "Xóa"
       },
       "createOrUpdate": {
         "save": "Lưu",
@@ -151,6 +152,12 @@
         "description": "Mô tả",
         "featured": "Nổi bật",
         "isPublic": "Public"
+      },
+      "delete": {
+        "titleDelete": "Xóa ablum",
+        "confirmDelete": "Bạn có chắc chắn muốn xóa album này?",
+        "successDelete": "Xóa album thành công.",
+        "failureDelete": "Xóa album thất bại."
       }
     }
   },
@@ -277,7 +284,8 @@
       "title": "Bài hát",
       "lyrics": "Lời bài hát",
       "showLess": "Hiển thị ít hơn",
-      "showMore": "Xem thêm"
+      "showMore": "Xem thêm",
+      "related": "Bài hát liên quan"
     },
     "songMnt": {
       "title": "Quản lý bài hát",

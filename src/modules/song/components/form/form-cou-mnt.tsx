@@ -22,6 +22,7 @@ import { Song, useSongCouMntSchema, UseSongCouMntSchemaType } from '../../types'
 import { useRouter } from '@/i18n/navigation';
 import { toast } from 'sonner';
 import { Routes } from '@/constants/routes';
+import { albumService } from '@/modules/album';
 
 export function FormCouMnt({ id }: { id?: string }) {
   const t = useTranslations<NextIntl.Namespace<'SongsPage.songMnt.createOrUpdate'>>(
@@ -37,6 +38,13 @@ export function FormCouMnt({ id }: { id?: string }) {
     queryKey: ['songs-mnt', id],
     queryFn: () => songService.getSongById(id!),
     enabled: !!id,
+  });
+  const { data: dataAlbum, isLoading: isLoadingAlbum } = useQuery({
+    queryKey: ['albums-mnt', dataDetails?.artist.id],
+    queryFn: () =>
+      dataDetails?.artist.id
+        ? albumService.getListAlbum({ page: 1, limit: 100, artistId: dataDetails?.artist.id })
+        : Promise.resolve(undefined),
   });
 
   const form = useForm<UseSongCouMntSchemaType>({
@@ -170,7 +178,10 @@ export function FormCouMnt({ id }: { id?: string }) {
                   name="albumId"
                   label={t('album')}
                   className="col-span-2"
-                  options={[]}
+                  options={dataAlbum?.data ?? []}
+                  optionLabel="title"
+                  optionValue="id"
+                  isLoading={isLoadingAlbum}
                   placeholder={t('album')}
                 />
 

@@ -1,6 +1,8 @@
 'use client';
 
-import { Link, usePathname } from '@/i18n/navigation';
+import { Link, usePathname, useRouter } from '@/i18n/navigation';
+import { Locale, routing } from '@/i18n/routing';
+import { DispDropdown, DispDropdownMenuProps } from '@/components/common';
 import {
   Sidebar,
   SidebarContent,
@@ -18,12 +20,13 @@ import {
 import Image from 'next/image';
 import { NavigationDashboard, NavigationType, NavigationWeb } from './layout-constants';
 import { Routes } from '@/constants/routes';
-import { GlobeIcon, PlusIcon } from 'lucide-react';
+import { CheckIcon, GlobeIcon, PlusIcon } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { NextIntl } from '~types/next-intl';
 import { AudioPlayer, useSongStore } from '@/modules/song';
 import { AuthLogin, useAuthStore } from '@/modules/auth';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Role } from '@/modules/user';
 import { FormCouPlaylist, ViewPlaylistSidebar } from '@/modules/playlist';
 
@@ -156,20 +159,42 @@ function LayoutSidebarContent() {
   );
 }
 
+const LANGUAGE_LABELS: Record<Locale, string> = {
+  en: 'English',
+  vi: 'Tiếng Việt',
+  zh: '中文',
+};
+
 function LayoutSidebarFooter() {
   const t = useTranslations<NextIntl.Namespace<'Navigation'>>('Navigation');
   const pathname = usePathname();
+  const router = useRouter();
+  const { locale } = useParams<{ locale: Locale }>();
+
+  const languageMenu = useMemo<DispDropdownMenuProps[]>(
+    () =>
+      routing.locales.map((loc) => ({
+        key: `language-${loc}`,
+        label: LANGUAGE_LABELS[loc],
+        shortcut: loc === locale ? <CheckIcon /> : null,
+        disabled: loc === locale,
+        onClick: () => {
+          router.replace(pathname, { locale: loc });
+        },
+      })),
+    [locale, pathname, router],
+  );
 
   return (
     <SidebarFooter>
       <SidebarMenu>
         <SidebarMenuItem className="flex justify-center">
-          <SidebarMenuButton asChild className="h-auto py-2.5" tooltip={t('language.label')}>
-            <Link href={pathname} locale={t('language.keyChange')}>
+          <DispDropdown menu={languageMenu} side="top" align="start" className="w-(--radix-popper-anchor-width)">
+            <SidebarMenuButton className="h-auto py-2.5" tooltip={t('language.label')}>
               <GlobeIcon />
-              <span>{t('language.label')}</span>
-            </Link>
-          </SidebarMenuButton>
+              <span>{LANGUAGE_LABELS[locale] ?? t('language.label')}</span>
+            </SidebarMenuButton>
+          </DispDropdown>
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarFooter>

@@ -1,0 +1,501 @@
+{
+  "Manifest": {
+    "name": "Cmusic",
+    "short_name": "Cmusic",
+    "description": "Cmusic 是终极音乐流媒体平台，您可以在这里探索、聆听并分享您喜爱的歌曲。随时随地享受高品质音乐。"
+  },
+  "Header": {
+    "search": {
+      "placeholder": "搜索歌曲、歌词、艺术家……",
+      "history": "搜索历史",
+      "resultArtist": "歌曲搜索结果",
+      "resultSong": "艺术家搜索结果",
+      "result": "搜索结果",
+      "empty": "无结果。"
+    },
+    "user": {
+      "myAccount": "账户",
+      "login": "登录",
+      "register": "注册",
+      "logout": "退出登录",
+      "profile": "个人资料",
+      "changePassword": "修改密码"
+    }
+  },
+  "Auth": {
+    "name": "全名",
+    "email": "邮箱",
+    "password": "密码",
+    "currentPassword": "当前密码",
+    "newPassword": "新密码",
+    "confirmPassword": "确认密码",
+    "forgotPassword": "忘记密码？",
+    "submitLogin": "登录",
+    "submitRegister": "注册",
+    "changePassword": "修改密码",
+    "cancel": "取消",
+    "submit": "提交",
+    "forgotPasswordDescription": "请输入您的邮箱以重置密码。",
+    "resetPassword": "重置密码",
+    "resetPasswordDescription": "请输入您的新密码。",
+    "resetPasswordConfirm": "确认新密码",
+    "resetPasswordSuccessDecs": "您的密码已重置，请重新登录。",
+    "backToHome": "返回首页",
+    "or": "或",
+    "signinWithGoogle": "使用 Google 登录",
+    "alert": {
+      "success": "成功",
+      "loginSuccess": "登录成功。",
+      "loginFailed": "登录失败。",
+      "loginUnauthorized": "邮箱或密码不正确。",
+      "registerSuccess": "注册成功。",
+      "registerFailed": "注册失败。",
+      "registerFailedEmailExists": "邮箱已存在。",
+      "changePasswordSuccess": "密码修改成功。",
+      "changePasswordFailed": "密码修改失败。",
+      "changePasswordIncorrect": "当前密码不正确。",
+      "forgotPasswordSuccess": "请查看您的邮箱以重置密码。",
+      "emailNoExist": "系统中不存在该邮箱。",
+      "logoutSuccess": "退出登录成功。",
+      "logoutFailed": "退出登录失败。",
+      "systemError": "系统发生错误，请稍后再试。",
+      "resetPasswordSuccess": "密码重置成功。",
+      "resetPasswordFailed": "密码重置失败。",
+      "expired": "会话已过期，请重新登录。"
+    }
+  },
+  "Navigation": {
+    "home": "首页",
+    "language": {
+      "key": "zh",
+      "keyChange": "vi",
+      "label": "中文"
+    },
+    "library": {
+      "title": "音乐库",
+      "items": {
+        "discover": "发现",
+        "songs": "歌曲",
+        "albums": "专辑",
+        "artists": "艺术家",
+        "genres": "流派"
+      }
+    },
+    "playlist": {
+      "title": "播放列表",
+      "items": {
+        "recently-played": "最近播放",
+        "favorite": "收藏"
+      },
+      "action": {
+        "create": "新建",
+        "edit": "编辑",
+        "delete": "删除"
+      }
+    },
+    "admin": {
+      "title": "管理",
+      "items": {
+        "adminPage": "管理页面",
+        "songPage": "歌曲管理",
+        "artistPage": "艺术家管理",
+        "albumPage": "专辑管理",
+        "genrePage": "流派管理",
+        "userPage": "用户管理"
+      }
+    }
+  },
+  "HomePage": {
+    "metadata": {
+      "title": "Cmusic - 发现并畅听您喜爱的音乐",
+      "description": "Cmusic 是终极音乐流媒体平台，您可以在这里探索、聆听并分享您喜爱的歌曲。随时随地享受高品质音乐。"
+    }
+  },
+  "AlbumsPage": {
+    "metadata": {
+      "title": "专辑"
+    },
+    "albumMnt": {
+      "title": "专辑管理",
+      "table": {
+        "name": "专辑",
+        "artist": "艺术家",
+        "songs": "歌曲数量",
+        "createdAt": "创建时间",
+        "releaseDate": "发行日期",
+        "updatedAt": "更新时间",
+        "public": "公开",
+        "featured": "精选",
+        "description": "描述"
+      },
+      "action": {
+        "create": "新建",
+        "edit": "编辑",
+        "delete": "删除"
+      },
+      "createOrUpdate": {
+        "save": "保存",
+        "add": "新建专辑",
+        "update": "更新专辑",
+        "addSuccess": "新建专辑成功。",
+        "updateSuccess": "更新专辑成功。",
+        "addFailed": "新建专辑失败。",
+        "updateFailed": "更新专辑失败。",
+        "name": "专辑名称",
+        "artist": "艺术家",
+        "songs": "歌曲",
+        "createdAt": "创建时间",
+        "updatedAt": "更新时间",
+        "popular": "精选",
+        "cover": "封面",
+        "releaseDate": "发行日期",
+        "description": "描述",
+        "featured": "精选",
+        "isPublic": "公开"
+      },
+      "delete": {
+        "titleDelete": "删除专辑",
+        "confirmDelete": "您确定要删除此专辑吗",
+        "successDelete": "删除专辑成功",
+        "failureDelete": "删除专辑失败"
+      }
+    }
+  },
+  "ArtistPage": {
+    "metadata": {
+      "title": "艺术家"
+    },
+    "artistMnt": {
+      "title": "艺术家管理",
+      "table": {
+        "avatar": "头像",
+        "name": "名称",
+        "songs": "歌曲",
+        "followers": "粉丝",
+        "createdAt": "创建时间",
+        "updatedAt": "更新时间",
+        "popular": "热门",
+        "description": "描述"
+      },
+      "action": {
+        "create": "新建",
+        "edit": "编辑"
+      },
+      "createOrUpdate": {
+        "save": "保存",
+        "add": "新建艺术家",
+        "update": "更新艺术家",
+        "addSuccess": "新建艺术家成功。",
+        "updateSuccess": "更新艺术家成功。",
+        "addFailed": "新建艺术家失败。",
+        "updateFailed": "更新艺术家失败。",
+        "name": "名称",
+        "avatar": "头像",
+        "descAvatar": "请勿刷新页面或退出浏览器，以免出错。",
+        "popular": "热门",
+        "bio": "简介"
+      },
+      "filters": {
+        "search": "按名称搜索",
+        "popular": "热门"
+      }
+    }
+  },
+  "GenrePage": {
+    "metadata": {
+      "title": "流派"
+    },
+    "genre": {
+      "title": "流派"
+    },
+    "genreMnt": {
+      "title": "流派管理",
+      "table": {
+        "name": "名称",
+        "createdAt": "创建时间",
+        "updatedAt": "更新时间",
+        "slug": "别名",
+        "description": "描述",
+        "featured": "精选"
+      },
+      "action": {
+        "create": "新建",
+        "edit": "编辑"
+      },
+      "createOrUpdate": {
+        "save": "保存",
+        "add": "新建流派",
+        "update": "更新流派",
+        "addSuccess": "新建流派成功。",
+        "updateSuccess": "更新流派成功。",
+        "addFailed": "新建流派失败。",
+        "updateFailed": "更新流派失败。",
+        "name": "名称",
+        "slug": "别名",
+        "description": "描述",
+        "featured": "精选"
+      },
+      "filters": {
+        "search": "按名称搜索",
+        "featured": "精选"
+      }
+    }
+  },
+  "FavoriteSongsPage": {
+    "metadata": {
+      "title": "收藏歌曲"
+    },
+    "section": {
+      "song": "收藏的歌曲",
+      "artist": "收藏的艺术家",
+      "album": "收藏的专辑"
+    }
+  },
+  "RecentlyPlayedPage": {
+    "metadata": {
+      "title": "最近播放"
+    },
+    "section": {
+      "title": "最近播放"
+    }
+  },
+  "SongsPage": {
+    "metadata": {
+      "title": "歌曲"
+    },
+    "audioPlayer": {
+      "play": "播放",
+      "pause": "暂停",
+      "next": "下一首",
+      "previous": "上一首",
+      "turnOnRandom": "开启随机播放",
+      "turnOnShuffle": "开启乱序播放",
+      "turnOffShuffle": "关闭乱序播放",
+      "turnOnRepeat": "全部循环",
+      "turnOnRepeatOne": "单曲循环",
+      "turnOffRepeat": "关闭循环",
+      "turnOnLyrics": "显示歌词",
+      "noLyrics": "暂无歌词。",
+      "playlist": "播放列表",
+      "noPlaylist": "暂无播放列表",
+      "playing": "正在播放"
+    },
+    "songDetails": {
+      "title": "曲目",
+      "lyrics": "歌词",
+      "showLess": "收起",
+      "showMore": "查看更多",
+      "related": "相关歌曲"
+    },
+    "songMnt": {
+      "title": "歌曲管理",
+      "table": {
+        "cover": "图片",
+        "title": "标题",
+        "artist": "艺术家",
+        "duration": "时长",
+        "isPublic": "公开",
+        "lyrics": "歌词",
+        "playCount": "播放次数",
+        "createdAt": "创建时间",
+        "updatedAt": "更新时间"
+      },
+      "action": {
+        "create": "创建",
+        "edit": "编辑",
+        "hidden": "隐藏",
+        "unHidden": "取消隐藏"
+      },
+      "filters": {
+        "search": "按标题、歌词搜索",
+        "artist": "艺术家",
+        "album": "专辑",
+        "genre": "流派",
+        "isTrending": "热门趋势",
+        "isPublic": "显示隐藏的歌曲",
+        "all": "全部"
+      },
+      "createOrUpdate": {
+        "save": "保存",
+        "add": "新建歌曲",
+        "update": "更新歌曲",
+        "addSuccess": "新建歌曲成功。",
+        "updateSuccess": "更新歌曲成功。",
+        "addFailed": "新建歌曲失败。",
+        "updateFailed": "更新歌曲失败。",
+        "title": "标题",
+        "artist": "艺术家",
+        "featArtists": "合作艺术家",
+        "album": "专辑",
+        "genre": "流派",
+        "isPublic": "公开",
+        "isPublicDesc": "此歌曲将对所有人显示。",
+        "lyrics": "歌词",
+        "cover": "封面",
+        "audio": "音频文件",
+        "duration": "时长",
+        "descAudio": "请勿刷新页面或退出浏览器，以免出错。",
+        "trendingUpdateFailed": "热门趋势更新失败。",
+        "hiddenUpdateFailed": "隐藏状态更新失败。",
+        "trendingUpdateSuccess": "热门趋势更新成功。",
+        "hiddenUpdateSuccess": "隐藏状态更新成功。"
+      }
+    }
+  },
+  "SearchPage": {
+    "metadata": {
+      "title": "搜索"
+    },
+    "page": {
+      "keyword": "关键词",
+      "result": "搜索结果",
+      "resultArtist": "艺术家搜索结果",
+      "resultSong": "歌曲搜索结果"
+    }
+  },
+  "PlaylistPage": {
+    "metadata": {
+      "title": "播放列表"
+    },
+    "details": {
+      "tracks": "曲目"
+    }
+  },
+  "UserPage": {
+    "metadata": {
+      "title": "用户管理"
+    },
+    "userMnt": {
+      "table": {
+        "id": "ID",
+        "username": "用户名",
+        "email": "邮箱",
+        "role": "角色",
+        "status": "状态",
+        "isBlocked": "已封禁",
+        "active": "活跃",
+        "createdAt": "创建时间",
+        "updatedAt": "更新时间"
+      },
+      "action": {
+        "block": "封禁用户",
+        "unblock": "解封用户"
+      },
+      "filters": {
+        "search": "按用户名、邮箱搜索",
+        "role": "角色",
+        "isBlocked": "已封禁",
+        "all": "全部"
+      },
+      "changeStatus": {
+        "description": "描述",
+        "submit": "提交",
+        "blockSuccess": "封禁用户成功。",
+        "unblockSuccess": "解封用户成功。",
+        "blockFailed": "封禁用户失败。",
+        "unblockFailed": "解封用户失败。"
+      }
+    }
+  },
+  "Validation": {
+    "common": {
+      "required": "此字段为必填项。",
+      "invalid": "此字段无效。",
+      "minLength": "此字段长度至少为 {0} 个字符。",
+      "maxLength": "此字段长度最多为 {0} 个字符。",
+      "min": "此字段最小值为 {0}。",
+      "max": "此字段最大值为 {0}。",
+      "email": "此字段必须为有效的邮箱地址。",
+      "password": "此字段长度至少为 6 个字符。",
+      "confirmPassword": "此字段必须与密码字段一致。"
+    }
+  },
+  "Section": {
+    "banner": {
+      "viewAll": "查看全部"
+    },
+    "song": {
+      "listenAgain": "再次聆听",
+      "featuredSong": "精选歌曲",
+      "featuredArtist": "热门艺术家",
+      "featuredAlbum": "专辑",
+      "genre": "流派",
+      "about": "关于"
+    },
+    "artist": {
+      "role": "艺术家",
+      "followers": "粉丝",
+      "follow": "关注",
+      "unfollow": "已关注",
+      "followSuccess": "关注艺术家成功。",
+      "unfollowSuccess": "取消关注艺术家成功。",
+      "followFailed": "关注艺术家失败。",
+      "unfollowFailed": "取消关注艺术家失败。"
+    },
+    "album": {
+      "title": "专辑",
+      "tracks": "曲目"
+    }
+  },
+  "Component": {
+    "table": {
+      "record": "记录",
+      "total": "总计",
+      "page": "页",
+      "previous": "上一页",
+      "next": "下一页",
+      "no": "#",
+      "title": "标题"
+    },
+    "formHandler": {
+      "search": "搜索",
+      "reset": "重置",
+      "submit": "提交",
+      "noResult": "无结果。"
+    },
+    "upload": {
+      "uploadImage": "上传图片",
+      "uploadAudio": "上传音频",
+      "uploadFile": "上传文件",
+      "dropFileHere": "将文件拖放到此处"
+    },
+    "dropdown": {
+      "copyLink": "复制链接",
+      "copyLinkSuccess": "链接已复制到剪贴板。",
+      "playOnNext": "下一首播放",
+      "addToPlaylist": "添加到播放列表",
+      "addToUserPlaylist": "添加到您的播放列表",
+      "goToArtist": "前往艺术家页面",
+      "download": "下载曲目"
+    },
+    "playlist": {
+      "cover": "封面",
+      "title": "标题",
+      "save": "保存",
+      "empty": "播放列表为空。",
+      "create": "创建播放列表",
+      "createSuccess": "创建播放列表成功。",
+      "createFailed": "创建播放列表失败。",
+      "update": "更新播放列表",
+      "updateSuccess": "更新播放列表成功。",
+      "updateFailed": "更新播放列表失败。",
+      "delete": "删除播放列表",
+      "deleteDesc": "您确定要删除此播放列表吗？",
+      "deleteSuccess": "删除播放列表成功。",
+      "deleteFailed": "删除播放列表失败。",
+      "addToPlaylist": "添加到播放列表",
+      "addToPlaylistSuccess": "添加到播放列表成功。",
+      "addToPlaylistFailed": "添加到播放列表失败。",
+      "removeFromPlaylist": "从播放列表移除",
+      "removeFromPlaylistSuccess": "从播放列表移除成功。",
+      "removeFromPlaylistFailed": "从播放列表移除失败。"
+    },
+    "alertDialog": {
+      "confirm": "确认",
+      "cancel": "取消"
+    },
+    "datePicker": {
+      "placeholder": "选择日期"
+    }
+  }
+}

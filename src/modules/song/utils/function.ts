@@ -161,8 +161,9 @@ export function formatDurationSum(durations: number[]): string {
  * @returns Formatted date string
  *  - vi → "11 tháng 12, 2024"
  *  - en → "December 11, 2024"
+ *  - zh → "2024年12月11日"
  */
-export function formatDateByLang(dateString: string, lang: 'vi' | 'en' = 'vi'): string {
+export function formatDateByLang(dateString: string, lang: 'vi' | 'en' | 'zh' = 'vi'): string {
   const date = new Date(dateString);
 
   if (isNaN(date.getTime())) {
@@ -174,6 +175,14 @@ export function formatDateByLang(dateString: string, lang: 'vi' | 'en' = 'vi'): 
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
     return `${day} tháng ${month}, ${year}`;
+  }
+
+  if (lang === 'zh') {
+    return new Intl.DateTimeFormat('zh-CN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(date);
   }
 
   // English format using Intl API for proper month names

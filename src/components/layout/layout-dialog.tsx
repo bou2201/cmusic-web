@@ -42,7 +42,7 @@ function ResultSongSearched({ song, onClose }: { song: Song; onClose: () => void
           width={120}
           height={120}
           alt={song.title}
-          src={song.cover ? song.cover.url : '/images/song-default-white.png'}
+          src={song.cover?.url ?? '/images/song-default-white.png'}
           className="object-cover w-full h-full"
         />
       </div>
@@ -77,7 +77,7 @@ function ResultArtistSearched({ artist, onClose }: { artist: Artist; onClose: ()
           width={120}
           height={120}
           alt={artist.name}
-          src={artist.avatar.url}
+          src={artist.avatar?.url ?? '/images/song-default-white.png'}
           className="object-cover w-full h-full"
         />
       </div>
